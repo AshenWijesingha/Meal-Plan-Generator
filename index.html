@@ -372,6 +372,7 @@
                                 max="300"
                                 step="0.1"
                                 required
+                                oninput="calculateBMI()"
                             >
                             <span class="text-gray-500 text-xs mt-1 block">Your weight goal</span>
                         </div>
@@ -394,7 +395,7 @@
                             </div>
                             <div>
                                 <div class="text-6xl font-bold text-orange-600 mb-2" id="weightToLose">--</div>
-                                <div class="text-lg font-semibold text-gray-700">Weight to Lose</div>
+                                <div class="text-lg font-semibold text-gray-700" id="weightGoalLabel">Target Weight Change</div>
                                 <div class="text-sm text-gray-500 mt-2" id="timelineEstimate">--</div>
                             </div>
                         </div>
@@ -1363,7 +1364,8 @@
             const height = parseFloat(document.getElementById('patientHeight').value);
             const weight = parseFloat(document.getElementById('patientWeight').value);
             const gender = document.getElementById('patientGender').value;
-            const targetWeight = parseFloat(document.getElementById('targetWeight').value) || weight;
+            const targetWeightInput = parseFloat(document.getElementById('targetWeight').value);
+            const targetWeight = Number.isFinite(targetWeightInput) ? targetWeightInput : null;
             
             if (height && weight && height > 0 && weight > 0) {
                 const heightInMeters = height / 100;
@@ -1396,17 +1398,35 @@
                     badgeClass = 'bg-red-100 text-red-800';
                 }
                 
-                // Weight to lose
-                const weightToLose = Math.max(0, weight - targetWeight).toFixed(1);
-                const weeksToGoal = Math.ceil(weightToLose / 0.5); // 0.5 kg per week
-                const monthsToGoal = Math.ceil(weeksToGoal / 4);
+                // Target weight change
+                const weightGoalLabel = document.getElementById('weightGoalLabel');
+                const weightDiff = targetWeight !== null ? (weight - targetWeight) : null;
+                const absDiff = weightDiff !== null ? Math.abs(weightDiff) : 0;
+                const weeksToGoal = absDiff > 0 ? Math.ceil(absDiff / 0.5) : 0; // 0.5 kg per week
+                const monthsToGoal = weeksToGoal > 0 ? Math.ceil(weeksToGoal / 4) : 0;
                 
                 // Display
                 document.getElementById('bmiValue').textContent = bmi;
                 document.getElementById('ibwValue').textContent = ibw;
-                document.getElementById('weightToLose').textContent = weightToLose + ' kg';
-                document.getElementById('timelineEstimate').textContent = 
-                    weightToLose > 0 ? `Approx. ${monthsToGoal} month${monthsToGoal > 1 ? 's' : ''}` : 'At target!';
+
+                if (targetWeight === null) {
+                    document.getElementById('weightToLose').textContent = '--';
+                    document.getElementById('timelineEstimate').textContent = 'Enter target weight';
+                    if (weightGoalLabel) weightGoalLabel.textContent = 'Target Weight Change';
+                } else if (weightDiff > 0) {
+                    document.getElementById('weightToLose').textContent = absDiff.toFixed(1) + ' kg';
+                    document.getElementById('timelineEstimate').textContent = `Approx. ${monthsToGoal} month${monthsToGoal > 1 ? 's' : ''} to lose`;
+                    if (weightGoalLabel) weightGoalLabel.textContent = 'Weight to Lose';
+                } else if (weightDiff < 0) {
+                    document.getElementById('weightToLose').textContent = absDiff.toFixed(1) + ' kg';
+                    document.getElementById('timelineEstimate').textContent = `Approx. ${monthsToGoal} month${monthsToGoal > 1 ? 's' : ''} to gain`;
+                    if (weightGoalLabel) weightGoalLabel.textContent = 'Weight to Gain';
+                } else {
+                    document.getElementById('weightToLose').textContent = '0.0 kg';
+                    document.getElementById('timelineEstimate').textContent = 'At target!';
+                    if (weightGoalLabel) weightGoalLabel.textContent = 'Target Weight Change';
+                }
+
                 document.getElementById('bmiCategoryBadge').textContent = category;
                 document.getElementById('bmiCategoryBadge').className = `px-4 py-1 rounded-full text-sm font-semibold ${badgeClass}`;
                 document.getElementById('bmiDisplay').style.display = 'block';
@@ -2211,6 +2231,34 @@
                     doc.text(instructionLines, 20, yPos);
                 }
                 
+                // Optional meal plate chart on final page
+                const shouldIncludeMealPlate = formData.mealPlan.mealPlate?.includeInPdf;
+                if (shouldIncludeMealPlate) {
+                    const plateCanvas = document.getElementById('mealPlateCanvas');
+                    if (plateCanvas) {
+                        const plateImage = plateCanvas.toDataURL('image/png');
+                        doc.addPage();
+                        let plateY = 20;
+
+                        doc.setFontSize(titleSize);
+                        doc.setTextColor(24, 119, 242);
+                        doc.setFont('helvetica', 'bold');
+                        doc.text('CUSTOM MEAL PLATE RATIO', 105, plateY, { align: 'center' });
+                        plateY += 8;
+
+                        doc.addImage(plateImage, 'PNG', 55, plateY, 100, 100);
+                        plateY += 112;
+
+                        const plate = formData.mealPlan.mealPlate || {};
+                        doc.setFont('helvetica', 'normal');
+                        doc.setTextColor(0, 0, 0);
+                        doc.setFontSize(contentSize + 1);
+                        doc.text(sanitizeForPdf(`Vegetables/Fruits: ${plate.vegetables || 0}%`), 35, plateY);
+                        doc.text(sanitizeForPdf(`Protein: ${plate.protein || 0}%`), 35, plateY + 8);
+                        doc.text(sanitizeForPdf(`Whole Grains/Carbs: ${plate.grains || 0}%`), 35, plateY + 16);
+                    }
+                }
+
                 // Footer on all pages
                 const pageCount = doc.internal.getNumberOfPages();
                 for (let i = 1; i <= pageCount; i++) {
