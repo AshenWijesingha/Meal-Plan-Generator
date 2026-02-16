@@ -111,22 +111,39 @@
             right: 2rem;
             z-index: 1000;
         }
+
+        .step-scroll {
+            overflow-x: auto;
+            scrollbar-width: thin;
+        }
+
+        @media (max-width: 768px) {
+            .floating-save-btn {
+                bottom: 1rem;
+                right: 1rem;
+            }
+
+            .meal-time-title {
+                font-size: 0.95rem;
+                line-height: 1.25rem;
+            }
+        }
     </style>
 </head>
 <body class="min-h-screen">
     <!-- Header -->
-    <header class="bg-gradient-to-r from-blue-600 to-blue-700 text-white py-8 shadow-lg">
+    <header class="bg-gradient-to-r from-blue-600 to-blue-700 text-white py-6 md:py-8 shadow-lg">
         <div class="container mx-auto px-4">
-            <div class="flex items-center justify-between">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div class="flex items-center gap-4">
-                    <div class="text-6xl">🥗</div>
+                    <div class="text-4xl md:text-6xl">🥗</div>
                     <div>
-                        <h1 class="text-4xl font-bold">Meal Plan Generator</h1>
-                        <p class="text-blue-100 text-lg">Gayathri Dissanayaka - Dietitian & Nutritionist</p>
+                        <h1 class="text-2xl md:text-4xl font-bold">Meal Plan Generator</h1>
+                        <p class="text-blue-100 text-sm md:text-lg">Gayathri Dissanayaka - Dietitian & Nutritionist</p>
                         <p class="text-blue-200 text-sm mt-1">Professional Edition with Advanced Features</p>
                     </div>
                 </div>
-                <div class="text-right">
+                <div class="text-left md:text-right">
                     <div class="bg-white/20 px-4 py-2 rounded-lg">
                         <p class="text-sm">Version 1.0</p>
                         <p class="text-xs text-blue-100">All Features Included</p>
@@ -140,27 +157,38 @@
     <main class="container mx-auto px-4 py-8 max-w-7xl">
         
         <!-- Progress Steps -->
-        <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
-            <div class="flex justify-between items-center flex-wrap gap-4">
-                <div class="flex-1 min-w-[120px] text-center">
-                    <div class="w-14 h-14 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-2 font-bold text-lg">1</div>
-                    <span class="text-sm font-semibold text-blue-600">Patient Info</span>
+        <div class="bg-white rounded-xl shadow-lg p-4 md:p-6 mb-6">
+            <div class="step-scroll">
+                <div class="flex justify-between items-center gap-3 min-w-[660px] md:min-w-0">
+                    <div class="flex-1 min-w-[120px] text-center">
+                        <div class="w-14 h-14 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-2 font-bold text-lg">1</div>
+                        <span class="text-sm font-semibold text-blue-600">Patient Info</span>
+                    </div>
+                    <div class="flex-1 min-w-[120px] text-center">
+                        <div class="w-14 h-14 bg-gray-300 text-white rounded-full flex items-center justify-center mx-auto mb-2 font-bold text-lg" id="step2-icon">2</div>
+                        <span class="text-sm text-gray-500 font-medium" id="step2-label">Measurements</span>
+                    </div>
+                    <div class="flex-1 min-w-[120px] text-center">
+                        <div class="w-14 h-14 bg-gray-300 text-white rounded-full flex items-center justify-center mx-auto mb-2 font-bold text-lg" id="step3-icon">3</div>
+                        <span class="text-sm text-gray-500 font-medium" id="step3-label">Meal Plan</span>
+                    </div>
+                    <div class="flex-1 min-w-[120px] text-center">
+                        <div class="w-14 h-14 bg-gray-300 text-white rounded-full flex items-center justify-center mx-auto mb-2 font-bold text-lg" id="step4-icon">4</div>
+                        <span class="text-sm text-gray-500 font-medium" id="step4-label">Guidelines</span>
+                    </div>
+                    <div class="flex-1 min-w-[120px] text-center">
+                        <div class="w-14 h-14 bg-gray-300 text-white rounded-full flex items-center justify-center mx-auto mb-2 font-bold text-lg" id="step5-icon">5</div>
+                        <span class="text-sm text-gray-500 font-medium" id="step5-label">Generate PDF</span>
+                    </div>
                 </div>
-                <div class="flex-1 min-w-[120px] text-center">
-                    <div class="w-14 h-14 bg-gray-300 text-white rounded-full flex items-center justify-center mx-auto mb-2 font-bold text-lg" id="step2-icon">2</div>
-                    <span class="text-sm text-gray-500 font-medium" id="step2-label">Measurements</span>
+            </div>
+            <div class="mt-5">
+                <div class="flex items-center justify-between text-xs text-gray-600 mb-1">
+                    <span>Overall progress</span>
+                    <span id="progressPercent">20%</span>
                 </div>
-                <div class="flex-1 min-w-[120px] text-center">
-                    <div class="w-14 h-14 bg-gray-300 text-white rounded-full flex items-center justify-center mx-auto mb-2 font-bold text-lg" id="step3-icon">3</div>
-                    <span class="text-sm text-gray-500 font-medium" id="step3-label">Meal Plan</span>
-                </div>
-                <div class="flex-1 min-w-[120px] text-center">
-                    <div class="w-14 h-14 bg-gray-300 text-white rounded-full flex items-center justify-center mx-auto mb-2 font-bold text-lg" id="step4-icon">4</div>
-                    <span class="text-sm text-gray-500 font-medium" id="step4-label">Guidelines</span>
-                </div>
-                <div class="flex-1 min-w-[120px] text-center">
-                    <div class="w-14 h-14 bg-gray-300 text-white rounded-full flex items-center justify-center mx-auto mb-2 font-bold text-lg" id="step5-icon">5</div>
-                    <span class="text-sm text-gray-500 font-medium" id="step5-label">Generate PDF</span>
+                <div class="w-full h-2 rounded-full bg-gray-200 overflow-hidden">
+                    <div id="progressBar" class="h-full bg-blue-600 transition-all duration-300" style="width: 20%;"></div>
                 </div>
             </div>
         </div>
@@ -492,8 +520,8 @@
                     <div class="space-y-4">
                         <!-- Early Morning -->
                         <div class="border-2 border-gray-300 rounded-lg overflow-hidden">
-                            <button type="button" onclick="toggleSection('earlyMorningSection')" class="w-full px-6 py-4 bg-gradient-to-r from-yellow-50 to-orange-50 hover:from-yellow-100 hover:to-orange-100 text-left font-bold flex justify-between items-center transition">
-                                <span class="text-lg">🌅 Early Morning (7:00 - 7:30 AM)</span>
+                            <button type="button" onclick="toggleSection('earlyMorningSection')" class="w-full px-6 py-4 bg-gradient-to-r from-yellow-50 to-orange-50 hover:from-yellow-100 hover:to-orange-100 text-left font-bold flex justify-between items-center transition" aria-expanded="false" aria-controls="earlyMorningSection">
+                                <span class="meal-time-title text-lg">🌅 Early Morning (7:00 - 7:30 AM)</span>
                                 <i class="fas fa-chevron-down transition-transform" id="earlyMorningIcon"></i>
                             </button>
                             <div id="earlyMorningSection" class="p-6 bg-white" style="display: none;">
@@ -508,8 +536,8 @@
                         
                         <!-- Breakfast -->
                         <div class="border-2 border-gray-300 rounded-lg overflow-hidden">
-                            <button type="button" onclick="toggleSection('breakfastSection')" class="w-full px-6 py-4 bg-gradient-to-r from-amber-50 to-yellow-50 hover:from-amber-100 hover:to-yellow-100 text-left font-bold flex justify-between items-center transition">
-                                <span class="text-lg">☕ Breakfast (8:00 - 9:00 AM)</span>
+                            <button type="button" onclick="toggleSection('breakfastSection')" class="w-full px-6 py-4 bg-gradient-to-r from-amber-50 to-yellow-50 hover:from-amber-100 hover:to-yellow-100 text-left font-bold flex justify-between items-center transition" aria-expanded="false" aria-controls="breakfastSection">
+                                <span class="meal-time-title text-lg">☕ Breakfast (8:00 - 9:00 AM)</span>
                                 <i class="fas fa-chevron-down transition-transform" id="breakfastIcon"></i>
                             </button>
                             <div id="breakfastSection" class="p-6 bg-white" style="display: none;">
@@ -547,8 +575,8 @@
                         
                         <!-- Mid-Morning Snack -->
                         <div class="border-2 border-gray-300 rounded-lg overflow-hidden">
-                            <button type="button" onclick="toggleSection('midMorningSection')" class="w-full px-6 py-4 bg-gradient-to-r from-green-50 to-emerald-50 hover:from-green-100 hover:to-emerald-100 text-left font-bold flex justify-between items-center transition">
-                                <span class="text-lg">🍎 Mid-Morning Snack (10:30 - 11:30 AM)</span>
+                            <button type="button" onclick="toggleSection('midMorningSection')" class="w-full px-6 py-4 bg-gradient-to-r from-green-50 to-emerald-50 hover:from-green-100 hover:to-emerald-100 text-left font-bold flex justify-between items-center transition" aria-expanded="false" aria-controls="midMorningSection">
+                                <span class="meal-time-title text-lg">🍎 Mid-Morning Snack (10:30 - 11:30 AM)</span>
                                 <i class="fas fa-chevron-down transition-transform" id="midMorningIcon"></i>
                             </button>
                             <div id="midMorningSection" class="p-6 bg-white" style="display: none;">
@@ -563,8 +591,8 @@
                         
                         <!-- Lunch -->
                         <div class="border-2 border-gray-300 rounded-lg overflow-hidden">
-                            <button type="button" onclick="toggleSection('lunchSection')" class="w-full px-6 py-4 bg-gradient-to-r from-blue-50 to-cyan-50 hover:from-blue-100 hover:to-cyan-100 text-left font-bold flex justify-between items-center transition">
-                                <span class="text-lg">🍽️ Lunch (1:00 - 2:00 PM)</span>
+                            <button type="button" onclick="toggleSection('lunchSection')" class="w-full px-6 py-4 bg-gradient-to-r from-blue-50 to-cyan-50 hover:from-blue-100 hover:to-cyan-100 text-left font-bold flex justify-between items-center transition" aria-expanded="false" aria-controls="lunchSection">
+                                <span class="meal-time-title text-lg">🍽️ Lunch (1:00 - 2:00 PM)</span>
                                 <i class="fas fa-chevron-down transition-transform" id="lunchIcon"></i>
                             </button>
                             <div id="lunchSection" class="p-6 bg-white" style="display: none;">
@@ -593,8 +621,8 @@
                         
                         <!-- Evening Snack -->
                         <div class="border-2 border-gray-300 rounded-lg overflow-hidden">
-                            <button type="button" onclick="toggleSection('eveningSnackSection')" class="w-full px-6 py-4 bg-gradient-to-r from-orange-50 to-red-50 hover:from-orange-100 hover:to-red-100 text-left font-bold flex justify-between items-center transition">
-                                <span class="text-lg">🍪 Evening Snack (4:00 - 5:00 PM)</span>
+                            <button type="button" onclick="toggleSection('eveningSnackSection')" class="w-full px-6 py-4 bg-gradient-to-r from-orange-50 to-red-50 hover:from-orange-100 hover:to-red-100 text-left font-bold flex justify-between items-center transition" aria-expanded="false" aria-controls="eveningSnackSection">
+                                <span class="meal-time-title text-lg">🍪 Evening Snack (4:00 - 5:00 PM)</span>
                                 <i class="fas fa-chevron-down transition-transform" id="eveningSnackIcon"></i>
                             </button>
                             <div id="eveningSnackSection" class="p-6 bg-white" style="display: none;">
@@ -609,8 +637,8 @@
                         
                         <!-- Before Dinner -->
                         <div class="border-2 border-gray-300 rounded-lg overflow-hidden">
-                            <button type="button" onclick="toggleSection('beforeDinnerSection')" class="w-full px-6 py-4 bg-gradient-to-r from-teal-50 to-green-50 hover:from-teal-100 hover:to-green-100 text-left font-bold flex justify-between items-center transition">
-                                <span class="text-lg">🥗 Before Dinner (7:00 - 8:00 PM)</span>
+                            <button type="button" onclick="toggleSection('beforeDinnerSection')" class="w-full px-6 py-4 bg-gradient-to-r from-teal-50 to-green-50 hover:from-teal-100 hover:to-green-100 text-left font-bold flex justify-between items-center transition" aria-expanded="false" aria-controls="beforeDinnerSection">
+                                <span class="meal-time-title text-lg">🥗 Before Dinner (7:00 - 8:00 PM)</span>
                                 <i class="fas fa-chevron-down transition-transform" id="beforeDinnerIcon"></i>
                             </button>
                             <div id="beforeDinnerSection" class="p-6 bg-white" style="display: none;">
@@ -625,8 +653,8 @@
                         
                         <!-- Dinner -->
                         <div class="border-2 border-gray-300 rounded-lg overflow-hidden">
-                            <button type="button" onclick="toggleSection('dinnerSection')" class="w-full px-6 py-4 bg-gradient-to-r from-indigo-50 to-purple-50 hover:from-indigo-100 hover:to-purple-100 text-left font-bold flex justify-between items-center transition">
-                                <span class="text-lg">🌙 Dinner (8:30 - 9:30 PM)</span>
+                            <button type="button" onclick="toggleSection('dinnerSection')" class="w-full px-6 py-4 bg-gradient-to-r from-indigo-50 to-purple-50 hover:from-indigo-100 hover:to-purple-100 text-left font-bold flex justify-between items-center transition" aria-expanded="false" aria-controls="dinnerSection">
+                                <span class="meal-time-title text-lg">🌙 Dinner (8:30 - 9:30 PM)</span>
                                 <i class="fas fa-chevron-down transition-transform" id="dinnerIcon"></i>
                             </button>
                             <div id="dinnerSection" class="p-6 bg-white" style="display: none;">
@@ -664,7 +692,7 @@
                         </button>
                         <button 
                             type="button" 
-                            onclick="goToStep(4)"
+                            onclick="validateAndNext(3)"
                             class="bg-blue-600 hover:bg-blue-700 text-white px-10 py-4 rounded-lg font-semibold flex items-center gap-2 transition shadow-lg hover:shadow-xl"
                         >
                             Next Step <i class="fas fa-arrow-right"></i>
@@ -803,7 +831,7 @@
                         </button>
                         <button 
                             type="button" 
-                            onclick="goToStep(5)"
+                            onclick="validateAndNext(4)"
                             class="bg-blue-600 hover:bg-blue-700 text-white px-10 py-4 rounded-lg font-semibold flex items-center gap-2 transition shadow-lg hover:shadow-xl"
                         >
                             Next Step <i class="fas fa-arrow-right"></i>
@@ -1076,6 +1104,7 @@
         
         // Current step
         let currentStep = 1;
+        let autoSaveTimer;
         
         // Navigate to step
         function goToStep(stepNumber) {
@@ -1116,6 +1145,12 @@
                     }
                 }
             }
+
+            const progress = Math.round((activeStep / 5) * 100);
+            const progressBar = document.getElementById('progressBar');
+            const progressPercent = document.getElementById('progressPercent');
+            if (progressBar) progressBar.style.width = `${progress}%`;
+            if (progressPercent) progressPercent.textContent = `${progress}%`;
         }
         
         // Validation and next
@@ -1179,6 +1214,50 @@
                     isValid = false;
                 }
             }
+
+            if (step === 3) {
+                const calorieTarget = document.getElementById('calorieTarget');
+                const planDuration = document.getElementById('planDuration');
+                const hasMealContent = [
+                    'earlyMorning', 'breakfastA', 'breakfastB', 'breakfastC',
+                    'midMorning', 'lunchA', 'lunchB', 'eveningSnack', 'beforeDinner', 'dinnerA', 'dinnerB'
+                ].some((id) => document.getElementById(id).value.trim().length > 0);
+
+                if (!calorieTarget.value || calorieTarget.value < 1000 || calorieTarget.value > 5000) {
+                    showValidationError(calorieTarget, null);
+                    isValid = false;
+                }
+
+                if (!planDuration.value || planDuration.value < 1 || planDuration.value > 30) {
+                    showValidationError(planDuration, null);
+                    isValid = false;
+                }
+
+                if (!hasMealContent) {
+                    isValid = false;
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Add at least one meal entry',
+                        text: 'Please provide content for at least one meal section before continuing.',
+                        confirmButtonColor: '#1877F2'
+                    });
+                }
+            }
+
+            if (step === 4) {
+                const waterIntake = document.getElementById('waterIntake');
+                const exerciseRecommendation = document.getElementById('exerciseRecommendation');
+
+                if (!waterIntake.value.trim()) {
+                    showValidationError(waterIntake, null);
+                    isValid = false;
+                }
+
+                if (!exerciseRecommendation.value.trim()) {
+                    showValidationError(exerciseRecommendation, null);
+                    isValid = false;
+                }
+            }
             
             if (isValid) {
                 goToStep(step + 1);
@@ -1227,14 +1306,25 @@
         function toggleSection(sectionId) {
             const section = document.getElementById(sectionId);
             const icon = document.getElementById(sectionId.replace('Section', 'Icon'));
+            const triggerButton = document.querySelector(`button[aria-controls="${sectionId}"]`);
             
             if (section.style.display === 'none' || section.style.display === '') {
                 section.style.display = 'block';
                 if (icon) icon.style.transform = 'rotate(180deg)';
+                if (triggerButton) triggerButton.setAttribute('aria-expanded', 'true');
             } else {
                 section.style.display = 'none';
                 if (icon) icon.style.transform = 'rotate(0deg)';
+                if (triggerButton) triggerButton.setAttribute('aria-expanded', 'false');
             }
+        }
+
+        function autoSaveDraft() {
+            clearTimeout(autoSaveTimer);
+            autoSaveTimer = setTimeout(() => {
+                const formData = collectFormData();
+                localStorage.setItem('mealPlanDraft', JSON.stringify(formData));
+            }, 400);
         }
         
         // Calculate BMI
@@ -1519,6 +1609,9 @@
                     document.getElementById('mealPlanForm').reset();
                     document.getElementById('planDate').valueAsDate = new Date();
                     document.getElementById('bmiDisplay').style.display = 'none';
+                    localStorage.removeItem('mealPlanData');
+                    localStorage.removeItem('mealPlanDraft');
+                    document.getElementById('templateImportInput').value = '';
                     goToStep(1);
                     
                     Swal.fire({
@@ -1591,6 +1684,15 @@
         
         // Generate PDF - COMPREHENSIVE VERSION WITH FONT SIZE CUSTOMIZATION
         async function generatePDF() {
+            if (!window.jspdf || !window.jspdf.jsPDF) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'PDF library not available',
+                    text: 'Please check your internet connection and reload the page to generate PDFs.'
+                });
+                return;
+            }
+
             Swal.fire({
                 title: 'Generating PDF...',
                 html: 'Creating your personalized meal plan document',
@@ -1996,6 +2098,17 @@
         
         // Initialize
         updateFontSizeDisplay();
+        updateProgressIndicators(currentStep);
+        document.querySelectorAll('#mealPlanForm input, #mealPlanForm textarea, #mealPlanForm select').forEach((field) => {
+            field.addEventListener('input', autoSaveDraft);
+            field.addEventListener('change', autoSaveDraft);
+        });
+
+        const savedDraft = localStorage.getItem('mealPlanDraft');
+        if (savedDraft && !localStorage.getItem('mealPlanData')) {
+            localStorage.setItem('mealPlanData', savedDraft);
+            loadSavedData();
+        }
     </script>
 </body>
 </html>
