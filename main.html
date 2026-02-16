@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meal Plan Generator - Gayathri Dissanayake</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <!-- jsPDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #F0F2F5;
+        }
+        
+        h1, h2, h3 {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .form-step {
+            display: none;
+        }
+        
+        .form-step.active {
+            display: block !important;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-blue-600 to-blue-700 text-white py-6 shadow-lg">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center gap-4">
+                <div class="text-5xl">🥗</div>
+                <div>
+                    <h1 class="text-3xl font-bold">Meal Plan Generator</h1>
+                    <p class="text-blue-100">Gayathri Dissanayake - Dietitian & Nutritionist</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8 max-w-6xl">
+        
+        <!-- Progress Steps -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <div class="flex justify-between items-center">
+                <div class="flex-1 text-center">
+                    <div class="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-2">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span class="text-sm font-semibold text-blue-600">Patient Info</span>
+                </div>
+                <div class="flex-1 text-center">
+                    <div class="w-12 h-12 bg-gray-300 text-white rounded-full flex items-center justify-center mx-auto mb-2" id="step2-icon">
+                        <i class="fas fa-ruler-vertical"></i>
+                    </div>
+                    <span class="text-sm text-gray-500" id="step2-label">Measurements</span>
+                </div>
+                <div class="flex-1 text-center">
+                    <div class="w-12 h-12 bg-gray-300 text-white rounded-full flex items-center justify-center mx-auto mb-2" id="step3-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <span class="text-sm text-gray-500" id="step3-label">Meal Plan</span>
+                </div>
+                <div class="flex-1 text-center">
+                    <div class="w-12 h-12 bg-gray-300 text-white rounded-full flex items-center justify-center mx-auto mb-2" id="step4-icon">
+                        <i class="fas fa-clipboard-list"></i>
+                    </div>
+                    <span class="text-sm text-gray-500" id="step4-label">Guidelines</span>
+                </div>
+                <div class="flex-1 text-center">
+                    <div class="w-12 h-12 bg-gray-300 text-white rounded-full flex items-center justify-center mx-auto mb-2" id="step5-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <span class="text-sm text-gray-500" id="step5-label">Generate</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form -->
+        <form id="mealPlanForm">
+            
+            <!-- Step 1: Patient Information -->
+            <div class="form-step active" id="step1">
+                <div class="bg-white rounded-lg shadow-md p-8">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-3">
+                        <i class="fas fa-user text-blue-600"></i>
+                        Patient Information
+                    </h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Patient Name <span class="text-red-500">*</span>
+                            </label>
+                            <input 
+                                type="text" 
+                                id="patientName" 
+                                class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none"
+                                placeholder="Enter full name"
+                                required
+                            >
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Age <span class="text-red-500">*</span>
+                            </label>
+                            <input 
+                                type="number" 
+                                id="patientAge" 
+                                class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none"
+                                placeholder="Enter age"
+                                min="1"
+                                max="120"
+                                required
+                            >
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Gender <span class="text-red-500">*</span>
+                            </label>
+                            <select 
+                                id="patientGender" 
+                                class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none"
+                                required
+                            >
+                                <option value="">Select gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Date <span class="text-red-500">*</span>
+                            </label>
+                            <input 
+                                type="date" 
+                                id="planDate" 
+                                class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none"
+                                required
+                            >
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Phone Number
+                            </label>
+                            <input 
+                                type="tel" 
+                                id="patientPhone" 
+                                class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none"
+                                placeholder="+94 XX XXX XXXX"
+                            >
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Email Address
+                            </label>
+                            <input 
+                                type="email" 
+                                id="patientEmail" 
+                                class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none"
+                                placeholder="email@example.com"
+                            >
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            Address
+                        </label>
+                        <textarea 
+                            id="patientAddress" 
+                            class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none"
+                            rows="2"
+                            placeholder="Enter address (optional)"
+                        ></textarea>
+                    </div>
+                    
+                    <div class="flex justify-end mt-8">
+                        <button 
+                            type="button" 
+                            onclick="goToStep(2)"
+                            class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold flex items-center gap-2 transition"
+                        >
+                            Next <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: Physical Measurements -->
+            <div class="form-step" id="step2">
+                <div class="bg-white rounded-lg shadow-md p-8">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-3">
+                        <i class="fas fa-ruler-vertical text-blue-600"></i>
+                        Physical Measurements
+                    </h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Height (cm) <span class="text-red-500">*</span>
+                            </label>
+                            <input 
+                                type="number" 
+                                id="patientHeight" 
+                                class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none"
+                                placeholder="e.g., 172"
+                                min="100"
+                                max="250"
+                                step="0.1"
+                                required
+                                oninput="calculateBMI()"
+                            >
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Weight (kg) <span class="text-red-500">*</span>
+                            </label>
+                            <input 
+                                type="number" 
+                                id="patientWeight" 
+                                class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none"
+                                placeholder="e.g., 82"
+                                min="30"
+                                max="300"
+                                step="0.1"
+                                required
+                                oninput="calculateBMI()"
+                            >
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Target Weight (kg) <span class="text-red-500">*</span>
+                            </label>
+                            <input 
+                                type="number" 
+                                id="targetWeight" 
+                                class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none"
+                                placeholder="e.g., 73.8"
+                                min="30"
+                                max="300"
+                                step="0.1"
+                                required
+                            >
+                        </div>
+                    </div>
+                    
+                    <!-- BMI Display -->
+                    <div id="bmiDisplay" class="mt-6 p-6 bg-blue-50 rounded-lg border-2 border-blue-200" style="display: none;">
+                        <div class="text-center">
+                            <div class="text-5xl font-bold text-blue-600" id="bmiValue">--</div>
+                            <div class="text-lg font-semibold text-gray-700 mt-2">BMI</div>
+                            <div class="mt-3">
+                                <span class="text-sm text-gray-600">Category: </span>
+                                <span id="bmiCategory" class="font-semibold"></span>
+                            </div>
+                            <div class="mt-1">
+                                <span class="text-sm text-gray-600">IBW: </span>
+                                <span id="ibwValue" class="font-semibold">--</span> kg
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-between mt-8">
+                        <button 
+                            type="button" 
+                            onclick="goToStep(1)"
+                            class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-8 py-3 rounded-lg font-semibold flex items-center gap-2 transition"
+                        >
+                            <i class="fas fa-arrow-left"></i> Previous
+                        </button>
+                        <button 
+                            type="button" 
+                            onclick="goToStep(3)"
+                            class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold flex items-center gap-2 transition"
+                        >
+                            Next <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3: Meal Plan -->
+            <div class="form-step" id="step3">
+                <div class="bg-white rounded-lg shadow-md p-8">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-3">
+                        <i class="fas fa-utensils text-blue-600"></i>
+                        Meal Plan Configuration
+                    </h2>
+                    
+                    <div class="mb-6">
+                        <label class="block text-sm font-semibold text-gray-700 mb-3">
+                            Plan Type <span class="text-red-500">*</span>
+                        </label>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <label class="flex items-center p-4 border-2 border-gray-300 rounded-lg cursor-pointer hover:border-blue-600 transition">
+                                <input type="radio" name="planType" value="general" checked class="mr-3">
+                                <span class="font-semibold">General Plan</span>
+                            </label>
+                            <label class="flex items-center p-4 border-2 border-gray-300 rounded-lg cursor-pointer hover:border-blue-600 transition">
+                                <input type="radio" name="planType" value="weekly" class="mr-3">
+                                <span class="font-semibold">Weekly Plan</span>
+                            </label>
+                            <label class="flex items-center p-4 border-2 border-gray-300 rounded-lg cursor-pointer hover:border-blue-600 transition">
+                                <input type="radio" name="planType" value="custom" class="mr-3">
+                                <span class="font-semibold">Custom Plan</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Daily Calorie Target (kcal)
+                            </label>
+                            <input 
+                                type="number" 
+                                id="calorieTarget" 
+                                class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none"
+                                placeholder="e.g., 1845"
+                            >
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Plan Duration (days)
+                            </label>
+                            <input 
+                                type="number" 
+                                id="planDuration" 
+                                class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none"
+                                placeholder="e.g., 7"
+                                value="7"
+                            >
+                        </div>
+                    </div>
+                    
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Daily Meal Schedule</h3>
+                    
+                    <!-- Early Morning -->
+                    <div class="mb-4 border rounded-lg overflow-hidden">
+                        <button type="button" onclick="toggleSection('earlyMorningSection')" class="w-full px-4 py-3 bg-gray-100 hover:bg-gray-200 text-left font-semibold flex justify-between items-center">
+                            <span>🌅 Early Morning (7:00 - 7:30 AM)</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div id="earlyMorningSection" class="p-4" style="display: none;">
+                            <textarea 
+                                id="earlyMorning" 
+                                class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none"
+                                rows="2"
+                                placeholder="e.g., Detox water 1 glass / Warm water 1 glass"
+                            ></textarea>
+                        </div>
+                    </div>
+                    
+                    <!-- Breakfast -->
+                    <div class="mb-4 border rounded-lg overflow-hidden">
+                        <button type="button" onclick="toggleSection('breakfastSection')" class="w-full px-4 py-3 bg-gray-100 hover:bg-gray-200 text-left font-semibold flex justify-between items-center">
+                            <span>☕ Breakfast (8:00 - 9:00 AM)</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div id="breakfastSection" class="p-4" style="display: none;">
+                            <div class="mb-3">
+                                <label class="block text-sm font-semibold text-gray-600 mb-2">Option A</label>
+                                <textarea 
+                                    id="breakfastA" 
+                                    class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none"
+                                    rows="3"
+                                    placeholder="e.g., Chapati - 02, Mixed vegetables - 2-3 tbsp..."
+                                ></textarea>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-600 mb-2">Option B</label>
+                                <textarea 
+                                    id="breakfastB" 
+                                    class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none"
+                                    rows="3"
+                                    placeholder="e.g., Oats - 1/2 cup, Milk - 1 cup..."
+                                ></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Mid Morning -->
+                    <div class="mb-4 border rounded-lg overflow-hidden">
+                        <button type="button" onclick="toggleSection('midMorningSection')" class="w-full px-4 py-3 bg-gray-100 hover:bg-gray-200 text-left font-semibold flex justify-between items-center">
+                            <span>🍎 Mid-Morning Snack (10:30 - 11:30 AM)</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div id="midMorningSection" class="p-4" style="display: none;">
+                            <textarea 
+                                id="midMorning" 
+                                class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none"
+                                rows="2"
+                                placeholder="e.g., Green Apple (1 medium), Strawberries (4-5)..."
+                            ></textarea>
+                        </div>
+                    </div>
+                    
+                    <!-- Lunch -->
+                    <div class="mb-4 border rounded-lg overflow-hidden">
+                        <button type="button" onclick="toggleSection('lunchSection')" class="w-full px-4 py-3 bg-gray-100 hover:bg-gray-200 text-left font-semibold flex justify-between items-center">
+                            <span>🍽️ Lunch (1:00 - 2:00 PM)</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div id="lunchSection" class="p-4" style="display: none;">
+                            <div class="mb-3">
+                                <label class="block text-sm font-semibold text-gray-600 mb-2">Option A</label>
+                                <textarea 
+                                    id="lunchA" 
+                                    class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none"
+                                    rows="3"
+                                    placeholder="e.g., Rice - 1 cup, Lentil - 2-3 tbsp..."
+                                ></textarea>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-600 mb-2">Option B</label>
+                                <textarea 
+                                    id="lunchB" 
+                                    class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none"
+                                    rows="3"
+                                    placeholder="e.g., Pasta - 1 cup, Egg - 01..."
+                                ></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Evening Snack -->
+                    <div class="mb-4 border rounded-lg overflow-hidden">
+                        <button type="button" onclick="toggleSection('eveningSnackSection')" class="w-full px-4 py-3 bg-gray-100 hover:bg-gray-200 text-left font-semibold flex justify-between items-center">
+                            <span>🍪 Evening Snack (4:00 - 5:00 PM)</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div id="eveningSnackSection" class="p-4" style="display: none;">
+                            <textarea 
+                                id="eveningSnack" 
+                                class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none"
+                                rows="2"
+                                placeholder="e.g., Tea - 1 cup, Nuts..."
+                            ></textarea>
+                        </div>
+                    </div>
+                    
+                    <!-- Before Dinner -->
+                    <div class="mb-4 border rounded-lg overflow-hidden">
+                        <button type="button" onclick="toggleSection('beforeDinnerSection')" class="w-full px-4 py-3 bg-gray-100 hover:bg-gray-200 text-left font-semibold flex justify-between items-center">
+                            <span>🥗 Before Dinner</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div id="beforeDinnerSection" class="p-4" style="display: none;">
+                            <textarea 
+                                id="beforeDinner" 
+                                class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none"
+                                rows="2"
+                                placeholder="e.g., Vegetable salad OR Vegetable soup - 01 bowl"
+                            ></textarea>
+                        </div>
+                    </div>
+                    
+                    <!-- Dinner -->
+                    <div class="mb-4 border rounded-lg overflow-hidden">
+                        <button type="button" onclick="toggleSection('dinnerSection')" class="w-full px-4 py-3 bg-gray-100 hover:bg-gray-200 text-left font-semibold flex justify-between items-center">
+                            <span>🌙 Dinner (8:30 - 9:30 PM)</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div id="dinnerSection" class="p-4" style="display: none;">
+                            <div class="mb-3">
+                                <label class="block text-sm font-semibold text-gray-600 mb-2">Option A</label>
+                                <textarea 
+                                    id="dinnerA" 
+                                    class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none"
+                                    rows="3"
+                                    placeholder="e.g., Chapati - 02, Mixed vegetables..."
+                                ></textarea>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-600 mb-2">Option B</label>
+                                <textarea 
+                                    id="dinnerB" 
+                                    class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none"
+                                    rows="3"
+                                    placeholder="e.g., Mixed soup - 01 bowl..."
+                                ></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-between mt-8">
+                        <button 
+                            type="button" 
+                            onclick="goToStep(2)"
+                            class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-8 py-3 rounded-lg font-semibold flex items-center gap-2 transition"
+                        >
+                            <i class="fas fa-arrow-left"></i> Previous
+                        </button>
+                        <button 
+                            type="button" 
+                            onclick="goToStep(4)"
+                            class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold flex items-center gap-2 transition"
+                        >
+                            Next <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 4: Guidelines -->
+            <div class="form-step" id="step4">
+                <div class="bg-white rounded-lg shadow-md p-8">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-3">
+                        <i class="fas fa-clipboard-list text-blue-600"></i>
+                        Nutritional Guidelines
+                    </h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Water Intake Recommendation
+                            </label>
+                            <input 
+                                type="text" 
+                                id="waterIntake" 
+                                class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none"
+                                value="2-3 liters per day"
+                            >
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Virgin Coconut Oil
+                            </label>
+                            <input 
+                                type="text" 
+                                id="coconutOil" 
+                                class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none"
+                                value="03 tsp/day"
+                            >
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            Exercise Recommendation
+                        </label>
+                        <textarea 
+                            id="exerciseRecommendation" 
+                            class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none"
+                            rows="3"
+                        >Weight Loss: Moderate intensity exercise - minimum 300 min/week
+(Daily - 30 min to 01 hr. or 3-4 days/week - 1-1.5 hrs. e.g.: Cycling, Brisk walk, Jogging)</textarea>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            Foods to Avoid (Optional)
+                        </label>
+                        <textarea 
+                            id="foodsToAvoid" 
+                            class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none"
+                            rows="3"
+                            placeholder="Enter specific foods to avoid..."
+                        ></textarea>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            Special Instructions or Notes
+                        </label>
+                        <textarea 
+                            id="specialInstructions" 
+                            class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none"
+                            rows="3"
+                            placeholder="Any additional instructions, allergies, or special considerations..."
+                        ></textarea>
+                    </div>
+                    
+                    <div class="flex justify-between mt-8">
+                        <button 
+                            type="button" 
+                            onclick="goToStep(3)"
+                            class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-8 py-3 rounded-lg font-semibold flex items-center gap-2 transition"
+                        >
+                            <i class="fas fa-arrow-left"></i> Previous
+                        </button>
+                        <button 
+                            type="button" 
+                            onclick="goToStep(5)"
+                            class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold flex items-center gap-2 transition"
+                        >
+                            Next <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 5: Generate PDF -->
+            <div class="form-step" id="step5">
+                <div class="bg-white rounded-lg shadow-md p-8">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-3">
+                        <i class="fas fa-user-md text-blue-600"></i>
+                        Professional Details & Generate PDF
+                    </h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Nutritionist Name
+                            </label>
+                            <input 
+                                type="text" 
+                                id="nutritionistName" 
+                                class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg bg-gray-50"
+                                value="Gayathri Dissanayake"
+                                readonly
+                            >
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Credentials
+                            </label>
+                            <input 
+                                type="text" 
+                                id="credentials" 
+                                class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg bg-gray-50"
+                                value="Dietitian & Nutritionist"
+                                readonly
+                            >
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Contact Phone
+                            </label>
+                            <input 
+                                type="tel" 
+                                id="nutritionistPhone" 
+                                class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none"
+                                placeholder="+94 XX XXX XXXX"
+                            >
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Contact Email
+                            </label>
+                            <input 
+                                type="email" 
+                                id="nutritionistEmail" 
+                                class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none"
+                                placeholder="contact@email.com"
+                            >
+                        </div>
+                    </div>
+                    
+                    <div class="bg-blue-50 border-2 border-blue-200 rounded-lg p-6 mb-6">
+                        <h3 class="text-xl font-bold text-blue-800 mb-3">
+                            <i class="fas fa-check-circle mr-2"></i>Ready to Generate PDF
+                        </h3>
+                        <p class="text-gray-700 mb-4">
+                            Your personalized meal plan is ready. Click the button below to generate and download the PDF document.
+                        </p>
+                        <ul class="space-y-2 text-sm text-gray-600">
+                            <li><i class="fas fa-check text-green-600 mr-2"></i>Patient information completed</li>
+                            <li><i class="fas fa-check text-green-600 mr-2"></i>Physical measurements recorded</li>
+                            <li><i class="fas fa-check text-green-600 mr-2"></i>Meal plan configured</li>
+                            <li><i class="fas fa-check text-green-600 mr-2"></i>Guidelines added</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="flex justify-between mt-8">
+                        <button 
+                            type="button" 
+                            onclick="goToStep(4)"
+                            class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-8 py-3 rounded-lg font-semibold flex items-center gap-2 transition"
+                        >
+                            <i class="fas fa-arrow-left"></i> Previous
+                        </button>
+                        <div class="flex gap-3">
+                            <button 
+                                type="button" 
+                                onclick="saveData()"
+                                class="bg-gray-600 hover:bg-gray-700 text-white px-8 py-3 rounded-lg font-semibold flex items-center gap-2 transition"
+                            >
+                                <i class="fas fa-save"></i> Save Data
+                            </button>
+                            <button 
+                                type="button" 
+                                onclick="generatePDF()"
+                                class="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-semibold flex items-center gap-2 transition"
+                            >
+                                <i class="fas fa-file-pdf"></i> Generate PDF
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <!-- Quick Actions -->
+        <div class="bg-white rounded-lg shadow-md p-6 mt-6">
+            <h3 class="text-lg font-bold text-gray-800 mb-4">Quick Actions</h3>
+            <div class="flex flex-wrap gap-3">
+                <button 
+                    type="button" 
+                    onclick="loadSavedData()"
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-semibold flex items-center gap-2 transition"
+                >
+                    <i class="fas fa-folder-open"></i> Load Saved Data
+                </button>
+                <button 
+                    type="button" 
+                    onclick="clearForm()"
+                    class="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg font-semibold flex items-center gap-2 transition"
+                >
+                    <i class="fas fa-eraser"></i> Clear Form
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t mt-12 py-6">
+        <div class="container mx-auto px-4 text-center text-gray-600">
+            <p>&copy; 2026 Gayathri Dissanayake - Dietitian & Nutritionist. All rights reserved.</p>
+            <p class="text-sm mt-1">Professional Meal Plan Generator v1.0</p>
+        </div>
+    </footer>
+
+    <script>
+        // Set today's date
+        document.getElementById('planDate').valueAsDate = new Date();
+        
+        // Navigate between steps
+        function goToStep(stepNumber) {
+            // Hide all steps
+            document.querySelectorAll('.form-step').forEach(step => {
+                step.classList.remove('active');
+            });
+            
+            // Show the selected step
+            document.getElementById('step' + stepNumber).classList.add('active');
+            
+            // Update progress indicators
+            updateProgressIndicators(stepNumber);
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        function updateProgressIndicators(activeStep) {
+            for (let i = 1; i <= 5; i++) {
+                const icon = document.getElementById('step' + i + '-icon');
+                const label = document.getElementById('step' + i + '-label');
+                
+                if (icon && label) {
+                    if (i <= activeStep) {
+                        icon.classList.remove('bg-gray-300');
+                        icon.classList.add('bg-blue-600');
+                        label.classList.remove('text-gray-500');
+                        label.classList.add('text-blue-600', 'font-semibold');
+                    } else {
+                        icon.classList.remove('bg-blue-600');
+                        icon.classList.add('bg-gray-300');
+                        label.classList.remove('text-blue-600', 'font-semibold');
+                        label.classList.add('text-gray-500');
+                    }
+                }
+            }
+        }
+        
+        // Toggle sections
+        function toggleSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section.style.display === 'none') {
+                section.style.display = 'block';
+            } else {
+                section.style.display = 'none';
+            }
+        }
+        
+        // Calculate BMI
+        function calculateBMI() {
+            const height = parseFloat(document.getElementById('patientHeight').value);
+            const weight = parseFloat(document.getElementById('patientWeight').value);
+            const gender = document.getElementById('patientGender').value;
+            
+            if (height && weight && height > 0 && weight > 0) {
+                const heightInMeters = height / 100;
+                const bmi = (weight / (heightInMeters * heightInMeters)).toFixed(1);
+                
+                // Calculate IBW
+                let ibw = 0;
+                const heightInInches = height / 2.54;
+                if (gender === 'Male') {
+                    ibw = 50 + 2.3 * (heightInInches - 60);
+                } else if (gender === 'Female') {
+                    ibw = 45.5 + 2.3 * (heightInInches - 60);
+                }
+                ibw = Math.round(ibw * 10) / 10;
+                
+                // Get category
+                let category = '';
+                if (bmi < 18.5) {
+                    category = 'Underweight';
+                } else if (bmi >= 18.5 && bmi < 25) {
+                    category = 'Normal Weight';
+                } else if (bmi >= 25 && bmi < 30) {
+                    category = 'Overweight';
+                } else {
+                    category = 'Obese';
+                }
+                
+                // Display
+                document.getElementById('bmiValue').textContent = bmi;
+                document.getElementById('bmiCategory').textContent = category;
+                document.getElementById('ibwValue').textContent = ibw;
+                document.getElementById('bmiDisplay').style.display = 'block';
+                
+                // Auto-suggest calories
+                document.getElementById('calorieTarget').value = Math.round(weight * 25);
+            }
+        }
+        
+        // Save data
+        function saveData() {
+            const formData = {
+                patientName: document.getElementById('patientName').value,
+                patientAge: document.getElementById('patientAge').value,
+                patientGender: document.getElementById('patientGender').value,
+                planDate: document.getElementById('planDate').value,
+                patientPhone: document.getElementById('patientPhone').value,
+                patientEmail: document.getElementById('patientEmail').value,
+                patientAddress: document.getElementById('patientAddress').value,
+                patientHeight: document.getElementById('patientHeight').value,
+                patientWeight: document.getElementById('patientWeight').value,
+                targetWeight: document.getElementById('targetWeight').value,
+                calorieTarget: document.getElementById('calorieTarget').value
+            };
+            
+            localStorage.setItem('mealPlanData', JSON.stringify(formData));
+            
+            Swal.fire({
+                icon: 'success',
+                title: 'Saved!',
+                text: 'Your data has been saved successfully',
+                timer: 2000,
+                showConfirmButton: false
+            });
+        }
+        
+        // Load saved data
+        function loadSavedData() {
+            const savedData = localStorage.getItem('mealPlanData');
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                
+                document.getElementById('patientName').value = data.patientName || '';
+                document.getElementById('patientAge').value = data.patientAge || '';
+                document.getElementById('patientGender').value = data.patientGender || '';
+                document.getElementById('planDate').value = data.planDate || '';
+                document.getElementById('patientPhone').value = data.patientPhone || '';
+                document.getElementById('patientEmail').value = data.patientEmail || '';
+                document.getElementById('patientAddress').value = data.patientAddress || '';
+                document.getElementById('patientHeight').value = data.patientHeight || '';
+                document.getElementById('patientWeight').value = data.patientWeight || '';
+                document.getElementById('targetWeight').value = data.targetWeight || '';
+                document.getElementById('calorieTarget').value = data.calorieTarget || '';
+                
+                calculateBMI();
+                
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Loaded!',
+                    text: 'Saved data has been loaded',
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+            } else {
+                Swal.fire({
+                    icon: 'info',
+                    title: 'No Saved Data',
+                    text: 'No previously saved data found'
+                });
+            }
+        }
+        
+        // Clear form
+        function clearForm() {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Clear Form?',
+                text: 'This will clear all form data',
+                showCancelButton: true,
+                confirmButtonColor: '#EF4444',
+                confirmButtonText: 'Yes, clear it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('mealPlanForm').reset();
+                    document.getElementById('planDate').valueAsDate = new Date();
+                    document.getElementById('bmiDisplay').style.display = 'none';
+                    goToStep(1);
+                    
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Cleared!',
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                }
+            });
+        }
+        
+        // Generate PDF
+        async function generatePDF() {
+            Swal.fire({
+                title: 'Generating PDF...',
+                html: 'Please wait',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+            
+            try {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                
+                // Get data
+                const name = document.getElementById('patientName').value;
+                const age = document.getElementById('patientAge').value;
+                const gender = document.getElementById('patientGender').value;
+                const date = document.getElementById('planDate').value;
+                const height = document.getElementById('patientHeight').value;
+                const weight = document.getElementById('patientWeight').value;
+                const targetWeight = document.getElementById('targetWeight').value;
+                const bmi = document.getElementById('bmiValue').textContent;
+                
+                let yPos = 20;
+                
+                // Header
+                doc.setFillColor(24, 119, 242);
+                doc.rect(0, 0, 210, 35, 'F');
+                
+                doc.setTextColor(255, 255, 255);
+                doc.setFontSize(20);
+                doc.setFont('helvetica', 'bold');
+                doc.text('Gayathri Dissanayake', 15, 15);
+                
+                doc.setFontSize(12);
+                doc.setFont('helvetica', 'normal');
+                doc.text('Dietitian & Nutritionist', 15, 22);
+                
+                const nutritionistPhone = document.getElementById('nutritionistPhone').value;
+                const nutritionistEmail = document.getElementById('nutritionistEmail').value;
+                if (nutritionistPhone || nutritionistEmail) {
+                    doc.setFontSize(9);
+                    doc.text(`${nutritionistPhone} | ${nutritionistEmail}`, 15, 28);
+                }
+                
+                yPos = 45;
+                
+                // Title
+                doc.setTextColor(24, 119, 242);
+                doc.setFontSize(18);
+                doc.setFont('helvetica', 'bold');
+                doc.text('PERSONALIZED MEAL PLAN', 105, yPos, { align: 'center' });
+                
+                yPos += 12;
+                
+                // Patient info box
+                doc.setFillColor(231, 243, 255);
+                doc.roundedRect(15, yPos, 180, 25, 3, 3, 'F');
+                
+                doc.setTextColor(0, 0, 0);
+                doc.setFontSize(11);
+                doc.setFont('helvetica', 'bold');
+                doc.text(`Patient: ${name}`, 20, yPos + 7);
+                doc.text(`Date: ${new Date(date).toLocaleDateString()}`, 140, yPos + 7);
+                
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(10);
+                doc.text(`Age: ${age} | Gender: ${gender}`, 20, yPos + 14);
+                doc.text(`Height: ${height} cm | Weight: ${weight} kg`, 20, yPos + 20);
+                doc.text(`BMI: ${bmi} | Target: ${targetWeight} kg`, 110, yPos + 14);
+                
+                yPos += 35;
+                
+                // Meal plan sections
+                doc.setFontSize(14);
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(24, 119, 242);
+                doc.text('DAILY MEAL SCHEDULE', 15, yPos);
+                
+                yPos += 8;
+                
+                // Function to add meal section
+                function addMealSection(title, content) {
+                    if (content && yPos < 270) {
+                        doc.setFontSize(11);
+                        doc.setFont('helvetica', 'bold');
+                        doc.setTextColor(0, 0, 0);
+                        doc.text(title, 15, yPos);
+                        yPos += 6;
+                        
+                        doc.setFontSize(10);
+                        doc.setFont('helvetica', 'normal');
+                        const lines = doc.splitTextToSize(content, 175);
+                        doc.text(lines, 20, yPos);
+                        yPos += lines.length * 5 + 3;
+                    }
+                }
+                
+                addMealSection('EARLY MORNING', document.getElementById('earlyMorning').value);
+                addMealSection('BREAKFAST', document.getElementById('breakfastA').value);
+                addMealSection('MID-MORNING', document.getElementById('midMorning').value);
+                addMealSection('LUNCH', document.getElementById('lunchA').value);
+                
+                if (yPos > 250) {
+                    doc.addPage();
+                    yPos = 20;
+                }
+                
+                addMealSection('EVENING SNACK', document.getElementById('eveningSnack').value);
+                addMealSection('BEFORE DINNER', document.getElementById('beforeDinner').value);
+                addMealSection('DINNER', document.getElementById('dinnerA').value);
+                
+                // Guidelines
+                doc.addPage();
+                yPos = 20;
+                
+                doc.setFontSize(14);
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(24, 119, 242);
+                doc.text('NUTRITIONAL GUIDELINES', 15, yPos);
+                
+                yPos += 10;
+                
+                doc.setFontSize(10);
+                doc.setFont('helvetica', 'normal');
+                doc.setTextColor(0, 0, 0);
+                doc.text(`Water Intake: ${document.getElementById('waterIntake').value}`, 15, yPos);
+                yPos += 6;
+                doc.text(`Coconut Oil: ${document.getElementById('coconutOil').value}`, 15, yPos);
+                yPos += 8;
+                
+                doc.setFont('helvetica', 'bold');
+                doc.text('Exercise:', 15, yPos);
+                yPos += 5;
+                doc.setFont('helvetica', 'normal');
+                const exerciseLines = doc.splitTextToSize(document.getElementById('exerciseRecommendation').value, 175);
+                doc.text(exerciseLines, 20, yPos);
+                
+                // Footer
+                doc.setFontSize(8);
+                doc.setTextColor(128, 128, 128);
+                doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 15, 285);
+                doc.text('© Gayathri Dissanayake - All Rights Reserved', 105, 290, { align: 'center' });
+                
+                // Save
+                const fileName = `MealPlan_${name.replace(/\s+/g, '_')}_${date}.pdf`;
+                doc.save(fileName);
+                
+                Swal.fire({
+                    icon: 'success',
+                    title: 'PDF Generated!',
+                    text: 'Your meal plan has been downloaded',
+                    confirmButtonColor: '#42B72A'
+                });
+                
+            } catch (error) {
+                console.error('PDF Error:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Failed to generate PDF. Please try again.'
+                });
+            }
+        }
+    </script>
+</body>
+</html>
