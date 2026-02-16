@@ -117,6 +117,17 @@
             scrollbar-width: thin;
         }
 
+        .meal-plate-canvas {
+            width: min(240px, 72vw);
+            height: auto;
+            border: 6px solid #ffffff;
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+        }
+
+        .chart-caption {
+            max-width: 280px;
+        }
+
         @media (max-width: 768px) {
             .floating-save-btn {
                 bottom: 1rem;
@@ -540,8 +551,9 @@
                                 </div>
                             </div>
 
-                            <div class="flex justify-center">
-                                <canvas id="mealPlateCanvas" width="320" height="320" class="max-w-full bg-white rounded-full shadow"></canvas>
+                            <div class="flex flex-col items-center gap-3">
+                                <canvas id="mealPlateCanvas" width="260" height="260" class="meal-plate-canvas max-w-full bg-white rounded-full"></canvas>
+                                <p class="chart-caption text-xs text-gray-500 text-center">This preview is optimized for quick review and exported at balanced size in the final PDF.</p>
                             </div>
                         </div>
                     </div>
@@ -1469,15 +1481,10 @@
 
             const centerX = canvas.width / 2;
             const centerY = canvas.height / 2;
-            const radius = 135;
-            const holeRadius = 62;
+            const radius = Math.min(canvas.width, canvas.height) * 0.44;
+            const holeRadius = radius * 0.5;
             const colors = ['#93B56B', '#6AB4E4', '#F3C55B'];
             const values = [vegetables, protein, grains];
-            const labels = [
-                `Vegetables/Fruits ${vegetables}%`,
-                `Protein ${protein}%`,
-                `Whole grains ${grains}%`
-            ];
 
             let start = -Math.PI / 2;
             values.forEach((value, i) => {
@@ -1489,13 +1496,15 @@
                 ctx.fillStyle = colors[i];
                 ctx.fill();
 
-                const labelAngle = start + angle / 2;
-                const labelX = centerX + Math.cos(labelAngle) * (radius + 24);
-                const labelY = centerY + Math.sin(labelAngle) * (radius + 24);
-                ctx.fillStyle = colors[i];
-                ctx.font = 'bold 14px Inter, Arial';
-                ctx.textAlign = 'center';
-                ctx.fillText(`${value}%`, labelX, labelY);
+                if (value > 0) {
+                    const labelAngle = start + angle / 2;
+                    const labelX = centerX + Math.cos(labelAngle) * (radius * 0.72);
+                    const labelY = centerY + Math.sin(labelAngle) * (radius * 0.72);
+                    ctx.fillStyle = '#0F172A';
+                    ctx.font = 'bold 12px Inter, Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(`${value}%`, labelX, labelY);
+                }
 
                 start += angle;
             });
@@ -1506,16 +1515,10 @@
             ctx.fill();
 
             ctx.fillStyle = '#1F2937';
-            ctx.font = 'bold 14px Inter, Arial';
+            ctx.font = 'bold 13px Inter, Arial';
             ctx.textAlign = 'center';
-            ctx.fillText('MEAL', centerX, centerY - 6);
-            ctx.fillText('PLATE', centerX, centerY + 14);
-
-            ctx.font = '12px Inter, Arial';
-            ctx.fillStyle = '#374151';
-            labels.forEach((label, i) => {
-                ctx.fillText(label, centerX, canvas.height - 48 + (i * 16));
-            });
+            ctx.fillText('MEAL', centerX, centerY - 5);
+            ctx.fillText('PLATE', centerX, centerY + 13);
         }
 
         // Font size customization
@@ -1946,31 +1949,10 @@
                     }
                 }
                 
-                // Meal plate graphic
-                const plateCanvas = document.getElementById('mealPlateCanvas');
-                if (plateCanvas) {
-                    const plateImage = plateCanvas.toDataURL('image/png');
-                    if (yPos > 170) {
-                        doc.addPage();
-                        yPos = 20;
-                    }
-                    doc.setFontSize(headingSize);
-                    doc.setTextColor(24, 119, 242);
-                    doc.setFont('helvetica', 'bold');
-                    doc.text('CUSTOM MEAL PLATE RATIO', 15, yPos);
-                    yPos += 4;
-                    doc.addImage(plateImage, 'PNG', 45, yPos, 120, 120);
-                    const plate = formData.mealPlan.mealPlate || {};
-                    doc.setFont('helvetica', 'normal');
-                    doc.setTextColor(0, 0, 0);
-                    doc.setFontSize(contentSize);
-                    doc.text(`Vegetables/Fruits: ${plate.vegetables || 0}%`, 15, yPos + 128);
-                    doc.text(`Protein: ${plate.protein || 0}%`, 75, yPos + 128);
-                    doc.text(`Whole grains: ${plate.grains || 0}%`, 120, yPos + 128);
-                    yPos += 138;
-                }
+                // Meal Plan Section always begins on a new page for readability
+                doc.addPage();
+                yPos = 20;
 
-                // Meal Plan Section
                 doc.setFontSize(titleSize);
                 doc.setFont('helvetica', 'bold');
                 doc.setTextColor(24, 119, 242);
@@ -2231,32 +2213,29 @@
                     doc.text(instructionLines, 20, yPos);
                 }
                 
-                // Optional meal plate chart on final page
-                const shouldIncludeMealPlate = formData.mealPlan.mealPlate?.includeInPdf;
-                if (shouldIncludeMealPlate) {
-                    const plateCanvas = document.getElementById('mealPlateCanvas');
-                    if (plateCanvas) {
-                        const plateImage = plateCanvas.toDataURL('image/png');
-                        doc.addPage();
-                        let plateY = 20;
+                // Meal plate chart moved to final page with a compact layout
+                const plateCanvas = document.getElementById('mealPlateCanvas');
+                if (plateCanvas) {
+                    const plateImage = plateCanvas.toDataURL('image/png');
+                    doc.addPage();
+                    let plateY = 20;
 
-                        doc.setFontSize(titleSize);
-                        doc.setTextColor(24, 119, 242);
-                        doc.setFont('helvetica', 'bold');
-                        doc.text('CUSTOM MEAL PLATE RATIO', 105, plateY, { align: 'center' });
-                        plateY += 8;
+                    doc.setFontSize(titleSize);
+                    doc.setTextColor(24, 119, 242);
+                    doc.setFont('helvetica', 'bold');
+                    doc.text('CUSTOM MEAL PLATE RATIO', 105, plateY, { align: 'center' });
+                    plateY += 8;
 
-                        doc.addImage(plateImage, 'PNG', 55, plateY, 100, 100);
-                        plateY += 112;
+                    doc.addImage(plateImage, 'PNG', 65, plateY, 80, 80);
+                    plateY += 96;
 
-                        const plate = formData.mealPlan.mealPlate || {};
-                        doc.setFont('helvetica', 'normal');
-                        doc.setTextColor(0, 0, 0);
-                        doc.setFontSize(contentSize + 1);
-                        doc.text(sanitizeForPdf(`Vegetables/Fruits: ${plate.vegetables || 0}%`), 35, plateY);
-                        doc.text(sanitizeForPdf(`Protein: ${plate.protein || 0}%`), 35, plateY + 8);
-                        doc.text(sanitizeForPdf(`Whole Grains/Carbs: ${plate.grains || 0}%`), 35, plateY + 16);
-                    }
+                    const plate = formData.mealPlan.mealPlate || {};
+                    doc.setFont('helvetica', 'normal');
+                    doc.setTextColor(0, 0, 0);
+                    doc.setFontSize(contentSize + 1);
+                    doc.text(sanitizeForPdf(`Vegetables/Fruits: ${plate.vegetables || 0}%`), 35, plateY);
+                    doc.text(sanitizeForPdf(`Protein: ${plate.protein || 0}%`), 35, plateY + 8);
+                    doc.text(sanitizeForPdf(`Whole Grains/Carbs: ${plate.grains || 0}%`), 35, plateY + 16);
                 }
 
                 // Footer on all pages
