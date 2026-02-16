@@ -517,14 +517,8 @@
 
                     <!-- Plate Ratio Configuration -->
                     <div class="mb-8 p-5 md:p-6 border-2 border-gray-200 rounded-xl bg-gradient-to-br from-white to-blue-50">
-                        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-3">
-                            <h3 class="text-xl md:text-2xl font-bold text-gray-800">🍽️ Meal Plate Ratio</h3>
-                            <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 bg-white px-3 py-2 rounded-lg border">
-                                <input type="checkbox" id="includeMealPlatePdf" class="checkbox-custom" checked onchange="updateMealPlateChart()">
-                                Include meal plate in PDF
-                            </label>
-                        </div>
-                        <p class="text-sm text-gray-600 mb-5">Customize plate percentages for a professional plate model. Keep total at 100%.</p>
+                        <h3 class="text-xl md:text-2xl font-bold text-gray-800 mb-3">🍽️ Meal Plate Ratio</h3>
+                        <p class="text-sm text-gray-600 mb-5">Customize plate percentages. Total must be exactly 100% before moving to next step.</p>
 
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
                             <div class="space-y-4">
@@ -542,14 +536,12 @@
                                 </div>
                                 <div class="bg-white border rounded-lg p-3">
                                     <p class="text-sm text-gray-700">Total: <span id="plateTotal" class="font-bold text-blue-700">100%</span></p>
-                                    <p id="plateTotalError" class="text-sm text-red-600 mt-1 hidden">Plate total must equal 100% (required only when included in PDF).</p>
+                                    <p id="plateTotalError" class="text-sm text-red-600 mt-1 hidden">Plate total must equal 100%.</p>
                                 </div>
                             </div>
 
                             <div class="flex justify-center">
-                                <div class="bg-white border rounded-xl p-4 shadow-sm">
-                                    <canvas id="mealPlateCanvas" width="240" height="240" class="w-[220px] h-[220px]"></canvas>
-                                </div>
+                                <canvas id="mealPlateCanvas" width="320" height="320" class="max-w-full bg-white rounded-full shadow"></canvas>
                             </div>
                         </div>
                     </div>
@@ -1273,13 +1265,6 @@
                     isValid = false;
                 }
 
-                const plateData = getMealPlatePercentages();
-                const includePlateInPdf = document.getElementById('includeMealPlatePdf').checked;
-                if (includePlateInPdf && plateData.total !== 100) {
-                    isValid = false;
-                    document.getElementById('plateTotalError').classList.remove('hidden');
-                }
-
                 if (!hasMealContent) {
                     isValid = false;
                     Swal.fire({
@@ -1471,87 +1456,69 @@
             const { vegetables, protein, grains, total } = getMealPlatePercentages();
             const totalLabel = document.getElementById('plateTotal');
             const errorLabel = document.getElementById('plateTotalError');
-            const includePlateInPdf = document.getElementById('includeMealPlatePdf')?.checked;
 
             if (totalLabel) {
                 totalLabel.textContent = `${total}%`;
                 totalLabel.className = `font-bold ${total === 100 ? 'text-green-700' : 'text-red-700'}`;
             }
             if (errorLabel) {
-                const hasError = includePlateInPdf && total !== 100;
-                errorLabel.classList.toggle('hidden', !hasError);
+                errorLabel.classList.toggle('hidden', total === 100);
             }
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             const centerX = canvas.width / 2;
             const centerY = canvas.height / 2;
-            const radius = 98;
-            const holeRadius = 44;
-            const colors = ['#8FB867', '#67B4E8', '#F1C75C'];
+            const radius = 135;
+            const holeRadius = 62;
+            const colors = ['#93B56B', '#6AB4E4', '#F3C55B'];
             const values = [vegetables, protein, grains];
-            const labels = ['Veg/Fruits', 'Protein', 'Grains'];
+            const labels = [
+                `Vegetables/Fruits ${vegetables}%`,
+                `Protein ${protein}%`,
+                `Whole grains ${grains}%`
+            ];
 
-            let startAngle = -Math.PI / 2;
+            let start = -Math.PI / 2;
             values.forEach((value, i) => {
                 const angle = total > 0 ? (value / total) * Math.PI * 2 : 0;
-
                 ctx.beginPath();
                 ctx.moveTo(centerX, centerY);
-                ctx.arc(centerX, centerY, radius, startAngle, startAngle + angle);
+                ctx.arc(centerX, centerY, radius, start, start + angle);
                 ctx.closePath();
                 ctx.fillStyle = colors[i];
                 ctx.fill();
 
-                // clean white separator for professional look
-                ctx.beginPath();
-                ctx.moveTo(centerX, centerY);
-                ctx.arc(centerX, centerY, radius, startAngle, startAngle + angle);
-                ctx.closePath();
-                ctx.lineWidth = 3;
-                ctx.strokeStyle = '#ffffff';
-                ctx.stroke();
-
-                const midAngle = startAngle + angle / 2;
-                const textX = centerX + Math.cos(midAngle) * (radius - 25);
-                const textY = centerY + Math.sin(midAngle) * (radius - 25);
-                ctx.fillStyle = '#ffffff';
-                ctx.font = 'bold 12px Inter, Arial';
+                const labelAngle = start + angle / 2;
+                const labelX = centerX + Math.cos(labelAngle) * (radius + 24);
+                const labelY = centerY + Math.sin(labelAngle) * (radius + 24);
+                ctx.fillStyle = colors[i];
+                ctx.font = 'bold 14px Inter, Arial';
                 ctx.textAlign = 'center';
-                ctx.fillText(`${value}%`, textX, textY);
+                ctx.fillText(`${value}%`, labelX, labelY);
 
-                startAngle += angle;
+                start += angle;
             });
 
-            // donut center
             ctx.beginPath();
             ctx.arc(centerX, centerY, holeRadius, 0, Math.PI * 2);
-            ctx.fillStyle = '#ffffff';
+            ctx.fillStyle = '#FFFFFF';
             ctx.fill();
-            ctx.lineWidth = 2;
-            ctx.strokeStyle = '#E5E7EB';
-            ctx.stroke();
 
-            ctx.fillStyle = '#111827';
-            ctx.font = 'bold 11px Inter, Arial';
+            ctx.fillStyle = '#1F2937';
+            ctx.font = 'bold 14px Inter, Arial';
             ctx.textAlign = 'center';
-            ctx.fillText('FOOD', centerX, centerY - 4);
-            ctx.fillText('PLATE', centerX, centerY + 12);
+            ctx.fillText('MEAL', centerX, centerY - 6);
+            ctx.fillText('PLATE', centerX, centerY + 14);
 
-            // compact legend
-            ctx.font = '11px Inter, Arial';
+            ctx.font = '12px Inter, Arial';
             ctx.fillStyle = '#374151';
             labels.forEach((label, i) => {
-                const y = 18 + (i * 14);
-                ctx.fillStyle = colors[i];
-                ctx.fillRect(12, y - 7, 8, 8);
-                ctx.fillStyle = '#374151';
-                ctx.textAlign = 'left';
-                ctx.fillText(`${label}: ${values[i]}%`, 24, y);
+                ctx.fillText(label, centerX, canvas.height - 48 + (i * 16));
             });
         }
-        
-                // Font size customization
+
+        // Font size customization
         function applyFontSizePreset() {
             const preset = document.getElementById('pdfFontSizePreset').value;
             
@@ -1634,8 +1601,7 @@
                     mealPlate: {
                         vegetables: document.getElementById('plateVegetables').value,
                         protein: document.getElementById('plateProtein').value,
-                        grains: document.getElementById('plateGrains').value,
-                        includeInPdf: document.getElementById('includeMealPlatePdf').checked
+                        grains: document.getElementById('plateGrains').value
                     }
                 },
                 guidelines: {
@@ -1715,7 +1681,6 @@
                         document.getElementById('plateVegetables').value = data.mealPlan.mealPlate.vegetables ?? 50;
                         document.getElementById('plateProtein').value = data.mealPlan.mealPlate.protein ?? 25;
                         document.getElementById('plateGrains').value = data.mealPlan.mealPlate.grains ?? 25;
-                        document.getElementById('includeMealPlatePdf').checked = data.mealPlan.mealPlate.includeInPdf ?? true;
                     }
                 }
                 
@@ -1787,11 +1752,6 @@
                     localStorage.removeItem('mealPlanData');
                     localStorage.removeItem('mealPlanDraft');
                     document.getElementById('templateImportInput').value = '';
-                    document.getElementById('plateVegetables').value = 50;
-                    document.getElementById('plateProtein').value = 25;
-                    document.getElementById('plateGrains').value = 25;
-                    document.getElementById('includeMealPlatePdf').checked = true;
-                    updateMealPlateChart();
                     goToStep(1);
                     
                     Swal.fire({
@@ -1986,6 +1946,30 @@
                     }
                 }
                 
+                // Meal plate graphic
+                const plateCanvas = document.getElementById('mealPlateCanvas');
+                if (plateCanvas) {
+                    const plateImage = plateCanvas.toDataURL('image/png');
+                    if (yPos > 170) {
+                        doc.addPage();
+                        yPos = 20;
+                    }
+                    doc.setFontSize(headingSize);
+                    doc.setTextColor(24, 119, 242);
+                    doc.setFont('helvetica', 'bold');
+                    doc.text('CUSTOM MEAL PLATE RATIO', 15, yPos);
+                    yPos += 4;
+                    doc.addImage(plateImage, 'PNG', 45, yPos, 120, 120);
+                    const plate = formData.mealPlan.mealPlate || {};
+                    doc.setFont('helvetica', 'normal');
+                    doc.setTextColor(0, 0, 0);
+                    doc.setFontSize(contentSize);
+                    doc.text(`Vegetables/Fruits: ${plate.vegetables || 0}%`, 15, yPos + 128);
+                    doc.text(`Protein: ${plate.protein || 0}%`, 75, yPos + 128);
+                    doc.text(`Whole grains: ${plate.grains || 0}%`, 120, yPos + 128);
+                    yPos += 138;
+                }
+
                 // Meal Plan Section
                 doc.setFontSize(titleSize);
                 doc.setFont('helvetica', 'bold');
@@ -2312,7 +2296,6 @@
         
         // Initialize
         updateFontSizeDisplay();
-        updateMealPlateChart();
         updateProgressIndicators(currentStep);
         document.querySelectorAll('#mealPlanForm input, #mealPlanForm textarea, #mealPlanForm select').forEach((field) => {
             field.addEventListener('input', autoSaveDraft);
