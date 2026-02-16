@@ -1724,35 +1724,41 @@
                 const bmi = formData.measurements.bmi;
                 
                 let yPos = 15;
+
+                const sanitizeForPdf = (value = '') => String(value).replace(/[^\x20-\x7E\n\r\t]/g, '');
                 
                 // Professional Letterhead
                 doc.setFillColor(24, 119, 242);
                 doc.rect(0, 0, 210, 45, 'F');
                 
-                // Emoji logo
-                doc.setFontSize(28);
-                doc.text('🥗', 15, 25);
+                // PDF-safe logo badge (avoids unsupported emoji glyphs)
+                doc.setFillColor(255, 255, 255);
+                doc.circle(20, 20, 8, 'F');
+                doc.setTextColor(24, 119, 242);
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(10);
+                doc.text('MP', 20, 22, { align: 'center' });
                 
                 // Nutritionist name
                 doc.setTextColor(255, 255, 255);
                 doc.setFontSize(titleSize);
                 doc.setFont('helvetica', 'bold');
-                doc.text(formData.nutritionist.name, 40, 18);
+                doc.text(sanitizeForPdf(formData.nutritionist.name), 40, 18);
                 
                 // Credentials
                 doc.setFontSize(subheadingSize);
                 doc.setFont('helvetica', 'normal');
-                doc.text(formData.nutritionist.credentials, 40, 26);
+                doc.text(sanitizeForPdf(formData.nutritionist.credentials), 40, 26);
                 
                 // Contact
                 if (formData.nutritionist.phone || formData.nutritionist.email) {
                     doc.setFontSize(contentSize - 1);
-                    doc.text(`${formData.nutritionist.phone || ''} ${formData.nutritionist.email ? '| ' + formData.nutritionist.email : ''}`, 40, 33);
+                    doc.text(sanitizeForPdf(`${formData.nutritionist.phone || ''} ${formData.nutritionist.email ? '| ' + formData.nutritionist.email : ''}`), 40, 33);
                 }
                 
                 if (formData.nutritionist.address) {
                     doc.setFontSize(contentSize - 2);
-                    doc.text(formData.nutritionist.address.substring(0, 80), 40, 39);
+                    doc.text(sanitizeForPdf(formData.nutritionist.address.substring(0, 80)), 40, 39);
                 }
                 
                 yPos = 55;
@@ -1772,15 +1778,15 @@
                 doc.setTextColor(0, 0, 0);
                 doc.setFontSize(headingSize);
                 doc.setFont('helvetica', 'bold');
-                doc.text(`Patient: ${name}`, 20, yPos + 8);
+                doc.text(sanitizeForPdf(`Patient: ${name}`), 20, yPos + 8);
                 doc.text(`Date: ${new Date(date).toLocaleDateString()}`, 140, yPos + 8);
                 
                 doc.setFont('helvetica', 'normal');
                 doc.setFontSize(contentSize);
-                doc.text(`Age: ${age} years | Gender: ${gender}`, 20, yPos + 16);
-                doc.text(`Height: ${height} cm | Weight: ${weight} kg`, 20, yPos + 23);
-                doc.text(`BMI: ${bmi} kg/m² | Target: ${targetWeight} kg`, 110, yPos + 16);
-                doc.text(`Calories: ${formData.mealPlan.calorieTarget || 'Not set'} kcal/day`, 110, yPos + 23);
+                doc.text(sanitizeForPdf(`Age: ${age} years | Gender: ${gender}`), 20, yPos + 16);
+                doc.text(sanitizeForPdf(`Height: ${height} cm | Weight: ${weight} kg`), 20, yPos + 23);
+                doc.text(sanitizeForPdf(`BMI: ${bmi} kg/m2 | Target: ${targetWeight} kg`), 110, yPos + 16);
+                doc.text(sanitizeForPdf(`Calories: ${formData.mealPlan.calorieTarget || 'Not set'} kcal/day`), 110, yPos + 23);
                 
                 yPos += 38;
                 
@@ -1795,7 +1801,7 @@
                     if (prefs.length > 0) {
                         doc.setFontSize(contentSize - 1);
                         doc.setTextColor(101, 103, 107);
-                        doc.text(`Dietary Preferences: ${prefs.join(', ')}`, 20, yPos);
+                        doc.text(sanitizeForPdf(`Dietary Preferences: ${prefs.join(', ')}`), 20, yPos);
                         yPos += 8;
                     }
                 }
@@ -1809,17 +1815,17 @@
                 yPos += 10;
                 
                 // Function to add meal section with custom font sizes
-                function addMealSection(title, content, icon = '') {
+                function addMealSection(title, content) {
                     if (content && content.trim() && yPos < 265) {
                         doc.setFontSize(headingSize);
                         doc.setFont('helvetica', 'bold');
                         doc.setTextColor(0, 0, 0);
-                        doc.text(`${icon} ${title}`, 15, yPos);
+                        doc.text(sanitizeForPdf(title), 15, yPos);
                         yPos += 7;
                         
                         doc.setFontSize(contentSize);
                         doc.setFont('helvetica', 'normal');
-                        const lines = doc.splitTextToSize(content, 175);
+                        const lines = doc.splitTextToSize(sanitizeForPdf(content), 175);
                         doc.text(lines, 20, yPos);
                         yPos += lines.length * (contentSize * 0.4) + 4;
                     }
@@ -1831,12 +1837,12 @@
                 }
                 
                 // Add all meal sections
-                addMealSection('EARLY MORNING (7:00-7:30 AM)', formData.mealPlan.meals.earlyMorning, '🌅');
+                addMealSection('EARLY MORNING (7:00-7:30 AM)', formData.mealPlan.meals.earlyMorning);
                 
                 if (formData.mealPlan.meals.breakfastA) {
                     doc.setFontSize(headingSize);
                     doc.setFont('helvetica', 'bold');
-                    doc.text('☕ BREAKFAST (8:00-9:00 AM)', 15, yPos);
+                    doc.text('BREAKFAST (8:00-9:00 AM)', 15, yPos);
                     yPos += 7;
                     
                     if (formData.mealPlan.meals.breakfastA) {
@@ -1845,7 +1851,7 @@
                         doc.text('Option A:', 20, yPos);
                         yPos += 5;
                         doc.setFont('helvetica', 'normal');
-                        const linesA = doc.splitTextToSize(formData.mealPlan.meals.breakfastA, 170);
+                        const linesA = doc.splitTextToSize(sanitizeForPdf(formData.mealPlan.meals.breakfastA), 170);
                         doc.text(linesA, 25, yPos);
                         yPos += linesA.length * (contentSize * 0.4) + 3;
                     }
@@ -1855,7 +1861,7 @@
                         doc.text('Option B:', 20, yPos);
                         yPos += 5;
                         doc.setFont('helvetica', 'normal');
-                        const linesB = doc.splitTextToSize(formData.mealPlan.meals.breakfastB, 170);
+                        const linesB = doc.splitTextToSize(sanitizeForPdf(formData.mealPlan.meals.breakfastB), 170);
                         doc.text(linesB, 25, yPos);
                         yPos += linesB.length * (contentSize * 0.4) + 3;
                     }
@@ -1865,7 +1871,7 @@
                         doc.text('Option C:', 20, yPos);
                         yPos += 5;
                         doc.setFont('helvetica', 'normal');
-                        const linesC = doc.splitTextToSize(formData.mealPlan.meals.breakfastC, 170);
+                        const linesC = doc.splitTextToSize(sanitizeForPdf(formData.mealPlan.meals.breakfastC), 170);
                         doc.text(linesC, 25, yPos);
                         yPos += linesC.length * (contentSize * 0.4) + 4;
                     }
@@ -1876,13 +1882,13 @@
                     yPos = 20;
                 }
                 
-                addMealSection('MID-MORNING SNACK (10:30-11:30 AM)', formData.mealPlan.meals.midMorning, '🍎');
+                addMealSection('MID-MORNING SNACK (10:30-11:30 AM)', formData.mealPlan.meals.midMorning);
                 
                 // Lunch with options
                 if (formData.mealPlan.meals.lunchA) {
                     doc.setFontSize(headingSize);
                     doc.setFont('helvetica', 'bold');
-                    doc.text('🍽️ LUNCH (1:00-2:00 PM)', 15, yPos);
+                    doc.text('LUNCH (1:00-2:00 PM)', 15, yPos);
                     yPos += 7;
                     
                     doc.setFontSize(contentSize);
@@ -1890,7 +1896,7 @@
                     doc.text('Option A:', 20, yPos);
                     yPos += 5;
                     doc.setFont('helvetica', 'normal');
-                    const linesA = doc.splitTextToSize(formData.mealPlan.meals.lunchA, 170);
+                    const linesA = doc.splitTextToSize(sanitizeForPdf(formData.mealPlan.meals.lunchA), 170);
                     doc.text(linesA, 25, yPos);
                     yPos += linesA.length * (contentSize * 0.4) + 3;
                     
@@ -1899,7 +1905,7 @@
                         doc.text('Option B:', 20, yPos);
                         yPos += 5;
                         doc.setFont('helvetica', 'normal');
-                        const linesB = doc.splitTextToSize(formData.mealPlan.meals.lunchB, 170);
+                        const linesB = doc.splitTextToSize(sanitizeForPdf(formData.mealPlan.meals.lunchB), 170);
                         doc.text(linesB, 25, yPos);
                         yPos += linesB.length * (contentSize * 0.4) + 4;
                     }
@@ -1910,8 +1916,8 @@
                     yPos = 20;
                 }
                 
-                addMealSection('EVENING SNACK (4:00-5:00 PM)', formData.mealPlan.meals.eveningSnack, '🍪');
-                addMealSection('BEFORE DINNER (7:00-8:00 PM)', formData.mealPlan.meals.beforeDinner, '🥗');
+                addMealSection('EVENING SNACK (4:00-5:00 PM)', formData.mealPlan.meals.eveningSnack);
+                addMealSection('BEFORE DINNER (7:00-8:00 PM)', formData.mealPlan.meals.beforeDinner);
                 
                 // Dinner with options
                 if (formData.mealPlan.meals.dinnerA) {
@@ -1922,7 +1928,7 @@
                     
                     doc.setFontSize(headingSize);
                     doc.setFont('helvetica', 'bold');
-                    doc.text('🌙 DINNER (8:30-9:30 PM)', 15, yPos);
+                    doc.text('DINNER (8:30-9:30 PM)', 15, yPos);
                     yPos += 7;
                     
                     doc.setFontSize(contentSize);
@@ -1930,7 +1936,7 @@
                     doc.text('Option A:', 20, yPos);
                     yPos += 5;
                     doc.setFont('helvetica', 'normal');
-                    const linesA = doc.splitTextToSize(formData.mealPlan.meals.dinnerA, 170);
+                    const linesA = doc.splitTextToSize(sanitizeForPdf(formData.mealPlan.meals.dinnerA), 170);
                     doc.text(linesA, 25, yPos);
                     yPos += linesA.length * (contentSize * 0.4) + 3;
                     
@@ -1939,7 +1945,7 @@
                         doc.text('Option B:', 20, yPos);
                         yPos += 5;
                         doc.setFont('helvetica', 'normal');
-                        const linesB = doc.splitTextToSize(formData.mealPlan.meals.dinnerB, 170);
+                        const linesB = doc.splitTextToSize(sanitizeForPdf(formData.mealPlan.meals.dinnerB), 170);
                         doc.text(linesB, 25, yPos);
                         yPos += linesB.length * (contentSize * 0.4) + 4;
                     }
@@ -1961,23 +1967,23 @@
                 doc.setFontSize(contentSize);
                 doc.setFont('helvetica', 'bold');
                 doc.setTextColor(0, 0, 0);
-                doc.text('💧 Water Intake:', 15, yPos);
+                doc.text('Water Intake:', 15, yPos);
                 doc.setFont('helvetica', 'normal');
-                doc.text(formData.guidelines.waterIntake, 50, yPos);
+                doc.text(sanitizeForPdf(formData.guidelines.waterIntake), 50, yPos);
                 yPos += 7;
                 
                 doc.setFont('helvetica', 'bold');
-                doc.text('🥥 Coconut Oil:', 15, yPos);
+                doc.text('Coconut Oil:', 15, yPos);
                 doc.setFont('helvetica', 'normal');
-                doc.text(formData.guidelines.coconutOil, 50, yPos);
+                doc.text(sanitizeForPdf(formData.guidelines.coconutOil), 50, yPos);
                 yPos += 10;
                 
                 // Exercise
                 doc.setFont('helvetica', 'bold');
-                doc.text('🏃 Exercise Recommendation:', 15, yPos);
+                doc.text('Exercise Recommendation:', 15, yPos);
                 yPos += 6;
                 doc.setFont('helvetica', 'normal');
-                const exerciseLines = doc.splitTextToSize(formData.guidelines.exercise, 175);
+                const exerciseLines = doc.splitTextToSize(sanitizeForPdf(formData.guidelines.exercise), 175);
                 doc.text(exerciseLines, 20, yPos);
                 yPos += exerciseLines.length * (contentSize * 0.4) + 10;
                 
@@ -2012,7 +2018,7 @@
                             doc.addPage();
                             yPos = 20;
                         }
-                        const lines = doc.splitTextToSize(`• ${text}`, 175);
+                        const lines = doc.splitTextToSize(`- ${sanitizeForPdf(text)}`, 175);
                         doc.text(lines, 15, yPos);
                         yPos += lines.length * (contentSize * 0.35) + 3;
                     }
@@ -2029,13 +2035,13 @@
                     doc.setFont('helvetica', 'bold');
                     doc.setTextColor(239, 68, 68);
                     doc.setFontSize(headingSize);
-                    doc.text('🚫 Foods to Avoid:', 15, yPos);
+                    doc.text('Foods to Avoid:', 15, yPos);
                     yPos += 7;
                     
                     doc.setFont('helvetica', 'normal');
                     doc.setTextColor(0, 0, 0);
                     doc.setFontSize(contentSize);
-                    const avoidLines = doc.splitTextToSize(formData.guidelines.foodsToAvoid, 175);
+                    const avoidLines = doc.splitTextToSize(sanitizeForPdf(formData.guidelines.foodsToAvoid), 175);
                     doc.text(avoidLines, 20, yPos);
                     yPos += avoidLines.length * (contentSize * 0.4) + 5;
                 }
@@ -2051,13 +2057,13 @@
                     doc.setFont('helvetica', 'bold');
                     doc.setTextColor(24, 119, 242);
                     doc.setFontSize(headingSize);
-                    doc.text('📝 Special Instructions:', 15, yPos);
+                    doc.text('Special Instructions:', 15, yPos);
                     yPos += 7;
                     
                     doc.setFont('helvetica', 'normal');
                     doc.setTextColor(0, 0, 0);
                     doc.setFontSize(contentSize);
-                    const instructionLines = doc.splitTextToSize(formData.guidelines.specialInstructions, 175);
+                    const instructionLines = doc.splitTextToSize(sanitizeForPdf(formData.guidelines.specialInstructions), 175);
                     doc.text(instructionLines, 20, yPos);
                 }
                 
