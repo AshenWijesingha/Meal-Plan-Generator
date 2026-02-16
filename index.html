@@ -111,22 +111,39 @@
             right: 2rem;
             z-index: 1000;
         }
+
+        .step-scroll {
+            overflow-x: auto;
+            scrollbar-width: thin;
+        }
+
+        @media (max-width: 768px) {
+            .floating-save-btn {
+                bottom: 1rem;
+                right: 1rem;
+            }
+
+            .meal-time-title {
+                font-size: 0.95rem;
+                line-height: 1.25rem;
+            }
+        }
     </style>
 </head>
 <body class="min-h-screen">
     <!-- Header -->
-    <header class="bg-gradient-to-r from-blue-600 to-blue-700 text-white py-8 shadow-lg">
+    <header class="bg-gradient-to-r from-blue-600 to-blue-700 text-white py-6 md:py-8 shadow-lg">
         <div class="container mx-auto px-4">
-            <div class="flex items-center justify-between">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div class="flex items-center gap-4">
-                    <div class="text-6xl">🥗</div>
+                    <div class="text-4xl md:text-6xl">🥗</div>
                     <div>
-                        <h1 class="text-4xl font-bold">Meal Plan Generator</h1>
-                        <p class="text-blue-100 text-lg">Gayathri Dissanayaka - Dietitian & Nutritionist</p>
+                        <h1 class="text-2xl md:text-4xl font-bold">Meal Plan Generator</h1>
+                        <p class="text-blue-100 text-sm md:text-lg">Gayathri Dissanayaka - Dietitian & Nutritionist</p>
                         <p class="text-blue-200 text-sm mt-1">Professional Edition with Advanced Features</p>
                     </div>
                 </div>
-                <div class="text-right">
+                <div class="text-left md:text-right">
                     <div class="bg-white/20 px-4 py-2 rounded-lg">
                         <p class="text-sm">Version 1.0</p>
                         <p class="text-xs text-blue-100">All Features Included</p>
@@ -140,27 +157,38 @@
     <main class="container mx-auto px-4 py-8 max-w-7xl">
         
         <!-- Progress Steps -->
-        <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
-            <div class="flex justify-between items-center flex-wrap gap-4">
-                <div class="flex-1 min-w-[120px] text-center">
-                    <div class="w-14 h-14 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-2 font-bold text-lg">1</div>
-                    <span class="text-sm font-semibold text-blue-600">Patient Info</span>
+        <div class="bg-white rounded-xl shadow-lg p-4 md:p-6 mb-6">
+            <div class="step-scroll">
+                <div class="flex justify-between items-center gap-3 min-w-[660px] md:min-w-0">
+                    <div class="flex-1 min-w-[120px] text-center">
+                        <div class="w-14 h-14 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-2 font-bold text-lg">1</div>
+                        <span class="text-sm font-semibold text-blue-600">Patient Info</span>
+                    </div>
+                    <div class="flex-1 min-w-[120px] text-center">
+                        <div class="w-14 h-14 bg-gray-300 text-white rounded-full flex items-center justify-center mx-auto mb-2 font-bold text-lg" id="step2-icon">2</div>
+                        <span class="text-sm text-gray-500 font-medium" id="step2-label">Measurements</span>
+                    </div>
+                    <div class="flex-1 min-w-[120px] text-center">
+                        <div class="w-14 h-14 bg-gray-300 text-white rounded-full flex items-center justify-center mx-auto mb-2 font-bold text-lg" id="step3-icon">3</div>
+                        <span class="text-sm text-gray-500 font-medium" id="step3-label">Meal Plan</span>
+                    </div>
+                    <div class="flex-1 min-w-[120px] text-center">
+                        <div class="w-14 h-14 bg-gray-300 text-white rounded-full flex items-center justify-center mx-auto mb-2 font-bold text-lg" id="step4-icon">4</div>
+                        <span class="text-sm text-gray-500 font-medium" id="step4-label">Guidelines</span>
+                    </div>
+                    <div class="flex-1 min-w-[120px] text-center">
+                        <div class="w-14 h-14 bg-gray-300 text-white rounded-full flex items-center justify-center mx-auto mb-2 font-bold text-lg" id="step5-icon">5</div>
+                        <span class="text-sm text-gray-500 font-medium" id="step5-label">Generate PDF</span>
+                    </div>
                 </div>
-                <div class="flex-1 min-w-[120px] text-center">
-                    <div class="w-14 h-14 bg-gray-300 text-white rounded-full flex items-center justify-center mx-auto mb-2 font-bold text-lg" id="step2-icon">2</div>
-                    <span class="text-sm text-gray-500 font-medium" id="step2-label">Measurements</span>
+            </div>
+            <div class="mt-5">
+                <div class="flex items-center justify-between text-xs text-gray-600 mb-1">
+                    <span>Overall progress</span>
+                    <span id="progressPercent">20%</span>
                 </div>
-                <div class="flex-1 min-w-[120px] text-center">
-                    <div class="w-14 h-14 bg-gray-300 text-white rounded-full flex items-center justify-center mx-auto mb-2 font-bold text-lg" id="step3-icon">3</div>
-                    <span class="text-sm text-gray-500 font-medium" id="step3-label">Meal Plan</span>
-                </div>
-                <div class="flex-1 min-w-[120px] text-center">
-                    <div class="w-14 h-14 bg-gray-300 text-white rounded-full flex items-center justify-center mx-auto mb-2 font-bold text-lg" id="step4-icon">4</div>
-                    <span class="text-sm text-gray-500 font-medium" id="step4-label">Guidelines</span>
-                </div>
-                <div class="flex-1 min-w-[120px] text-center">
-                    <div class="w-14 h-14 bg-gray-300 text-white rounded-full flex items-center justify-center mx-auto mb-2 font-bold text-lg" id="step5-icon">5</div>
-                    <span class="text-sm text-gray-500 font-medium" id="step5-label">Generate PDF</span>
+                <div class="w-full h-2 rounded-full bg-gray-200 overflow-hidden">
+                    <div id="progressBar" class="h-full bg-blue-600 transition-all duration-300" style="width: 20%;"></div>
                 </div>
             </div>
         </div>
@@ -344,6 +372,7 @@
                                 max="300"
                                 step="0.1"
                                 required
+                                oninput="calculateBMI()"
                             >
                             <span class="text-gray-500 text-xs mt-1 block">Your weight goal</span>
                         </div>
@@ -366,7 +395,7 @@
                             </div>
                             <div>
                                 <div class="text-6xl font-bold text-orange-600 mb-2" id="weightToLose">--</div>
-                                <div class="text-lg font-semibold text-gray-700">Weight to Lose</div>
+                                <div class="text-lg font-semibold text-gray-700" id="weightGoalLabel">Target Weight Change</div>
                                 <div class="text-sm text-gray-500 mt-2" id="timelineEstimate">--</div>
                             </div>
                         </div>
@@ -485,6 +514,45 @@
                             >
                         </div>
                     </div>
+
+                    <!-- Plate Ratio Configuration -->
+                    <div class="mb-8 p-5 md:p-6 border-2 border-gray-200 rounded-xl bg-gradient-to-br from-white to-blue-50">
+                        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-3">
+                            <h3 class="text-xl md:text-2xl font-bold text-gray-800">🍽️ Meal Plate Ratio</h3>
+                            <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 bg-white px-3 py-2 rounded-lg border">
+                                <input type="checkbox" id="includeMealPlatePdf" class="checkbox-custom" checked onchange="updateMealPlateChart()">
+                                Include meal plate in PDF
+                            </label>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-5">Customize plate percentages for a professional plate model. Keep total at 100%.</p>
+
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
+                            <div class="space-y-4">
+                                <div>
+                                    <label for="plateVegetables" class="block text-sm font-semibold text-gray-700 mb-2">Vegetables & Fruits (%)</label>
+                                    <input type="number" id="plateVegetables" min="0" max="100" value="50" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition" oninput="updateMealPlateChart()">
+                                </div>
+                                <div>
+                                    <label for="plateProtein" class="block text-sm font-semibold text-gray-700 mb-2">Protein Foods (%)</label>
+                                    <input type="number" id="plateProtein" min="0" max="100" value="25" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition" oninput="updateMealPlateChart()">
+                                </div>
+                                <div>
+                                    <label for="plateGrains" class="block text-sm font-semibold text-gray-700 mb-2">Whole Grains / Carbs (%)</label>
+                                    <input type="number" id="plateGrains" min="0" max="100" value="25" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition" oninput="updateMealPlateChart()">
+                                </div>
+                                <div class="bg-white border rounded-lg p-3">
+                                    <p class="text-sm text-gray-700">Total: <span id="plateTotal" class="font-bold text-blue-700">100%</span></p>
+                                    <p id="plateTotalError" class="text-sm text-red-600 mt-1 hidden">Plate total must equal 100% (required only when included in PDF).</p>
+                                </div>
+                            </div>
+
+                            <div class="flex justify-center">
+                                <div class="bg-white border rounded-xl p-4 shadow-sm">
+                                    <canvas id="mealPlateCanvas" width="200" height="200" class="w-[180px] h-[180px]"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     
                     <h3 class="text-2xl font-bold text-gray-800 mb-6">📝 Daily Meal Schedule</h3>
                     
@@ -492,8 +560,8 @@
                     <div class="space-y-4">
                         <!-- Early Morning -->
                         <div class="border-2 border-gray-300 rounded-lg overflow-hidden">
-                            <button type="button" onclick="toggleSection('earlyMorningSection')" class="w-full px-6 py-4 bg-gradient-to-r from-yellow-50 to-orange-50 hover:from-yellow-100 hover:to-orange-100 text-left font-bold flex justify-between items-center transition">
-                                <span class="text-lg">🌅 Early Morning (7:00 - 7:30 AM)</span>
+                            <button type="button" onclick="toggleSection('earlyMorningSection')" class="w-full px-6 py-4 bg-gradient-to-r from-yellow-50 to-orange-50 hover:from-yellow-100 hover:to-orange-100 text-left font-bold flex justify-between items-center transition" aria-expanded="false" aria-controls="earlyMorningSection">
+                                <span class="meal-time-title text-lg">🌅 Early Morning (7:00 - 7:30 AM)</span>
                                 <i class="fas fa-chevron-down transition-transform" id="earlyMorningIcon"></i>
                             </button>
                             <div id="earlyMorningSection" class="p-6 bg-white" style="display: none;">
@@ -508,8 +576,8 @@
                         
                         <!-- Breakfast -->
                         <div class="border-2 border-gray-300 rounded-lg overflow-hidden">
-                            <button type="button" onclick="toggleSection('breakfastSection')" class="w-full px-6 py-4 bg-gradient-to-r from-amber-50 to-yellow-50 hover:from-amber-100 hover:to-yellow-100 text-left font-bold flex justify-between items-center transition">
-                                <span class="text-lg">☕ Breakfast (8:00 - 9:00 AM)</span>
+                            <button type="button" onclick="toggleSection('breakfastSection')" class="w-full px-6 py-4 bg-gradient-to-r from-amber-50 to-yellow-50 hover:from-amber-100 hover:to-yellow-100 text-left font-bold flex justify-between items-center transition" aria-expanded="false" aria-controls="breakfastSection">
+                                <span class="meal-time-title text-lg">☕ Breakfast (8:00 - 9:00 AM)</span>
                                 <i class="fas fa-chevron-down transition-transform" id="breakfastIcon"></i>
                             </button>
                             <div id="breakfastSection" class="p-6 bg-white" style="display: none;">
@@ -547,8 +615,8 @@
                         
                         <!-- Mid-Morning Snack -->
                         <div class="border-2 border-gray-300 rounded-lg overflow-hidden">
-                            <button type="button" onclick="toggleSection('midMorningSection')" class="w-full px-6 py-4 bg-gradient-to-r from-green-50 to-emerald-50 hover:from-green-100 hover:to-emerald-100 text-left font-bold flex justify-between items-center transition">
-                                <span class="text-lg">🍎 Mid-Morning Snack (10:30 - 11:30 AM)</span>
+                            <button type="button" onclick="toggleSection('midMorningSection')" class="w-full px-6 py-4 bg-gradient-to-r from-green-50 to-emerald-50 hover:from-green-100 hover:to-emerald-100 text-left font-bold flex justify-between items-center transition" aria-expanded="false" aria-controls="midMorningSection">
+                                <span class="meal-time-title text-lg">🍎 Mid-Morning Snack (10:30 - 11:30 AM)</span>
                                 <i class="fas fa-chevron-down transition-transform" id="midMorningIcon"></i>
                             </button>
                             <div id="midMorningSection" class="p-6 bg-white" style="display: none;">
@@ -563,8 +631,8 @@
                         
                         <!-- Lunch -->
                         <div class="border-2 border-gray-300 rounded-lg overflow-hidden">
-                            <button type="button" onclick="toggleSection('lunchSection')" class="w-full px-6 py-4 bg-gradient-to-r from-blue-50 to-cyan-50 hover:from-blue-100 hover:to-cyan-100 text-left font-bold flex justify-between items-center transition">
-                                <span class="text-lg">🍽️ Lunch (1:00 - 2:00 PM)</span>
+                            <button type="button" onclick="toggleSection('lunchSection')" class="w-full px-6 py-4 bg-gradient-to-r from-blue-50 to-cyan-50 hover:from-blue-100 hover:to-cyan-100 text-left font-bold flex justify-between items-center transition" aria-expanded="false" aria-controls="lunchSection">
+                                <span class="meal-time-title text-lg">🍽️ Lunch (1:00 - 2:00 PM)</span>
                                 <i class="fas fa-chevron-down transition-transform" id="lunchIcon"></i>
                             </button>
                             <div id="lunchSection" class="p-6 bg-white" style="display: none;">
@@ -593,8 +661,8 @@
                         
                         <!-- Evening Snack -->
                         <div class="border-2 border-gray-300 rounded-lg overflow-hidden">
-                            <button type="button" onclick="toggleSection('eveningSnackSection')" class="w-full px-6 py-4 bg-gradient-to-r from-orange-50 to-red-50 hover:from-orange-100 hover:to-red-100 text-left font-bold flex justify-between items-center transition">
-                                <span class="text-lg">🍪 Evening Snack (4:00 - 5:00 PM)</span>
+                            <button type="button" onclick="toggleSection('eveningSnackSection')" class="w-full px-6 py-4 bg-gradient-to-r from-orange-50 to-red-50 hover:from-orange-100 hover:to-red-100 text-left font-bold flex justify-between items-center transition" aria-expanded="false" aria-controls="eveningSnackSection">
+                                <span class="meal-time-title text-lg">🍪 Evening Snack (4:00 - 5:00 PM)</span>
                                 <i class="fas fa-chevron-down transition-transform" id="eveningSnackIcon"></i>
                             </button>
                             <div id="eveningSnackSection" class="p-6 bg-white" style="display: none;">
@@ -609,8 +677,8 @@
                         
                         <!-- Before Dinner -->
                         <div class="border-2 border-gray-300 rounded-lg overflow-hidden">
-                            <button type="button" onclick="toggleSection('beforeDinnerSection')" class="w-full px-6 py-4 bg-gradient-to-r from-teal-50 to-green-50 hover:from-teal-100 hover:to-green-100 text-left font-bold flex justify-between items-center transition">
-                                <span class="text-lg">🥗 Before Dinner (7:00 - 8:00 PM)</span>
+                            <button type="button" onclick="toggleSection('beforeDinnerSection')" class="w-full px-6 py-4 bg-gradient-to-r from-teal-50 to-green-50 hover:from-teal-100 hover:to-green-100 text-left font-bold flex justify-between items-center transition" aria-expanded="false" aria-controls="beforeDinnerSection">
+                                <span class="meal-time-title text-lg">🥗 Before Dinner (7:00 - 8:00 PM)</span>
                                 <i class="fas fa-chevron-down transition-transform" id="beforeDinnerIcon"></i>
                             </button>
                             <div id="beforeDinnerSection" class="p-6 bg-white" style="display: none;">
@@ -625,8 +693,8 @@
                         
                         <!-- Dinner -->
                         <div class="border-2 border-gray-300 rounded-lg overflow-hidden">
-                            <button type="button" onclick="toggleSection('dinnerSection')" class="w-full px-6 py-4 bg-gradient-to-r from-indigo-50 to-purple-50 hover:from-indigo-100 hover:to-purple-100 text-left font-bold flex justify-between items-center transition">
-                                <span class="text-lg">🌙 Dinner (8:30 - 9:30 PM)</span>
+                            <button type="button" onclick="toggleSection('dinnerSection')" class="w-full px-6 py-4 bg-gradient-to-r from-indigo-50 to-purple-50 hover:from-indigo-100 hover:to-purple-100 text-left font-bold flex justify-between items-center transition" aria-expanded="false" aria-controls="dinnerSection">
+                                <span class="meal-time-title text-lg">🌙 Dinner (8:30 - 9:30 PM)</span>
                                 <i class="fas fa-chevron-down transition-transform" id="dinnerIcon"></i>
                             </button>
                             <div id="dinnerSection" class="p-6 bg-white" style="display: none;">
@@ -664,7 +732,7 @@
                         </button>
                         <button 
                             type="button" 
-                            onclick="goToStep(4)"
+                            onclick="validateAndNext(3)"
                             class="bg-blue-600 hover:bg-blue-700 text-white px-10 py-4 rounded-lg font-semibold flex items-center gap-2 transition shadow-lg hover:shadow-xl"
                         >
                             Next Step <i class="fas fa-arrow-right"></i>
@@ -803,7 +871,7 @@
                         </button>
                         <button 
                             type="button" 
-                            onclick="goToStep(5)"
+                            onclick="validateAndNext(4)"
                             class="bg-blue-600 hover:bg-blue-700 text-white px-10 py-4 rounded-lg font-semibold flex items-center gap-2 transition shadow-lg hover:shadow-xl"
                         >
                             Next Step <i class="fas fa-arrow-right"></i>
@@ -1076,6 +1144,7 @@
         
         // Current step
         let currentStep = 1;
+        let autoSaveTimer;
         
         // Navigate to step
         function goToStep(stepNumber) {
@@ -1116,6 +1185,12 @@
                     }
                 }
             }
+
+            const progress = Math.round((activeStep / 5) * 100);
+            const progressBar = document.getElementById('progressBar');
+            const progressPercent = document.getElementById('progressPercent');
+            if (progressBar) progressBar.style.width = `${progress}%`;
+            if (progressPercent) progressPercent.textContent = `${progress}%`;
         }
         
         // Validation and next
@@ -1179,6 +1254,57 @@
                     isValid = false;
                 }
             }
+
+            if (step === 3) {
+                const calorieTarget = document.getElementById('calorieTarget');
+                const planDuration = document.getElementById('planDuration');
+                const hasMealContent = [
+                    'earlyMorning', 'breakfastA', 'breakfastB', 'breakfastC',
+                    'midMorning', 'lunchA', 'lunchB', 'eveningSnack', 'beforeDinner', 'dinnerA', 'dinnerB'
+                ].some((id) => document.getElementById(id).value.trim().length > 0);
+
+                if (!calorieTarget.value || calorieTarget.value < 1000 || calorieTarget.value > 5000) {
+                    showValidationError(calorieTarget, null);
+                    isValid = false;
+                }
+
+                if (!planDuration.value || planDuration.value < 1 || planDuration.value > 30) {
+                    showValidationError(planDuration, null);
+                    isValid = false;
+                }
+
+                const plateData = getMealPlatePercentages();
+                const includePlateInPdf = document.getElementById('includeMealPlatePdf').checked;
+                if (includePlateInPdf && plateData.total !== 100) {
+                    isValid = false;
+                    document.getElementById('plateTotalError').classList.remove('hidden');
+                }
+
+                if (!hasMealContent) {
+                    isValid = false;
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Add at least one meal entry',
+                        text: 'Please provide content for at least one meal section before continuing.',
+                        confirmButtonColor: '#1877F2'
+                    });
+                }
+            }
+
+            if (step === 4) {
+                const waterIntake = document.getElementById('waterIntake');
+                const exerciseRecommendation = document.getElementById('exerciseRecommendation');
+
+                if (!waterIntake.value.trim()) {
+                    showValidationError(waterIntake, null);
+                    isValid = false;
+                }
+
+                if (!exerciseRecommendation.value.trim()) {
+                    showValidationError(exerciseRecommendation, null);
+                    isValid = false;
+                }
+            }
             
             if (isValid) {
                 goToStep(step + 1);
@@ -1227,14 +1353,25 @@
         function toggleSection(sectionId) {
             const section = document.getElementById(sectionId);
             const icon = document.getElementById(sectionId.replace('Section', 'Icon'));
+            const triggerButton = document.querySelector(`button[aria-controls="${sectionId}"]`);
             
             if (section.style.display === 'none' || section.style.display === '') {
                 section.style.display = 'block';
                 if (icon) icon.style.transform = 'rotate(180deg)';
+                if (triggerButton) triggerButton.setAttribute('aria-expanded', 'true');
             } else {
                 section.style.display = 'none';
                 if (icon) icon.style.transform = 'rotate(0deg)';
+                if (triggerButton) triggerButton.setAttribute('aria-expanded', 'false');
             }
+        }
+
+        function autoSaveDraft() {
+            clearTimeout(autoSaveTimer);
+            autoSaveTimer = setTimeout(() => {
+                const formData = collectFormData();
+                localStorage.setItem('mealPlanDraft', JSON.stringify(formData));
+            }, 400);
         }
         
         // Calculate BMI
@@ -1242,7 +1379,8 @@
             const height = parseFloat(document.getElementById('patientHeight').value);
             const weight = parseFloat(document.getElementById('patientWeight').value);
             const gender = document.getElementById('patientGender').value;
-            const targetWeight = parseFloat(document.getElementById('targetWeight').value) || weight;
+            const targetWeightInput = parseFloat(document.getElementById('targetWeight').value);
+            const targetWeight = Number.isFinite(targetWeightInput) ? targetWeightInput : null;
             
             if (height && weight && height > 0 && weight > 0) {
                 const heightInMeters = height / 100;
@@ -1275,17 +1413,35 @@
                     badgeClass = 'bg-red-100 text-red-800';
                 }
                 
-                // Weight to lose
-                const weightToLose = Math.max(0, weight - targetWeight).toFixed(1);
-                const weeksToGoal = Math.ceil(weightToLose / 0.5); // 0.5 kg per week
-                const monthsToGoal = Math.ceil(weeksToGoal / 4);
+                // Target weight change
+                const weightGoalLabel = document.getElementById('weightGoalLabel');
+                const weightDiff = targetWeight !== null ? (weight - targetWeight) : null;
+                const absDiff = weightDiff !== null ? Math.abs(weightDiff) : 0;
+                const weeksToGoal = absDiff > 0 ? Math.ceil(absDiff / 0.5) : 0; // 0.5 kg per week
+                const monthsToGoal = weeksToGoal > 0 ? Math.ceil(weeksToGoal / 4) : 0;
                 
                 // Display
                 document.getElementById('bmiValue').textContent = bmi;
                 document.getElementById('ibwValue').textContent = ibw;
-                document.getElementById('weightToLose').textContent = weightToLose + ' kg';
-                document.getElementById('timelineEstimate').textContent = 
-                    weightToLose > 0 ? `Approx. ${monthsToGoal} month${monthsToGoal > 1 ? 's' : ''}` : 'At target!';
+
+                if (targetWeight === null) {
+                    document.getElementById('weightToLose').textContent = '--';
+                    document.getElementById('timelineEstimate').textContent = 'Enter target weight';
+                    if (weightGoalLabel) weightGoalLabel.textContent = 'Target Weight Change';
+                } else if (weightDiff > 0) {
+                    document.getElementById('weightToLose').textContent = absDiff.toFixed(1) + ' kg';
+                    document.getElementById('timelineEstimate').textContent = `Approx. ${monthsToGoal} month${monthsToGoal > 1 ? 's' : ''} to lose`;
+                    if (weightGoalLabel) weightGoalLabel.textContent = 'Weight to Lose';
+                } else if (weightDiff < 0) {
+                    document.getElementById('weightToLose').textContent = absDiff.toFixed(1) + ' kg';
+                    document.getElementById('timelineEstimate').textContent = `Approx. ${monthsToGoal} month${monthsToGoal > 1 ? 's' : ''} to gain`;
+                    if (weightGoalLabel) weightGoalLabel.textContent = 'Weight to Gain';
+                } else {
+                    document.getElementById('weightToLose').textContent = '0.0 kg';
+                    document.getElementById('timelineEstimate').textContent = 'At target!';
+                    if (weightGoalLabel) weightGoalLabel.textContent = 'Target Weight Change';
+                }
+
                 document.getElementById('bmiCategoryBadge').textContent = category;
                 document.getElementById('bmiCategoryBadge').className = `px-4 py-1 rounded-full text-sm font-semibold ${badgeClass}`;
                 document.getElementById('bmiDisplay').style.display = 'block';
@@ -1300,7 +1456,102 @@
             }
         }
         
-        // Font size customization
+        function getMealPlatePercentages() {
+            const vegetables = parseInt(document.getElementById('plateVegetables').value, 10) || 0;
+            const protein = parseInt(document.getElementById('plateProtein').value, 10) || 0;
+            const grains = parseInt(document.getElementById('plateGrains').value, 10) || 0;
+            return { vegetables, protein, grains, total: vegetables + protein + grains };
+        }
+
+        function updateMealPlateChart() {
+            const canvas = document.getElementById('mealPlateCanvas');
+            if (!canvas) return;
+
+            const ctx = canvas.getContext('2d');
+            const { vegetables, protein, grains, total } = getMealPlatePercentages();
+            const totalLabel = document.getElementById('plateTotal');
+            const errorLabel = document.getElementById('plateTotalError');
+            const includePlateInPdf = document.getElementById('includeMealPlatePdf')?.checked;
+
+            if (totalLabel) {
+                totalLabel.textContent = `${total}%`;
+                totalLabel.className = `font-bold ${total === 100 ? 'text-green-700' : 'text-red-700'}`;
+            }
+            if (errorLabel) {
+                const hasError = includePlateInPdf && total !== 100;
+                errorLabel.classList.toggle('hidden', !hasError);
+            }
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const radius = 78;
+            const holeRadius = 35;
+            const colors = ['#8FB867', '#67B4E8', '#F1C75C'];
+            const values = [vegetables, protein, grains];
+            const labels = ['Veg/Fruits', 'Protein', 'Grains'];
+
+            let startAngle = -Math.PI / 2;
+            values.forEach((value, i) => {
+                const angle = total > 0 ? (value / total) * Math.PI * 2 : 0;
+
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.arc(centerX, centerY, radius, startAngle, startAngle + angle);
+                ctx.closePath();
+                ctx.fillStyle = colors[i];
+                ctx.fill();
+
+                // clean white separator for professional look
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.arc(centerX, centerY, radius, startAngle, startAngle + angle);
+                ctx.closePath();
+                ctx.lineWidth = 3;
+                ctx.strokeStyle = '#ffffff';
+                ctx.stroke();
+
+                const midAngle = startAngle + angle / 2;
+                const textX = centerX + Math.cos(midAngle) * (radius - 25);
+                const textY = centerY + Math.sin(midAngle) * (radius - 25);
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 12px Inter, Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(`${value}%`, textX, textY);
+
+                startAngle += angle;
+            });
+
+            // donut center
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, holeRadius, 0, Math.PI * 2);
+            ctx.fillStyle = '#ffffff';
+            ctx.fill();
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = '#E5E7EB';
+            ctx.stroke();
+
+            ctx.fillStyle = '#111827';
+            ctx.font = 'bold 11px Inter, Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('FOOD', centerX, centerY - 4);
+            ctx.fillText('PLATE', centerX, centerY + 12);
+
+            // compact legend
+            ctx.font = '11px Inter, Arial';
+            ctx.fillStyle = '#374151';
+            labels.forEach((label, i) => {
+                const y = 16 + (i * 13);
+                ctx.fillStyle = colors[i];
+                ctx.fillRect(12, y - 7, 8, 8);
+                ctx.fillStyle = '#374151';
+                ctx.textAlign = 'left';
+                ctx.fillText(`${label}: ${values[i]}%`, 24, y);
+            });
+        }
+        
+                // Font size customization
         function applyFontSizePreset() {
             const preset = document.getElementById('pdfFontSizePreset').value;
             
@@ -1379,6 +1630,12 @@
                         beforeDinner: document.getElementById('beforeDinner').value,
                         dinnerA: document.getElementById('dinnerA').value,
                         dinnerB: document.getElementById('dinnerB').value
+                    },
+                    mealPlate: {
+                        vegetables: document.getElementById('plateVegetables').value,
+                        protein: document.getElementById('plateProtein').value,
+                        grains: document.getElementById('plateGrains').value,
+                        includeInPdf: document.getElementById('includeMealPlatePdf').checked
                     }
                 },
                 guidelines: {
@@ -1453,6 +1710,13 @@
                         document.getElementById('dinnerA').value = data.mealPlan.meals.dinnerA || '';
                         document.getElementById('dinnerB').value = data.mealPlan.meals.dinnerB || '';
                     }
+
+                    if (data.mealPlan.mealPlate) {
+                        document.getElementById('plateVegetables').value = data.mealPlan.mealPlate.vegetables ?? 50;
+                        document.getElementById('plateProtein').value = data.mealPlan.mealPlate.protein ?? 25;
+                        document.getElementById('plateGrains').value = data.mealPlan.mealPlate.grains ?? 25;
+                        document.getElementById('includeMealPlatePdf').checked = data.mealPlan.mealPlate.includeInPdf ?? true;
+                    }
                 }
                 
                 // Load guidelines
@@ -1488,6 +1752,7 @@
                 }
                 
                 calculateBMI();
+                updateMealPlateChart();
                 
                 Swal.fire({
                     icon: 'success',
@@ -1519,6 +1784,14 @@
                     document.getElementById('mealPlanForm').reset();
                     document.getElementById('planDate').valueAsDate = new Date();
                     document.getElementById('bmiDisplay').style.display = 'none';
+                    localStorage.removeItem('mealPlanData');
+                    localStorage.removeItem('mealPlanDraft');
+                    document.getElementById('templateImportInput').value = '';
+                    document.getElementById('plateVegetables').value = 50;
+                    document.getElementById('plateProtein').value = 25;
+                    document.getElementById('plateGrains').value = 25;
+                    document.getElementById('includeMealPlatePdf').checked = true;
+                    updateMealPlateChart();
                     goToStep(1);
                     
                     Swal.fire({
@@ -1591,6 +1864,15 @@
         
         // Generate PDF - COMPREHENSIVE VERSION WITH FONT SIZE CUSTOMIZATION
         async function generatePDF() {
+            if (!window.jspdf || !window.jspdf.jsPDF) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'PDF library not available',
+                    text: 'Please check your internet connection and reload the page to generate PDFs.'
+                });
+                return;
+            }
+
             Swal.fire({
                 title: 'Generating PDF...',
                 html: 'Creating your personalized meal plan document',
@@ -1622,35 +1904,41 @@
                 const bmi = formData.measurements.bmi;
                 
                 let yPos = 15;
+
+                const sanitizeForPdf = (value = '') => String(value).replace(/[^\x20-\x7E\n\r\t]/g, '');
                 
                 // Professional Letterhead
                 doc.setFillColor(24, 119, 242);
                 doc.rect(0, 0, 210, 45, 'F');
                 
-                // Emoji logo
-                doc.setFontSize(28);
-                doc.text('🥗', 15, 25);
+                // PDF-safe logo badge (avoids unsupported emoji glyphs)
+                doc.setFillColor(255, 255, 255);
+                doc.circle(20, 20, 8, 'F');
+                doc.setTextColor(24, 119, 242);
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(10);
+                doc.text('MP', 20, 22, { align: 'center' });
                 
                 // Nutritionist name
                 doc.setTextColor(255, 255, 255);
                 doc.setFontSize(titleSize);
                 doc.setFont('helvetica', 'bold');
-                doc.text(formData.nutritionist.name, 40, 18);
+                doc.text(sanitizeForPdf(formData.nutritionist.name), 40, 18);
                 
                 // Credentials
                 doc.setFontSize(subheadingSize);
                 doc.setFont('helvetica', 'normal');
-                doc.text(formData.nutritionist.credentials, 40, 26);
+                doc.text(sanitizeForPdf(formData.nutritionist.credentials), 40, 26);
                 
                 // Contact
                 if (formData.nutritionist.phone || formData.nutritionist.email) {
                     doc.setFontSize(contentSize - 1);
-                    doc.text(`${formData.nutritionist.phone || ''} ${formData.nutritionist.email ? '| ' + formData.nutritionist.email : ''}`, 40, 33);
+                    doc.text(sanitizeForPdf(`${formData.nutritionist.phone || ''} ${formData.nutritionist.email ? '| ' + formData.nutritionist.email : ''}`), 40, 33);
                 }
                 
                 if (formData.nutritionist.address) {
                     doc.setFontSize(contentSize - 2);
-                    doc.text(formData.nutritionist.address.substring(0, 80), 40, 39);
+                    doc.text(sanitizeForPdf(formData.nutritionist.address.substring(0, 80)), 40, 39);
                 }
                 
                 yPos = 55;
@@ -1670,15 +1958,15 @@
                 doc.setTextColor(0, 0, 0);
                 doc.setFontSize(headingSize);
                 doc.setFont('helvetica', 'bold');
-                doc.text(`Patient: ${name}`, 20, yPos + 8);
+                doc.text(sanitizeForPdf(`Patient: ${name}`), 20, yPos + 8);
                 doc.text(`Date: ${new Date(date).toLocaleDateString()}`, 140, yPos + 8);
                 
                 doc.setFont('helvetica', 'normal');
                 doc.setFontSize(contentSize);
-                doc.text(`Age: ${age} years | Gender: ${gender}`, 20, yPos + 16);
-                doc.text(`Height: ${height} cm | Weight: ${weight} kg`, 20, yPos + 23);
-                doc.text(`BMI: ${bmi} kg/m² | Target: ${targetWeight} kg`, 110, yPos + 16);
-                doc.text(`Calories: ${formData.mealPlan.calorieTarget || 'Not set'} kcal/day`, 110, yPos + 23);
+                doc.text(sanitizeForPdf(`Age: ${age} years | Gender: ${gender}`), 20, yPos + 16);
+                doc.text(sanitizeForPdf(`Height: ${height} cm | Weight: ${weight} kg`), 20, yPos + 23);
+                doc.text(sanitizeForPdf(`BMI: ${bmi} kg/m2 | Target: ${targetWeight} kg`), 110, yPos + 16);
+                doc.text(sanitizeForPdf(`Calories: ${formData.mealPlan.calorieTarget || 'Not set'} kcal/day`), 110, yPos + 23);
                 
                 yPos += 38;
                 
@@ -1693,12 +1981,14 @@
                     if (prefs.length > 0) {
                         doc.setFontSize(contentSize - 1);
                         doc.setTextColor(101, 103, 107);
-                        doc.text(`Dietary Preferences: ${prefs.join(', ')}`, 20, yPos);
+                        doc.text(sanitizeForPdf(`Dietary Preferences: ${prefs.join(', ')}`), 20, yPos);
                         yPos += 8;
                     }
                 }
                 
-                // Meal Plan Section
+                // Meal Plan Section (always starts on a new page)
+                doc.addPage();
+                yPos = 20;
                 doc.setFontSize(titleSize);
                 doc.setFont('helvetica', 'bold');
                 doc.setTextColor(24, 119, 242);
@@ -1707,17 +1997,17 @@
                 yPos += 10;
                 
                 // Function to add meal section with custom font sizes
-                function addMealSection(title, content, icon = '') {
+                function addMealSection(title, content) {
                     if (content && content.trim() && yPos < 265) {
                         doc.setFontSize(headingSize);
                         doc.setFont('helvetica', 'bold');
                         doc.setTextColor(0, 0, 0);
-                        doc.text(`${icon} ${title}`, 15, yPos);
+                        doc.text(sanitizeForPdf(title), 15, yPos);
                         yPos += 7;
                         
                         doc.setFontSize(contentSize);
                         doc.setFont('helvetica', 'normal');
-                        const lines = doc.splitTextToSize(content, 175);
+                        const lines = doc.splitTextToSize(sanitizeForPdf(content), 175);
                         doc.text(lines, 20, yPos);
                         yPos += lines.length * (contentSize * 0.4) + 4;
                     }
@@ -1729,12 +2019,12 @@
                 }
                 
                 // Add all meal sections
-                addMealSection('EARLY MORNING (7:00-7:30 AM)', formData.mealPlan.meals.earlyMorning, '🌅');
+                addMealSection('EARLY MORNING (7:00-7:30 AM)', formData.mealPlan.meals.earlyMorning);
                 
                 if (formData.mealPlan.meals.breakfastA) {
                     doc.setFontSize(headingSize);
                     doc.setFont('helvetica', 'bold');
-                    doc.text('☕ BREAKFAST (8:00-9:00 AM)', 15, yPos);
+                    doc.text('BREAKFAST (8:00-9:00 AM)', 15, yPos);
                     yPos += 7;
                     
                     if (formData.mealPlan.meals.breakfastA) {
@@ -1743,7 +2033,7 @@
                         doc.text('Option A:', 20, yPos);
                         yPos += 5;
                         doc.setFont('helvetica', 'normal');
-                        const linesA = doc.splitTextToSize(formData.mealPlan.meals.breakfastA, 170);
+                        const linesA = doc.splitTextToSize(sanitizeForPdf(formData.mealPlan.meals.breakfastA), 170);
                         doc.text(linesA, 25, yPos);
                         yPos += linesA.length * (contentSize * 0.4) + 3;
                     }
@@ -1753,7 +2043,7 @@
                         doc.text('Option B:', 20, yPos);
                         yPos += 5;
                         doc.setFont('helvetica', 'normal');
-                        const linesB = doc.splitTextToSize(formData.mealPlan.meals.breakfastB, 170);
+                        const linesB = doc.splitTextToSize(sanitizeForPdf(formData.mealPlan.meals.breakfastB), 170);
                         doc.text(linesB, 25, yPos);
                         yPos += linesB.length * (contentSize * 0.4) + 3;
                     }
@@ -1763,7 +2053,7 @@
                         doc.text('Option C:', 20, yPos);
                         yPos += 5;
                         doc.setFont('helvetica', 'normal');
-                        const linesC = doc.splitTextToSize(formData.mealPlan.meals.breakfastC, 170);
+                        const linesC = doc.splitTextToSize(sanitizeForPdf(formData.mealPlan.meals.breakfastC), 170);
                         doc.text(linesC, 25, yPos);
                         yPos += linesC.length * (contentSize * 0.4) + 4;
                     }
@@ -1774,13 +2064,13 @@
                     yPos = 20;
                 }
                 
-                addMealSection('MID-MORNING SNACK (10:30-11:30 AM)', formData.mealPlan.meals.midMorning, '🍎');
+                addMealSection('MID-MORNING SNACK (10:30-11:30 AM)', formData.mealPlan.meals.midMorning);
                 
                 // Lunch with options
                 if (formData.mealPlan.meals.lunchA) {
                     doc.setFontSize(headingSize);
                     doc.setFont('helvetica', 'bold');
-                    doc.text('🍽️ LUNCH (1:00-2:00 PM)', 15, yPos);
+                    doc.text('LUNCH (1:00-2:00 PM)', 15, yPos);
                     yPos += 7;
                     
                     doc.setFontSize(contentSize);
@@ -1788,7 +2078,7 @@
                     doc.text('Option A:', 20, yPos);
                     yPos += 5;
                     doc.setFont('helvetica', 'normal');
-                    const linesA = doc.splitTextToSize(formData.mealPlan.meals.lunchA, 170);
+                    const linesA = doc.splitTextToSize(sanitizeForPdf(formData.mealPlan.meals.lunchA), 170);
                     doc.text(linesA, 25, yPos);
                     yPos += linesA.length * (contentSize * 0.4) + 3;
                     
@@ -1797,7 +2087,7 @@
                         doc.text('Option B:', 20, yPos);
                         yPos += 5;
                         doc.setFont('helvetica', 'normal');
-                        const linesB = doc.splitTextToSize(formData.mealPlan.meals.lunchB, 170);
+                        const linesB = doc.splitTextToSize(sanitizeForPdf(formData.mealPlan.meals.lunchB), 170);
                         doc.text(linesB, 25, yPos);
                         yPos += linesB.length * (contentSize * 0.4) + 4;
                     }
@@ -1808,8 +2098,8 @@
                     yPos = 20;
                 }
                 
-                addMealSection('EVENING SNACK (4:00-5:00 PM)', formData.mealPlan.meals.eveningSnack, '🍪');
-                addMealSection('BEFORE DINNER (7:00-8:00 PM)', formData.mealPlan.meals.beforeDinner, '🥗');
+                addMealSection('EVENING SNACK (4:00-5:00 PM)', formData.mealPlan.meals.eveningSnack);
+                addMealSection('BEFORE DINNER (7:00-8:00 PM)', formData.mealPlan.meals.beforeDinner);
                 
                 // Dinner with options
                 if (formData.mealPlan.meals.dinnerA) {
@@ -1820,7 +2110,7 @@
                     
                     doc.setFontSize(headingSize);
                     doc.setFont('helvetica', 'bold');
-                    doc.text('🌙 DINNER (8:30-9:30 PM)', 15, yPos);
+                    doc.text('DINNER (8:30-9:30 PM)', 15, yPos);
                     yPos += 7;
                     
                     doc.setFontSize(contentSize);
@@ -1828,7 +2118,7 @@
                     doc.text('Option A:', 20, yPos);
                     yPos += 5;
                     doc.setFont('helvetica', 'normal');
-                    const linesA = doc.splitTextToSize(formData.mealPlan.meals.dinnerA, 170);
+                    const linesA = doc.splitTextToSize(sanitizeForPdf(formData.mealPlan.meals.dinnerA), 170);
                     doc.text(linesA, 25, yPos);
                     yPos += linesA.length * (contentSize * 0.4) + 3;
                     
@@ -1837,7 +2127,7 @@
                         doc.text('Option B:', 20, yPos);
                         yPos += 5;
                         doc.setFont('helvetica', 'normal');
-                        const linesB = doc.splitTextToSize(formData.mealPlan.meals.dinnerB, 170);
+                        const linesB = doc.splitTextToSize(sanitizeForPdf(formData.mealPlan.meals.dinnerB), 170);
                         doc.text(linesB, 25, yPos);
                         yPos += linesB.length * (contentSize * 0.4) + 4;
                     }
@@ -1859,23 +2149,23 @@
                 doc.setFontSize(contentSize);
                 doc.setFont('helvetica', 'bold');
                 doc.setTextColor(0, 0, 0);
-                doc.text('💧 Water Intake:', 15, yPos);
+                doc.text('Water Intake:', 15, yPos);
                 doc.setFont('helvetica', 'normal');
-                doc.text(formData.guidelines.waterIntake, 50, yPos);
+                doc.text(sanitizeForPdf(formData.guidelines.waterIntake), 50, yPos);
                 yPos += 7;
                 
                 doc.setFont('helvetica', 'bold');
-                doc.text('🥥 Coconut Oil:', 15, yPos);
+                doc.text('Coconut Oil:', 15, yPos);
                 doc.setFont('helvetica', 'normal');
-                doc.text(formData.guidelines.coconutOil, 50, yPos);
+                doc.text(sanitizeForPdf(formData.guidelines.coconutOil), 50, yPos);
                 yPos += 10;
                 
                 // Exercise
                 doc.setFont('helvetica', 'bold');
-                doc.text('🏃 Exercise Recommendation:', 15, yPos);
+                doc.text('Exercise Recommendation:', 15, yPos);
                 yPos += 6;
                 doc.setFont('helvetica', 'normal');
-                const exerciseLines = doc.splitTextToSize(formData.guidelines.exercise, 175);
+                const exerciseLines = doc.splitTextToSize(sanitizeForPdf(formData.guidelines.exercise), 175);
                 doc.text(exerciseLines, 20, yPos);
                 yPos += exerciseLines.length * (contentSize * 0.4) + 10;
                 
@@ -1910,7 +2200,7 @@
                             doc.addPage();
                             yPos = 20;
                         }
-                        const lines = doc.splitTextToSize(`• ${text}`, 175);
+                        const lines = doc.splitTextToSize(`- ${sanitizeForPdf(text)}`, 175);
                         doc.text(lines, 15, yPos);
                         yPos += lines.length * (contentSize * 0.35) + 3;
                     }
@@ -1927,13 +2217,13 @@
                     doc.setFont('helvetica', 'bold');
                     doc.setTextColor(239, 68, 68);
                     doc.setFontSize(headingSize);
-                    doc.text('🚫 Foods to Avoid:', 15, yPos);
+                    doc.text('Foods to Avoid:', 15, yPos);
                     yPos += 7;
                     
                     doc.setFont('helvetica', 'normal');
                     doc.setTextColor(0, 0, 0);
                     doc.setFontSize(contentSize);
-                    const avoidLines = doc.splitTextToSize(formData.guidelines.foodsToAvoid, 175);
+                    const avoidLines = doc.splitTextToSize(sanitizeForPdf(formData.guidelines.foodsToAvoid), 175);
                     doc.text(avoidLines, 20, yPos);
                     yPos += avoidLines.length * (contentSize * 0.4) + 5;
                 }
@@ -1949,16 +2239,44 @@
                     doc.setFont('helvetica', 'bold');
                     doc.setTextColor(24, 119, 242);
                     doc.setFontSize(headingSize);
-                    doc.text('📝 Special Instructions:', 15, yPos);
+                    doc.text('Special Instructions:', 15, yPos);
                     yPos += 7;
                     
                     doc.setFont('helvetica', 'normal');
                     doc.setTextColor(0, 0, 0);
                     doc.setFontSize(contentSize);
-                    const instructionLines = doc.splitTextToSize(formData.guidelines.specialInstructions, 175);
+                    const instructionLines = doc.splitTextToSize(sanitizeForPdf(formData.guidelines.specialInstructions), 175);
                     doc.text(instructionLines, 20, yPos);
                 }
                 
+                // Optional meal plate chart on final page
+                const shouldIncludeMealPlate = formData.mealPlan.mealPlate?.includeInPdf;
+                if (shouldIncludeMealPlate) {
+                    const plateCanvas = document.getElementById('mealPlateCanvas');
+                    if (plateCanvas) {
+                        const plateImage = plateCanvas.toDataURL('image/png');
+                        doc.addPage();
+                        let plateY = 20;
+
+                        doc.setFontSize(headingSize + 1);
+                        doc.setTextColor(24, 119, 242);
+                        doc.setFont('helvetica', 'bold');
+                        doc.text('CUSTOM MEAL PLATE RATIO', 105, plateY, { align: 'center' });
+                        plateY += 8;
+
+                        doc.addImage(plateImage, 'PNG', 70, plateY, 70, 70);
+                        plateY += 82;
+
+                        const plate = formData.mealPlan.mealPlate || {};
+                        doc.setFont('helvetica', 'normal');
+                        doc.setTextColor(0, 0, 0);
+                        doc.setFontSize(contentSize);
+                        doc.text(sanitizeForPdf(`Vegetables/Fruits: ${plate.vegetables || 0}%`), 55, plateY);
+                        doc.text(sanitizeForPdf(`Protein: ${plate.protein || 0}%`), 55, plateY + 7);
+                        doc.text(sanitizeForPdf(`Whole Grains/Carbs: ${plate.grains || 0}%`), 55, plateY + 14);
+                    }
+                }
+
                 // Footer on all pages
                 const pageCount = doc.internal.getNumberOfPages();
                 for (let i = 1; i <= pageCount; i++) {
@@ -1996,6 +2314,18 @@
         
         // Initialize
         updateFontSizeDisplay();
+        updateMealPlateChart();
+        updateProgressIndicators(currentStep);
+        document.querySelectorAll('#mealPlanForm input, #mealPlanForm textarea, #mealPlanForm select').forEach((field) => {
+            field.addEventListener('input', autoSaveDraft);
+            field.addEventListener('change', autoSaveDraft);
+        });
+
+        const savedDraft = localStorage.getItem('mealPlanDraft');
+        if (savedDraft && !localStorage.getItem('mealPlanData')) {
+            localStorage.setItem('mealPlanData', savedDraft);
+            loadSavedData();
+        }
     </script>
 </body>
 </html>
