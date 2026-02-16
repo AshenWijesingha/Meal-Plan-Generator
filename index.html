@@ -1264,12 +1264,6 @@
                     isValid = false;
                 }
 
-                const plateData = getMealPlatePercentages();
-                if (plateData.total !== 100) {
-                    isValid = false;
-                    document.getElementById('plateTotalError').classList.remove('hidden');
-                }
-
                 if (!hasMealContent) {
                     isValid = false;
                     Swal.fire({
@@ -1738,10 +1732,6 @@
                     localStorage.removeItem('mealPlanData');
                     localStorage.removeItem('mealPlanDraft');
                     document.getElementById('templateImportInput').value = '';
-                    document.getElementById('plateVegetables').value = 50;
-                    document.getElementById('plateProtein').value = 25;
-                    document.getElementById('plateGrains').value = 25;
-                    updateMealPlateChart();
                     goToStep(1);
                     
                     Swal.fire({
@@ -2258,7 +2248,6 @@
         
         // Initialize
         updateFontSizeDisplay();
-        updateMealPlateChart();
         updateProgressIndicators(currentStep);
         document.querySelectorAll('#mealPlanForm input, #mealPlanForm textarea, #mealPlanForm select').forEach((field) => {
             field.addEventListener('input', autoSaveDraft);
