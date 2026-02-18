@@ -2004,6 +2004,32 @@
                 const { jsPDF } = window.jspdf;
                 const doc = new jsPDF({ unit: 'mm', format: 'a4' });
 
+                const isIOSSafari = () => {
+                    const ua = navigator.userAgent || '';
+                    const iOS = /iPad|iPhone|iPod/.test(ua)
+                        || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+                    const webkit = /WebKit/.test(ua);
+                    const excludedBrowsers = /CriOS|FxiOS|OPiOS|EdgiOS|DuckDuckGo|YaBrowser|Coast|GSA/.test(ua);
+                    return iOS && webkit && !excludedBrowsers;
+                };
+
+                const downloadPdf = (filename) => {
+                    if (!isIOSSafari()) {
+                        doc.save(filename);
+                        return;
+                    }
+
+                    const pdfBlob = doc.output('blob');
+                    const blobUrl = URL.createObjectURL(pdfBlob);
+                    const previewWindow = window.open(blobUrl, '_blank');
+
+                    if (!previewWindow) {
+                        window.location.href = blobUrl;
+                    }
+
+                    setTimeout(() => URL.revokeObjectURL(blobUrl), 30000);
+                };
+
                 const headingSize = parseInt(document.getElementById('headingFontSize').value, 10);
                 const contentSize = parseInt(document.getElementById('contentFontSize').value, 10);
                 const titleSize = headingSize + 4;
@@ -2317,14 +2343,20 @@ Coconut Oil Guidance: ${ensureSafe(formData.guidelines.coconutOil)}`;
 
                 const safeName = ensureSafe(formData.patient.name, 'Patient').replace(/\s+/g, '_');
                 const safeDate = ensureSafe(formData.patient.date, now.toISOString().split('T')[0]);
-                doc.save(`MealPlan_${safeName}_${safeDate}.pdf`);
+                downloadPdf(`MealPlan_${safeName}_${safeDate}.pdf`);
 
                 Swal.fire({
                     icon: 'success',
                     title: 'PDF Generated Successfully!',
-                    text: 'Your personalized meal plan has been downloaded.',
+                    text: isIOSSafari()
+                        ? 'Your PDF is ready. Safari opened a preview tab so you can save or share it.'
+                        : 'Your personalized meal plan has been downloaded.',
                     confirmButtonColor: '#42B72A',
-                    confirmButtonText: 'Great!'
+                    showConfirmButton: false,
+                    timer: 2400,
+                    timerProgressBar: true,
+                    toast: true,
+                    position: 'top-end'
                 });
             } catch (error) {
                 console.error('PDF Generation Error:', error);
