@@ -2139,6 +2139,9 @@
                     yPos += 7;
                 }
 
+                // Add visual breathing room between patient details and plate ratio section
+                yPos += 6;
+
                 const plateCanvas = document.getElementById('mealPlateCanvas');
                 if (plateCanvas) {
                     const pageWidth = doc.internal.pageSize.getWidth();
