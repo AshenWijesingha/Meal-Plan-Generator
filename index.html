@@ -4,26 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meal Plan Generator - Gayathri Dissanayaka | Professional Edition</title>
-    
+
     <!-- Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🥗</text></svg>">
-    
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
-    
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
+
     <!-- jsPDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
-    
+
     <style>
         :root {
             --primary-blue: #1877F2;
@@ -38,45 +38,45 @@
             --error-red: #EF4444;
             --warning-orange: #F59E0B;
         }
-        
+
         body {
             font-family: 'Inter', sans-serif;
             background: var(--background);
         }
-        
+
         h1, h2, h3, h4 {
             font-family: 'Poppins', sans-serif;
         }
-        
+
         .form-step {
             display: none;
         }
-        
+
         .form-step.active {
             display: block !important;
             animation: fadeIn 0.3s ease;
         }
-        
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        
+
         .meal-template {
             cursor: pointer;
             transition: all 0.3s ease;
         }
-        
+
         .meal-template:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(24, 119, 242, 0.2);
         }
-        
+
         .meal-template.selected {
             border-color: var(--primary-blue);
             background: var(--light-blue);
         }
-        
+
         .checkbox-custom {
             appearance: none;
             width: 20px;
@@ -86,12 +86,12 @@
             cursor: pointer;
             position: relative;
         }
-        
+
         .checkbox-custom:checked {
             background: var(--primary-blue);
             border-color: var(--primary-blue);
         }
-        
+
         .checkbox-custom:checked::after {
             content: '✓';
             position: absolute;
@@ -100,11 +100,11 @@
             top: -2px;
             left: 3px;
         }
-        
+
         .error-border {
             border-color: var(--error-red) !important;
         }
-        
+
         .floating-save-btn {
             position: fixed;
             bottom: 2rem;
@@ -166,7 +166,7 @@
 
     <!-- Main Content -->
     <main class="container mx-auto px-4 py-8 max-w-7xl">
-        
+
         <!-- Progress Steps -->
         <div class="bg-white rounded-xl shadow-lg p-4 md:p-6 mb-6">
             <div class="step-scroll">
@@ -206,7 +206,7 @@
 
         <!-- Form -->
         <form id="mealPlanForm" novalidate>
-            
+
             <!-- Step 1: Patient Information -->
             <div class="form-step active" id="step1">
                 <div class="bg-white rounded-xl shadow-lg p-8">
@@ -214,29 +214,29 @@
                         <i class="fas fa-user-circle text-blue-600"></i>
                         Patient Information
                     </h2>
-                    
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-2">
                                 Full Name <span class="text-red-500">*</span>
                             </label>
-                            <input 
-                                type="text" 
-                                id="patientName" 
+                            <input
+                                type="text"
+                                id="patientName"
                                 class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
                                 placeholder="Enter patient's full name"
                                 required
                             >
                             <span class="text-red-500 text-sm hidden" id="nameError">Please enter a valid name</span>
                         </div>
-                        
+
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-2">
                                 Age <span class="text-red-500">*</span>
                             </label>
-                            <input 
-                                type="number" 
-                                id="patientAge" 
+                            <input
+                                type="number"
+                                id="patientAge"
                                 class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
                                 placeholder="Enter age"
                                 min="1"
@@ -245,13 +245,13 @@
                             >
                             <span class="text-red-500 text-sm hidden" id="ageError">Age must be between 1 and 120</span>
                         </div>
-                        
+
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-2">
                                 Gender <span class="text-red-500">*</span>
                             </label>
-                            <select 
-                                id="patientGender" 
+                            <select
+                                id="patientGender"
                                 class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
                                 required
                             >
@@ -261,61 +261,61 @@
                             </select>
                             <span class="text-red-500 text-sm hidden" id="genderError">Please select gender</span>
                         </div>
-                        
+
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-2">
                                 Date <span class="text-red-500">*</span>
                             </label>
-                            <input 
-                                type="date" 
-                                id="planDate" 
+                            <input
+                                type="date"
+                                id="planDate"
                                 class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
                                 required
                             >
                         </div>
-                        
+
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-2">
                                 Phone Number
                             </label>
-                            <input 
-                                type="tel" 
-                                id="patientPhone" 
+                            <input
+                                type="tel"
+                                id="patientPhone"
                                 class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
                                 placeholder="+94 XX XXX XXXX"
                             >
                             <span class="text-red-500 text-sm hidden" id="phoneError">Invalid phone number format</span>
                         </div>
-                        
+
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-2">
                                 Email Address
                             </label>
-                            <input 
-                                type="email" 
-                                id="patientEmail" 
+                            <input
+                                type="email"
+                                id="patientEmail"
                                 class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
                                 placeholder="email@example.com"
                             >
                             <span class="text-red-500 text-sm hidden" id="emailError">Invalid email format</span>
                         </div>
                     </div>
-                    
+
                     <div class="mt-6">
                         <label class="block text-sm font-semibold text-gray-700 mb-2">
                             Address
                         </label>
-                        <textarea 
-                            id="patientAddress" 
+                        <textarea
+                            id="patientAddress"
                             class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
                             rows="3"
                             placeholder="Enter full address (optional)"
                         ></textarea>
                     </div>
-                    
+
                     <div class="flex justify-end mt-8">
-                        <button 
-                            type="button" 
+                        <button
+                            type="button"
                             onclick="validateAndNext(1)"
                             class="bg-blue-600 hover:bg-blue-700 text-white px-10 py-4 rounded-lg font-semibold flex items-center gap-2 transition shadow-lg hover:shadow-xl"
                         >
@@ -332,15 +332,15 @@
                         <i class="fas fa-ruler-combined text-blue-600"></i>
                         Physical Measurements & Health Data
                     </h2>
-                    
+
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-2">
                                 Height (cm) <span class="text-red-500">*</span>
                             </label>
-                            <input 
-                                type="number" 
-                                id="patientHeight" 
+                            <input
+                                type="number"
+                                id="patientHeight"
                                 class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
                                 placeholder="e.g., 172"
                                 min="100"
@@ -351,14 +351,14 @@
                             >
                             <span class="text-gray-500 text-xs mt-1 block">Enter in centimeters</span>
                         </div>
-                        
+
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-2">
                                 Current Weight (kg) <span class="text-red-500">*</span>
                             </label>
-                            <input 
-                                type="number" 
-                                id="patientWeight" 
+                            <input
+                                type="number"
+                                id="patientWeight"
                                 class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
                                 placeholder="e.g., 82"
                                 min="30"
@@ -369,14 +369,14 @@
                             >
                             <span class="text-gray-500 text-xs mt-1 block">Enter in kilograms</span>
                         </div>
-                        
+
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-2">
                                 Target Weight (kg) <span class="text-red-500">*</span>
                             </label>
-                            <input 
-                                type="number" 
-                                id="targetWeight" 
+                            <input
+                                type="number"
+                                id="targetWeight"
                                 class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
                                 placeholder="e.g., 73.8"
                                 min="30"
@@ -388,7 +388,7 @@
                             <span class="text-gray-500 text-xs mt-1 block">Your weight goal</span>
                         </div>
                     </div>
-                    
+
                     <!-- BMI Display Card -->
                     <div id="bmiDisplay" class="mt-6 p-8 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl border-2 border-blue-200 shadow-md" style="display: none;">
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
@@ -411,17 +411,17 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="flex justify-between mt-8">
-                        <button 
-                            type="button" 
+                        <button
+                            type="button"
                             onclick="goToStep(1)"
                             class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-10 py-4 rounded-lg font-semibold flex items-center gap-2 transition"
                         >
                             <i class="fas fa-arrow-left"></i> Previous
                         </button>
-                        <button 
-                            type="button" 
+                        <button
+                            type="button"
                             onclick="validateAndNext(2)"
                             class="bg-blue-600 hover:bg-blue-700 text-white px-10 py-4 rounded-lg font-semibold flex items-center gap-2 transition shadow-lg hover:shadow-xl"
                         >
@@ -438,7 +438,7 @@
                         <i class="fas fa-utensils text-blue-600"></i>
                         Meal Plan Configuration
                     </h2>
-                    
+
                     <!-- Plan Type Selection -->
                     <div class="mb-8">
                         <label class="block text-lg font-bold text-gray-700 mb-4">
@@ -468,7 +468,7 @@
                             </label>
                         </div>
                     </div>
-                    
+
                     <!-- Dietary Preferences -->
                     <div class="mb-8">
                         <label class="block text-lg font-bold text-gray-700 mb-4">
@@ -493,16 +493,16 @@
                             </label>
                         </div>
                     </div>
-                    
+
                     <!-- Plan Configuration -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-2">
                                 Daily Calorie Target (kcal)
                             </label>
-                            <input 
-                                type="number" 
-                                id="calorieTarget" 
+                            <input
+                                type="number"
+                                id="calorieTarget"
                                 class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
                                 placeholder="e.g., 1845"
                                 min="1000"
@@ -514,9 +514,9 @@
                             <label class="block text-sm font-semibold text-gray-700 mb-2">
                                 Plan Duration (days)
                             </label>
-                            <input 
-                                type="number" 
-                                id="planDuration" 
+                            <input
+                                type="number"
+                                id="planDuration"
                                 class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
                                 placeholder="e.g., 7"
                                 value="7"
@@ -557,9 +557,9 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <h3 class="text-2xl font-bold text-gray-800 mb-6">📝 Daily Meal Schedule</h3>
-                    
+
                     <!-- Meal Time Slots -->
                     <div class="space-y-4">
                         <!-- Early Morning -->
@@ -569,15 +569,15 @@
                                 <i class="fas fa-chevron-down transition-transform" id="earlyMorningIcon"></i>
                             </button>
                             <div id="earlyMorningSection" class="p-6 bg-white" style="display: none;">
-                                <textarea 
-                                    id="earlyMorning" 
+                                <textarea
+                                    id="earlyMorning"
                                     class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
                                     rows="2"
                                     placeholder="e.g., Detox water 1 glass / Warm water 1 glass&#10;ABC juice 1 glass + Swiss collagen"
                                 ></textarea>
                             </div>
                         </div>
-                        
+
                         <!-- Breakfast -->
                         <div class="border-2 border-gray-300 rounded-lg overflow-hidden">
                             <button type="button" onclick="toggleSection('breakfastSection')" class="w-full px-6 py-4 bg-gradient-to-r from-amber-50 to-yellow-50 hover:from-amber-100 hover:to-yellow-100 text-left font-bold flex justify-between items-center transition" aria-expanded="false" aria-controls="breakfastSection">
@@ -588,8 +588,8 @@
                                 <div class="space-y-4">
                                     <div>
                                         <label class="block text-sm font-semibold text-gray-600 mb-2">Option A</label>
-                                        <textarea 
-                                            id="breakfastA" 
+                                        <textarea
+                                            id="breakfastA"
                                             class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
                                             rows="4"
                                             placeholder="e.g., Chapati / Atta Rotti - 02 (medium size)&#10;Mixed vegetable preparation Sambar - 02-03 tbsp&#10;Lentil preparation - 2-3 tbsp&#10;Fish or chicken - 01 piece (30g)"
@@ -597,8 +597,8 @@
                                     </div>
                                     <div>
                                         <label class="block text-sm font-semibold text-gray-600 mb-2">Option B</label>
-                                        <textarea 
-                                            id="breakfastB" 
+                                        <textarea
+                                            id="breakfastB"
                                             class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
                                             rows="4"
                                             placeholder="e.g., Oats - 1/2 cup&#10;Milk - 1 cup (low-fat)&#10;Cinnamon - 1/2 tsp&#10;Chopped nuts - 1 tbsp"
@@ -606,8 +606,8 @@
                                     </div>
                                     <div>
                                         <label class="block text-sm font-semibold text-gray-600 mb-2">Option C (Optional)</label>
-                                        <textarea 
-                                            id="breakfastC" 
+                                        <textarea
+                                            id="breakfastC"
                                             class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
                                             rows="4"
                                             placeholder="Add third breakfast option if needed..."
@@ -616,7 +616,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <!-- Mid-Morning Snack -->
                         <div class="border-2 border-gray-300 rounded-lg overflow-hidden">
                             <button type="button" onclick="toggleSection('midMorningSection')" class="w-full px-6 py-4 bg-gradient-to-r from-green-50 to-emerald-50 hover:from-green-100 hover:to-emerald-100 text-left font-bold flex justify-between items-center transition" aria-expanded="false" aria-controls="midMorningSection">
@@ -624,15 +624,15 @@
                                 <i class="fas fa-chevron-down transition-transform" id="midMorningIcon"></i>
                             </button>
                             <div id="midMorningSection" class="p-6 bg-white" style="display: none;">
-                                <textarea 
-                                    id="midMorning" 
+                                <textarea
+                                    id="midMorning"
                                     class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
                                     rows="3"
                                     placeholder="e.g., Suitable fruit serving:&#10;Green Apple (1 medium), Strawberries (4-5), Orange (1 medium)&#10;OR Yogurt (sugar-free) + Vegetable salad"
                                 ></textarea>
                             </div>
                         </div>
-                        
+
                         <!-- Lunch -->
                         <div class="border-2 border-gray-300 rounded-lg overflow-hidden">
                             <button type="button" onclick="toggleSection('lunchSection')" class="w-full px-6 py-4 bg-gradient-to-r from-blue-50 to-cyan-50 hover:from-blue-100 hover:to-cyan-100 text-left font-bold flex justify-between items-center transition" aria-expanded="false" aria-controls="lunchSection">
@@ -643,8 +643,8 @@
                                 <div class="space-y-4">
                                     <div>
                                         <label class="block text-sm font-semibold text-gray-600 mb-2">Option A</label>
-                                        <textarea 
-                                            id="lunchA" 
+                                        <textarea
+                                            id="lunchA"
                                             class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
                                             rows="4"
                                             placeholder="e.g., Rice - 1 cup&#10;Lentil preparation - 2-3 tbsp&#10;Cooked vegetables - 2-3 tbsp&#10;Fish/Meat - 01 piece (30g) OR 01 egg"
@@ -652,8 +652,8 @@
                                     </div>
                                     <div>
                                         <label class="block text-sm font-semibold text-gray-600 mb-2">Option B</label>
-                                        <textarea 
-                                            id="lunchB" 
+                                        <textarea
+                                            id="lunchB"
                                             class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
                                             rows="4"
                                             placeholder="e.g., Pasta/Noodles - 1 cup&#10;Egg - 01 or Chicken/Fish - 1 piece (30g)&#10;Boiled/Sauté vegetables - 1 bowl"
@@ -662,7 +662,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <!-- Evening Snack -->
                         <div class="border-2 border-gray-300 rounded-lg overflow-hidden">
                             <button type="button" onclick="toggleSection('eveningSnackSection')" class="w-full px-6 py-4 bg-gradient-to-r from-orange-50 to-red-50 hover:from-orange-100 hover:to-red-100 text-left font-bold flex justify-between items-center transition" aria-expanded="false" aria-controls="eveningSnackSection">
@@ -670,15 +670,15 @@
                                 <i class="fas fa-chevron-down transition-transform" id="eveningSnackIcon"></i>
                             </button>
                             <div id="eveningSnackSection" class="p-6 bg-white" style="display: none;">
-                                <textarea 
-                                    id="eveningSnack" 
+                                <textarea
+                                    id="eveningSnack"
                                     class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
                                     rows="3"
                                     placeholder="e.g., Ginger + lemon peel tea OR Cinnamon tea - 1 cup&#10;Nuts&#10;OR Fruit smoothie with yogurt + chia seeds"
                                 ></textarea>
                             </div>
                         </div>
-                        
+
                         <!-- Before Dinner -->
                         <div class="border-2 border-gray-300 rounded-lg overflow-hidden">
                             <button type="button" onclick="toggleSection('beforeDinnerSection')" class="w-full px-6 py-4 bg-gradient-to-r from-teal-50 to-green-50 hover:from-teal-100 hover:to-green-100 text-left font-bold flex justify-between items-center transition" aria-expanded="false" aria-controls="beforeDinnerSection">
@@ -686,15 +686,15 @@
                                 <i class="fas fa-chevron-down transition-transform" id="beforeDinnerIcon"></i>
                             </button>
                             <div id="beforeDinnerSection" class="p-6 bg-white" style="display: none;">
-                                <textarea 
-                                    id="beforeDinner" 
+                                <textarea
+                                    id="beforeDinner"
                                     class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
                                     rows="2"
                                     placeholder="e.g., Vegetable salad OR Boiled/Sauté vegetables OR Vegetable soup - 01 bowl"
                                 ></textarea>
                             </div>
                         </div>
-                        
+
                         <!-- Dinner -->
                         <div class="border-2 border-gray-300 rounded-lg overflow-hidden">
                             <button type="button" onclick="toggleSection('dinnerSection')" class="w-full px-6 py-4 bg-gradient-to-r from-indigo-50 to-purple-50 hover:from-indigo-100 hover:to-purple-100 text-left font-bold flex justify-between items-center transition" aria-expanded="false" aria-controls="dinnerSection">
@@ -705,8 +705,8 @@
                                 <div class="space-y-4">
                                     <div>
                                         <label class="block text-sm font-semibold text-gray-600 mb-2">Option A</label>
-                                        <textarea 
-                                            id="dinnerA" 
+                                        <textarea
+                                            id="dinnerA"
                                             class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
                                             rows="4"
                                             placeholder="e.g., Chapati - 02 (medium size)&#10;Mixed vegetable sambar - 2-3 tbsp&#10;Lentil preparation - 2-3 tbsp&#10;Fish or chicken - 01 piece (30g)"
@@ -714,8 +714,8 @@
                                     </div>
                                     <div>
                                         <label class="block text-sm font-semibold text-gray-600 mb-2">Option B</label>
-                                        <textarea 
-                                            id="dinnerB" 
+                                        <textarea
+                                            id="dinnerB"
                                             class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
                                             rows="4"
                                             placeholder="e.g., Mixed soup - 01 bowl&#10;(Vegetables + Chicken/Egg + Lentil + Vermicelli + Coconut oil)"
@@ -725,17 +725,17 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="flex justify-between mt-8">
-                        <button 
-                            type="button" 
+                        <button
+                            type="button"
                             onclick="goToStep(2)"
                             class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-10 py-4 rounded-lg font-semibold flex items-center gap-2 transition"
                         >
                             <i class="fas fa-arrow-left"></i> Previous
                         </button>
-                        <button 
-                            type="button" 
+                        <button
+                            type="button"
                             onclick="validateAndNext(3)"
                             class="bg-blue-600 hover:bg-blue-700 text-white px-10 py-4 rounded-lg font-semibold flex items-center gap-2 transition shadow-lg hover:shadow-xl"
                         >
@@ -752,15 +752,15 @@
                         <i class="fas fa-clipboard-check text-blue-600"></i>
                         Nutritional Guidelines & Recommendations
                     </h2>
-                    
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-2">
                                 💧 Water Intake Recommendation
                             </label>
-                            <input 
-                                type="text" 
-                                id="waterIntake" 
+                            <input
+                                type="text"
+                                id="waterIntake"
                                 class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
                                 value="2-3 liters per day"
                             >
@@ -769,27 +769,27 @@
                             <label class="block text-sm font-semibold text-gray-700 mb-2">
                                 🥥 Virgin Coconut Oil
                             </label>
-                            <input 
-                                type="text" 
-                                id="coconutOil" 
+                            <input
+                                type="text"
+                                id="coconutOil"
                                 class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
                                 value="03 tsp/day"
                             >
                         </div>
                     </div>
-                    
+
                     <div class="mb-8">
                         <label class="block text-sm font-semibold text-gray-700 mb-2">
                             🏃 Exercise Recommendation
                         </label>
-                        <textarea 
-                            id="exerciseRecommendation" 
+                        <textarea
+                            id="exerciseRecommendation"
                             class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
                             rows="3"
                         >Weight Loss: Moderate intensity exercise - minimum 300 min/week
 (Daily - 30 min to 01 hr. or 3-4 days/week - 1-1.5 hrs. e.g.: Cycling, Brisk walk, Jogging)</textarea>
                     </div>
-                    
+
                     <!-- Things to Consider - Checkboxes -->
                     <div class="mb-8">
                         <h3 class="text-xl font-bold text-gray-800 mb-4">✅ Things to Consider</h3>
@@ -840,41 +840,41 @@
                             </label>
                         </div>
                     </div>
-                    
+
                     <div class="mb-8">
                         <label class="block text-sm font-semibold text-gray-700 mb-2">
                             🚫 Foods to Strictly Avoid
                         </label>
-                        <textarea 
-                            id="foodsToAvoid" 
+                        <textarea
+                            id="foodsToAvoid"
                             class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
                             rows="4"
                             placeholder="Enter specific foods to avoid (optional)&#10;e.g., Spicy food, Fried food, Processed snacks, Caffeine on empty stomach..."
                         ></textarea>
                     </div>
-                    
+
                     <div class="mb-8">
                         <label class="block text-sm font-semibold text-gray-700 mb-2">
                             📝 Special Instructions or Notes
                         </label>
-                        <textarea 
-                            id="specialInstructions" 
+                        <textarea
+                            id="specialInstructions"
                             class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
                             rows="4"
                             placeholder="Any additional instructions, allergies, medical conditions, or special considerations..."
                         ></textarea>
                     </div>
-                    
+
                     <div class="flex justify-between mt-8">
-                        <button 
-                            type="button" 
+                        <button
+                            type="button"
                             onclick="goToStep(3)"
                             class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-10 py-4 rounded-lg font-semibold flex items-center gap-2 transition"
                         >
                             <i class="fas fa-arrow-left"></i> Previous
                         </button>
-                        <button 
-                            type="button" 
+                        <button
+                            type="button"
                             onclick="validateAndNext(4)"
                             class="bg-blue-600 hover:bg-blue-700 text-white px-10 py-4 rounded-lg font-semibold flex items-center gap-2 transition shadow-lg hover:shadow-xl"
                         >
@@ -891,15 +891,15 @@
                         <i class="fas fa-file-pdf text-blue-600"></i>
                         Professional Details & PDF Generation
                     </h2>
-                    
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-2">
                                 Nutritionist Name
                             </label>
-                            <input 
-                                type="text" 
-                                id="nutritionistName" 
+                            <input
+                                type="text"
+                                id="nutritionistName"
                                 class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg bg-gray-50"
                                 value="Gayathri Dissanayaka"
                                 readonly
@@ -909,9 +909,9 @@
                             <label class="block text-sm font-semibold text-gray-700 mb-2">
                                 Credentials
                             </label>
-                            <input 
-                                type="text" 
-                                id="credentials" 
+                            <input
+                                type="text"
+                                id="credentials"
                                 class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg bg-gray-50"
                                 value="Dietitian & Nutritionist"
                                 readonly
@@ -921,9 +921,9 @@
                             <label class="block text-sm font-semibold text-gray-700 mb-2">
                                 Contact Phone
                             </label>
-                            <input 
-                                type="tel" 
-                                id="nutritionistPhone" 
+                            <input
+                                type="tel"
+                                id="nutritionistPhone"
                                 class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
                                 placeholder="+94 XX XXX XXXX"
                             >
@@ -932,27 +932,27 @@
                             <label class="block text-sm font-semibold text-gray-700 mb-2">
                                 Contact Email
                             </label>
-                            <input 
-                                type="email" 
-                                id="nutritionistEmail" 
+                            <input
+                                type="email"
+                                id="nutritionistEmail"
                                 class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
                                 placeholder="contact@email.com"
                             >
                         </div>
                     </div>
-                    
+
                     <div class="mb-8">
                         <label class="block text-sm font-semibold text-gray-700 mb-2">
                             Practice Address
                         </label>
-                        <textarea 
-                            id="nutritionistAddress" 
+                        <textarea
+                            id="nutritionistAddress"
                             class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
                             rows="2"
                             placeholder="Enter clinic/practice address"
                         ></textarea>
                     </div>
-                    
+
                     <!-- NEW FEATURE: Font Size Customization for Elderly -->
                     <div class="mb-8 p-6 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl border-2 border-purple-200">
                         <h3 class="text-xl font-bold text-purple-800 mb-4 flex items-center gap-2">
@@ -960,14 +960,14 @@
                             PDF Font Size Customization
                         </h3>
                         <p class="text-gray-700 mb-4">Adjust font sizes for better readability, especially for elderly patients</p>
-                        
+
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-2">
                                     Patient Type
                                 </label>
-                                <select 
-                                    id="pdfFontSizePreset" 
+                                <select
+                                    id="pdfFontSizePreset"
                                     class="w-full px-4 py-3 border-2 border-purple-300 rounded-lg focus:border-purple-600 focus:outline-none transition"
                                     onchange="applyFontSizePreset()"
                                 >
@@ -976,15 +976,15 @@
                                     <option value="custom">Custom Sizes</option>
                                 </select>
                             </div>
-                            
+
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-2">
                                     Heading Font Size
                                 </label>
                                 <div class="flex items-center gap-3">
-                                    <input 
-                                        type="range" 
-                                        id="headingFontSize" 
+                                    <input
+                                        type="range"
+                                        id="headingFontSize"
                                         min="11"
                                         max="18"
                                         value="14"
@@ -994,15 +994,15 @@
                                     <span id="headingSizeDisplay" class="font-bold text-purple-700 w-12">14pt</span>
                                 </div>
                             </div>
-                            
+
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-2">
                                     Content Font Size
                                 </label>
                                 <div class="flex items-center gap-3">
-                                    <input 
-                                        type="range" 
-                                        id="contentFontSize" 
+                                    <input
+                                        type="range"
+                                        id="contentFontSize"
                                         min="8"
                                         max="14"
                                         value="10"
@@ -1013,15 +1013,15 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="mt-4 p-4 bg-white rounded-lg border border-purple-200">
                             <p class="text-sm text-gray-600">
-                                <strong>Preview:</strong> Headings will be <span id="headingPreview" class="font-bold">14pt</span>, 
+                                <strong>Preview:</strong> Headings will be <span id="headingPreview" class="font-bold">14pt</span>,
                                 meal content will be <span id="contentPreview" class="font-bold">10pt</span>
                             </p>
                         </div>
                     </div>
-                    
+
                     <!-- Ready to Generate -->
                     <div class="bg-gradient-to-r from-blue-50 to-cyan-50 border-2 border-blue-200 rounded-xl p-8 mb-8">
                         <h3 class="text-2xl font-bold text-blue-800 mb-4 flex items-center gap-2">
@@ -1050,32 +1050,46 @@
                             </div>
                         </div>
                     </div>
-                    
+
+                    <div class="bg-white border-2 border-blue-200 rounded-xl p-5 mb-6 shadow-sm">
+                        <label for="includeMealTable" class="flex items-start gap-3 cursor-pointer">
+                            <input
+                                type="checkbox"
+                                id="includeMealTable"
+                                class="checkbox-custom mt-0.5"
+                            >
+                            <span>
+                                <span class="block text-base font-semibold text-gray-800">Include meal plan as a table in PDF (optional)</span>
+                                <span class="block text-sm text-gray-600">Turn this on to add a structured table page in the PDF for easier reading. Leave it unchecked to keep the current format only.</span>
+                            </span>
+                        </label>
+                    </div>
+
                     <div class="flex justify-between mt-8 flex-wrap gap-4">
-                        <button 
-                            type="button" 
+                        <button
+                            type="button"
                             onclick="goToStep(4)"
                             class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-10 py-4 rounded-lg font-semibold flex items-center gap-2 transition"
                         >
                             <i class="fas fa-arrow-left"></i> Previous
                         </button>
                         <div class="flex gap-4 flex-wrap">
-                            <button 
-                                type="button" 
+                            <button
+                                type="button"
                                 onclick="exportTemplate()"
                                 class="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-lg font-semibold flex items-center gap-2 transition shadow-lg hover:shadow-xl"
                             >
                                 <i class="fas fa-download"></i> Export Template
                             </button>
-                            <button 
-                                type="button" 
+                            <button
+                                type="button"
                                 onclick="importTemplate()"
                                 class="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-4 rounded-lg font-semibold flex items-center gap-2 transition shadow-lg hover:shadow-xl"
                             >
                                 <i class="fas fa-upload"></i> Import Template
                             </button>
-                            <button 
-                                type="button" 
+                            <button
+                                type="button"
                                 onclick="generatePDF()"
                                 class="bg-green-600 hover:bg-green-700 text-white px-10 py-4 rounded-lg font-semibold flex items-center gap-2 transition shadow-xl hover:shadow-2xl text-lg"
                             >
@@ -1094,29 +1108,29 @@
                 Quick Actions
             </h3>
             <div class="flex flex-wrap gap-3">
-                <button 
-                    type="button" 
+                <button
+                    type="button"
                     onclick="saveData()"
                     class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition shadow-lg"
                 >
                     <i class="fas fa-save"></i> Save Progress
                 </button>
-                <button 
-                    type="button" 
+                <button
+                    type="button"
                     onclick="loadSavedData()"
                     class="bg-cyan-600 hover:bg-cyan-700 text-white px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition shadow-lg"
                 >
                     <i class="fas fa-folder-open"></i> Load Saved Data
                 </button>
-                <button 
-                    type="button" 
+                <button
+                    type="button"
                     onclick="clearForm()"
                     class="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition shadow-lg"
                 >
                     <i class="fas fa-trash-alt"></i> Clear Form
                 </button>
-                <button 
-                    type="button" 
+                <button
+                    type="button"
                     onclick="printPreview()"
                     class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition shadow-lg"
                 >
@@ -1145,36 +1159,36 @@
     <script>
         // Set today's date
         document.getElementById('planDate').valueAsDate = new Date();
-        
+
         // Current step
         let currentStep = 1;
         let autoSaveTimer;
-        
+
         // Navigate to step
         function goToStep(stepNumber) {
             // Hide all steps
             document.querySelectorAll('.form-step').forEach(step => {
                 step.classList.remove('active');
             });
-            
+
             // Show selected step
             document.getElementById('step' + stepNumber).classList.add('active');
-            
+
             // Update progress indicators
             updateProgressIndicators(stepNumber);
-            
+
             currentStep = stepNumber;
-            
+
             // Scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-        
+
         // Update progress indicators
         function updateProgressIndicators(activeStep) {
             for (let i = 1; i <= 5; i++) {
                 const icon = document.getElementById('step' + i + '-icon');
                 const label = document.getElementById('step' + i + '-label');
-                
+
                 if (icon && label) {
                     if (i <= activeStep) {
                         icon.classList.remove('bg-gray-300');
@@ -1196,11 +1210,11 @@
             if (progressBar) progressBar.style.width = `${progress}%`;
             if (progressPercent) progressPercent.textContent = `${progress}%`;
         }
-        
+
         // Validation and next
         function validateAndNext(step) {
             let isValid = true;
-            
+
             if (step === 1) {
                 // Validate patient info
                 const name = document.getElementById('patientName');
@@ -1208,51 +1222,51 @@
                 const gender = document.getElementById('patientGender');
                 const email = document.getElementById('patientEmail');
                 const phone = document.getElementById('patientPhone');
-                
+
                 if (!name.value.trim()) {
                     showValidationError(name, 'nameError');
                     isValid = false;
                 }
-                
+
                 if (!age.value || age.value < 1 || age.value > 120) {
                     showValidationError(age, 'ageError');
                     isValid = false;
                 }
-                
+
                 if (!gender.value) {
                     showValidationError(gender, 'genderError');
                     isValid = false;
                 }
-                
+
                 // Email validation (if provided)
                 if (email.value && !isValidEmail(email.value)) {
                     showValidationError(email, 'emailError');
                     isValid = false;
                 }
-                
+
                 // Phone validation (if provided)
                 if (phone.value && !isValidPhone(phone.value)) {
                     showValidationError(phone, 'phoneError');
                     isValid = false;
                 }
             }
-            
+
             if (step === 2) {
                 // Validate measurements
                 const height = document.getElementById('patientHeight');
                 const weight = document.getElementById('patientWeight');
                 const target = document.getElementById('targetWeight');
-                
+
                 if (!height.value || height.value < 100 || height.value > 250) {
                     showValidationError(height, null);
                     isValid = false;
                 }
-                
+
                 if (!weight.value || weight.value < 30 || weight.value > 300) {
                     showValidationError(weight, null);
                     isValid = false;
                 }
-                
+
                 if (!target.value || target.value < 30 || target.value > 300) {
                     showValidationError(target, null);
                     isValid = false;
@@ -1302,7 +1316,7 @@
                     isValid = false;
                 }
             }
-            
+
             if (isValid) {
                 goToStep(step + 1);
             } else {
@@ -1314,7 +1328,7 @@
                 });
             }
         }
-        
+
         // Show validation error
         function showValidationError(input, errorId) {
             input.classList.add('error-border');
@@ -1324,7 +1338,7 @@
                     errorElement.classList.remove('hidden');
                 }
             }
-            
+
             setTimeout(() => {
                 input.classList.remove('error-border');
                 if (errorId) {
@@ -1335,23 +1349,23 @@
                 }
             }, 3000);
         }
-        
+
         // Email validation
         function isValidEmail(email) {
             return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
         }
-        
+
         // Phone validation
         function isValidPhone(phone) {
             return /^[\+]?[0-9]{10,15}$/.test(phone.replace(/\s/g, ''));
         }
-        
+
         // Toggle section
         function toggleSection(sectionId) {
             const section = document.getElementById(sectionId);
             const icon = document.getElementById(sectionId.replace('Section', 'Icon'));
             const triggerButton = document.querySelector(`button[aria-controls="${sectionId}"]`);
-            
+
             if (section.style.display === 'none' || section.style.display === '') {
                 section.style.display = 'block';
                 if (icon) icon.style.transform = 'rotate(180deg)';
@@ -1370,7 +1384,7 @@
                 localStorage.setItem('mealPlanDraft', JSON.stringify(formData));
             }, 400);
         }
-        
+
         // Calculate BMI
         function calculateBMI() {
             const height = parseFloat(document.getElementById('patientHeight').value);
@@ -1378,11 +1392,11 @@
             const gender = document.getElementById('patientGender').value;
             const targetWeightInput = parseFloat(document.getElementById('targetWeight').value);
             const targetWeight = Number.isFinite(targetWeightInput) ? targetWeightInput : null;
-            
+
             if (height && weight && height > 0 && weight > 0) {
                 const heightInMeters = height / 100;
                 const bmi = (weight / (heightInMeters * heightInMeters)).toFixed(1);
-                
+
                 // Calculate IBW
                 let ibw = 0;
                 const heightInInches = height / 2.54;
@@ -1392,7 +1406,7 @@
                     ibw = 45.5 + 2.3 * (heightInInches - 60);
                 }
                 ibw = Math.max(30, Math.round(ibw * 10) / 10);
-                
+
                 // Get category
                 let category = '';
                 let badgeClass = '';
@@ -1409,14 +1423,14 @@
                     category = 'Obese';
                     badgeClass = 'bg-red-100 text-red-800';
                 }
-                
+
                 // Target weight change
                 const weightGoalLabel = document.getElementById('weightGoalLabel');
                 const weightDiff = targetWeight !== null ? (weight - targetWeight) : null;
                 const absDiff = weightDiff !== null ? Math.abs(weightDiff) : 0;
                 const weeksToGoal = absDiff > 0 ? Math.ceil(absDiff / 0.5) : 0; // 0.5 kg per week
                 const monthsToGoal = weeksToGoal > 0 ? Math.ceil(weeksToGoal / 4) : 0;
-                
+
                 // Display
                 document.getElementById('bmiValue').textContent = bmi;
                 document.getElementById('ibwValue').textContent = ibw;
@@ -1442,17 +1456,17 @@
                 document.getElementById('bmiCategoryBadge').textContent = category;
                 document.getElementById('bmiCategoryBadge').className = `px-4 py-1 rounded-full text-sm font-semibold ${badgeClass}`;
                 document.getElementById('bmiDisplay').style.display = 'block';
-                
+
                 // Auto-suggest calories (rough estimate)
-                const bmr = gender === 'Male' ? 
+                const bmr = gender === 'Male' ?
                     (10 * weight) + (6.25 * height) - (5 * (document.getElementById('patientAge').value || 30)) + 5 :
                     (10 * weight) + (6.25 * height) - (5 * (document.getElementById('patientAge').value || 30)) - 161;
-                
+
                 const calorieTarget = Math.round(bmr * 1.375); // Light activity
                 document.getElementById('calorieTarget').value = calorieTarget;
             }
         }
-        
+
         function getMealPlatePercentages() {
             const vegetables = parseInt(document.getElementById('plateVegetables').value, 10) || 0;
             const protein = parseInt(document.getElementById('plateProtein').value, 10) || 0;
@@ -1524,7 +1538,7 @@
         // Font size customization
         function applyFontSizePreset() {
             const preset = document.getElementById('pdfFontSizePreset').value;
-            
+
             if (preset === 'standard') {
                 document.getElementById('headingFontSize').value = 14;
                 document.getElementById('contentFontSize').value = 10;
@@ -1532,25 +1546,25 @@
                 document.getElementById('headingFontSize').value = 16;
                 document.getElementById('contentFontSize').value = 13;
             }
-            
+
             updateFontSizeDisplay();
         }
-        
+
         function updateFontSizeDisplay() {
             const heading = document.getElementById('headingFontSize').value;
             const content = document.getElementById('contentFontSize').value;
-            
+
             document.getElementById('headingSizeDisplay').textContent = heading + 'pt';
             document.getElementById('contentSizeDisplay').textContent = content + 'pt';
             document.getElementById('headingPreview').textContent = heading + 'pt';
             document.getElementById('contentPreview').textContent = content + 'pt';
         }
-        
+
         // Save data
         function saveData() {
             const formData = collectFormData();
             localStorage.setItem('mealPlanData', JSON.stringify(formData));
-            
+
             Swal.fire({
                 icon: 'success',
                 title: 'Progress Saved!',
@@ -1559,7 +1573,7 @@
                 showConfirmButton: false
             });
         }
-        
+
         // Collect all form data
         function collectFormData() {
             return {
@@ -1613,7 +1627,7 @@
                     exercise: document.getElementById('exerciseRecommendation').value,
                     foodsToAvoid: document.getElementById('foodsToAvoid').value,
                     specialInstructions: document.getElementById('specialInstructions').value,
-                    checkboxes: Array.from({length: 11}, (_, i) => 
+                    checkboxes: Array.from({length: 11}, (_, i) =>
                         document.getElementById('guideline' + (i+1))?.checked || false
                     )
                 },
@@ -1631,13 +1645,13 @@
                 }
             };
         }
-        
+
         // Load saved data
         function loadSavedData() {
             const savedData = localStorage.getItem('mealPlanData');
             if (savedData) {
                 const data = JSON.parse(savedData);
-                
+
                 // Load patient data
                 document.getElementById('patientName').value = data.patient?.name || '';
                 document.getElementById('patientAge').value = data.patient?.age || '';
@@ -1646,17 +1660,17 @@
                 document.getElementById('patientPhone').value = data.patient?.phone || '';
                 document.getElementById('patientEmail').value = data.patient?.email || '';
                 document.getElementById('patientAddress').value = data.patient?.address || '';
-                
+
                 // Load measurements
                 document.getElementById('patientHeight').value = data.measurements?.height || '';
                 document.getElementById('patientWeight').value = data.measurements?.weight || '';
                 document.getElementById('targetWeight').value = data.measurements?.targetWeight || '';
-                
+
                 // Load meal plan
                 if (data.mealPlan) {
                     document.getElementById('calorieTarget').value = data.mealPlan.calorieTarget || '';
                     document.getElementById('planDuration').value = data.mealPlan.planDuration || '';
-                    
+
                     // Load preferences
                     if (data.mealPlan.preferences) {
                         document.getElementById('prefVegetarian').checked = data.mealPlan.preferences.vegetarian;
@@ -1664,7 +1678,7 @@
                         document.getElementById('prefLowCarb').checked = data.mealPlan.preferences.lowCarb;
                         document.getElementById('prefHighProtein').checked = data.mealPlan.preferences.highProtein;
                     }
-                    
+
                     // Load meals
                     if (data.mealPlan.meals) {
                         document.getElementById('earlyMorning').value = data.mealPlan.meals.earlyMorning || '';
@@ -1686,7 +1700,7 @@
                         document.getElementById('plateGrains').value = data.mealPlan.mealPlate.grains ?? 25;
                     }
                 }
-                
+
                 // Load guidelines
                 if (data.guidelines) {
                     document.getElementById('waterIntake').value = data.guidelines.waterIntake || '';
@@ -1694,7 +1708,7 @@
                     document.getElementById('exerciseRecommendation').value = data.guidelines.exercise || '';
                     document.getElementById('foodsToAvoid').value = data.guidelines.foodsToAvoid || '';
                     document.getElementById('specialInstructions').value = data.guidelines.specialInstructions || '';
-                    
+
                     // Load checkboxes
                     if (data.guidelines.checkboxes) {
                         data.guidelines.checkboxes.forEach((checked, i) => {
@@ -1703,14 +1717,14 @@
                         });
                     }
                 }
-                
+
                 // Load nutritionist data
                 if (data.nutritionist) {
                     document.getElementById('nutritionistPhone').value = data.nutritionist.phone || '';
                     document.getElementById('nutritionistEmail').value = data.nutritionist.email || '';
                     document.getElementById('nutritionistAddress').value = data.nutritionist.address || '';
                 }
-                
+
                 // Load PDF settings
                 if (data.pdfSettings) {
                     document.getElementById('pdfFontSizePreset').value = data.pdfSettings.fontSizePreset || 'standard';
@@ -1718,10 +1732,10 @@
                     document.getElementById('contentFontSize').value = data.pdfSettings.contentFontSize || 10;
                     updateFontSizeDisplay();
                 }
-                
+
                 calculateBMI();
                 updateMealPlateChart();
-                
+
                 Swal.fire({
                     icon: 'success',
                     title: 'Data Loaded!',
@@ -1737,7 +1751,7 @@
                 });
             }
         }
-        
+
         // Clear form
         function clearForm() {
             Swal.fire({
@@ -1756,7 +1770,7 @@
                     localStorage.removeItem('mealPlanDraft');
                     document.getElementById('templateImportInput').value = '';
                     goToStep(1);
-                    
+
                     Swal.fire({
                         icon: 'success',
                         title: 'Cleared!',
@@ -1766,7 +1780,7 @@
                 }
             });
         }
-        
+
         // Export template
         function exportTemplate() {
             const formData = collectFormData();
@@ -1777,7 +1791,7 @@
             link.href = url;
             link.download = `MealPlan_Template_${new Date().toISOString().split('T')[0]}.json`;
             link.click();
-            
+
             Swal.fire({
                 icon: 'success',
                 title: 'Template Exported!',
@@ -1786,12 +1800,12 @@
                 showConfirmButton: false
             });
         }
-        
+
         // Import template
         function importTemplate() {
             document.getElementById('templateImportInput').click();
         }
-        
+
         // Handle template import
         function handleTemplateImport(event) {
             const file = event.target.files[0];
@@ -1802,7 +1816,7 @@
                         const data = JSON.parse(e.target.result);
                         localStorage.setItem('mealPlanData', JSON.stringify(data));
                         loadSavedData();
-                        
+
                         Swal.fire({
                             icon: 'success',
                             title: 'Template Imported!',
@@ -1819,12 +1833,12 @@
                 reader.readAsText(file);
             }
         }
-        
+
         // Print preview
         function printPreview() {
             window.print();
         }
-        
+
         // Generate PDF - COMPREHENSIVE VERSION WITH FONT SIZE CUSTOMIZATION
         async function generatePDF() {
             if (!window.jspdf || !window.jspdf.jsPDF) {
@@ -1844,17 +1858,17 @@
                     Swal.showLoading();
                 }
             });
-            
+
             try {
                 const { jsPDF } = window.jspdf;
                 const doc = new jsPDF();
-                
+
                 // Get font sizes
                 const headingSize = parseInt(document.getElementById('headingFontSize').value);
                 const contentSize = parseInt(document.getElementById('contentFontSize').value);
                 const titleSize = headingSize + 4;
                 const subheadingSize = headingSize - 2;
-                
+
                 // Get data
                 const formData = collectFormData();
                 const name = formData.patient.name;
@@ -1865,15 +1879,22 @@
                 const weight = formData.measurements.weight;
                 const targetWeight = formData.measurements.targetWeight;
                 const bmi = formData.measurements.bmi;
-                
+
                 let yPos = 15;
 
                 const sanitizeForPdf = (value = '') => String(value).replace(/[^\x20-\x7E\n\r\t]/g, '');
-                
+
+                const includeMealTable = document.getElementById('includeMealTable')?.checked || false;
+
+                const formatMealOptions = (...options) => options
+                    .map((opt) => sanitizeForPdf(opt || '').trim())
+                    .filter(Boolean)
+                    .join('\n\n');
+
                 // Professional Letterhead
                 doc.setFillColor(24, 119, 242);
                 doc.rect(0, 0, 210, 45, 'F');
-                
+
                 // PDF-safe logo badge (avoids unsupported emoji glyphs)
                 doc.setFillColor(255, 255, 255);
                 doc.circle(20, 20, 8, 'F');
@@ -1881,58 +1902,58 @@
                 doc.setFont('helvetica', 'bold');
                 doc.setFontSize(10);
                 doc.text('MP', 20, 22, { align: 'center' });
-                
+
                 // Nutritionist name
                 doc.setTextColor(255, 255, 255);
                 doc.setFontSize(titleSize);
                 doc.setFont('helvetica', 'bold');
                 doc.text(sanitizeForPdf(formData.nutritionist.name), 40, 18);
-                
+
                 // Credentials
                 doc.setFontSize(subheadingSize);
                 doc.setFont('helvetica', 'normal');
                 doc.text(sanitizeForPdf(formData.nutritionist.credentials), 40, 26);
-                
+
                 // Contact
                 if (formData.nutritionist.phone || formData.nutritionist.email) {
                     doc.setFontSize(contentSize - 1);
                     doc.text(sanitizeForPdf(`${formData.nutritionist.phone || ''} ${formData.nutritionist.email ? '| ' + formData.nutritionist.email : ''}`), 40, 33);
                 }
-                
+
                 if (formData.nutritionist.address) {
                     doc.setFontSize(contentSize - 2);
                     doc.text(sanitizeForPdf(formData.nutritionist.address.substring(0, 80)), 40, 39);
                 }
-                
+
                 yPos = 55;
-                
+
                 // Title
                 doc.setTextColor(24, 119, 242);
                 doc.setFontSize(titleSize + 2);
                 doc.setFont('helvetica', 'bold');
                 doc.text('PERSONALIZED MEAL PLAN', 105, yPos, { align: 'center' });
-                
+
                 yPos += 12;
-                
+
                 // Patient info box
                 doc.setFillColor(231, 243, 255);
                 doc.roundedRect(15, yPos, 180, 30, 3, 3, 'F');
-                
+
                 doc.setTextColor(0, 0, 0);
                 doc.setFontSize(headingSize);
                 doc.setFont('helvetica', 'bold');
                 doc.text(sanitizeForPdf(`Patient: ${name}`), 20, yPos + 8);
                 doc.text(`Date: ${new Date(date).toLocaleDateString()}`, 140, yPos + 8);
-                
+
                 doc.setFont('helvetica', 'normal');
                 doc.setFontSize(contentSize);
                 doc.text(sanitizeForPdf(`Age: ${age} years | Gender: ${gender}`), 20, yPos + 16);
                 doc.text(sanitizeForPdf(`Height: ${height} cm | Weight: ${weight} kg`), 20, yPos + 23);
                 doc.text(sanitizeForPdf(`BMI: ${bmi} kg/m2 | Target: ${targetWeight} kg`), 110, yPos + 16);
                 doc.text(sanitizeForPdf(`Calories: ${formData.mealPlan.calorieTarget || 'Not set'} kcal/day`), 110, yPos + 23);
-                
+
                 yPos += 38;
-                
+
                 // Dietary Preferences
                 if (formData.mealPlan.preferences) {
                     const prefs = [];
@@ -1940,7 +1961,7 @@
                     if (formData.mealPlan.preferences.nonVeg) prefs.push('Non-Veg');
                     if (formData.mealPlan.preferences.lowCarb) prefs.push('Low Carb');
                     if (formData.mealPlan.preferences.highProtein) prefs.push('High Protein');
-                    
+
                     if (prefs.length > 0) {
                         doc.setFontSize(contentSize - 1);
                         doc.setTextColor(101, 103, 107);
@@ -1972,7 +1993,7 @@
                     doc.text(sanitizeForPdf(`Protein: ${plate.protein || 0}%`), 105, firstPagePlateY, { align: 'center' });
                     doc.text(sanitizeForPdf(`Whole Grains/Carbs: ${plate.grains || 0}%`), 148, firstPagePlateY, { align: 'center' });
                 }
-                
+
                 // Meal Plan Section always begins on a new page for readability
                 doc.addPage();
                 yPos = 20;
@@ -1981,9 +2002,9 @@
                 doc.setFont('helvetica', 'bold');
                 doc.setTextColor(24, 119, 242);
                 doc.text('DAILY MEAL SCHEDULE', 15, yPos);
-                
+
                 yPos += 10;
-                
+
                 // Function to add meal section with custom font sizes
                 function addMealSection(title, content) {
                     if (content && content.trim() && yPos < 265) {
@@ -1992,29 +2013,29 @@
                         doc.setTextColor(0, 0, 0);
                         doc.text(sanitizeForPdf(title), 15, yPos);
                         yPos += 7;
-                        
+
                         doc.setFontSize(contentSize);
                         doc.setFont('helvetica', 'normal');
                         const lines = doc.splitTextToSize(sanitizeForPdf(content), 175);
                         doc.text(lines, 20, yPos);
                         yPos += lines.length * (contentSize * 0.4) + 4;
                     }
-                    
+
                     if (yPos > 265) {
                         doc.addPage();
                         yPos = 20;
                     }
                 }
-                
+
                 // Add all meal sections
                 addMealSection('EARLY MORNING (7:00-7:30 AM)', formData.mealPlan.meals.earlyMorning);
-                
+
                 if (formData.mealPlan.meals.breakfastA) {
                     doc.setFontSize(headingSize);
                     doc.setFont('helvetica', 'bold');
                     doc.text('BREAKFAST (8:00-9:00 AM)', 15, yPos);
                     yPos += 7;
-                    
+
                     if (formData.mealPlan.meals.breakfastA) {
                         doc.setFontSize(contentSize);
                         doc.setFont('helvetica', 'bold');
@@ -2025,7 +2046,7 @@
                         doc.text(linesA, 25, yPos);
                         yPos += linesA.length * (contentSize * 0.4) + 3;
                     }
-                    
+
                     if (formData.mealPlan.meals.breakfastB) {
                         doc.setFont('helvetica', 'bold');
                         doc.text('Option B:', 20, yPos);
@@ -2035,7 +2056,7 @@
                         doc.text(linesB, 25, yPos);
                         yPos += linesB.length * (contentSize * 0.4) + 3;
                     }
-                    
+
                     if (formData.mealPlan.meals.breakfastC) {
                         doc.setFont('helvetica', 'bold');
                         doc.text('Option C:', 20, yPos);
@@ -2046,21 +2067,21 @@
                         yPos += linesC.length * (contentSize * 0.4) + 4;
                     }
                 }
-                
+
                 if (yPos > 250) {
                     doc.addPage();
                     yPos = 20;
                 }
-                
+
                 addMealSection('MID-MORNING SNACK (10:30-11:30 AM)', formData.mealPlan.meals.midMorning);
-                
+
                 // Lunch with options
                 if (formData.mealPlan.meals.lunchA) {
                     doc.setFontSize(headingSize);
                     doc.setFont('helvetica', 'bold');
                     doc.text('LUNCH (1:00-2:00 PM)', 15, yPos);
                     yPos += 7;
-                    
+
                     doc.setFontSize(contentSize);
                     doc.setFont('helvetica', 'bold');
                     doc.text('Option A:', 20, yPos);
@@ -2069,7 +2090,7 @@
                     const linesA = doc.splitTextToSize(sanitizeForPdf(formData.mealPlan.meals.lunchA), 170);
                     doc.text(linesA, 25, yPos);
                     yPos += linesA.length * (contentSize * 0.4) + 3;
-                    
+
                     if (formData.mealPlan.meals.lunchB) {
                         doc.setFont('helvetica', 'bold');
                         doc.text('Option B:', 20, yPos);
@@ -2080,27 +2101,27 @@
                         yPos += linesB.length * (contentSize * 0.4) + 4;
                     }
                 }
-                
+
                 if (yPos > 250) {
                     doc.addPage();
                     yPos = 20;
                 }
-                
+
                 addMealSection('EVENING SNACK (4:00-5:00 PM)', formData.mealPlan.meals.eveningSnack);
                 addMealSection('BEFORE DINNER (7:00-8:00 PM)', formData.mealPlan.meals.beforeDinner);
-                
+
                 // Dinner with options
                 if (formData.mealPlan.meals.dinnerA) {
                     if (yPos > 230) {
                         doc.addPage();
                         yPos = 20;
                     }
-                    
+
                     doc.setFontSize(headingSize);
                     doc.setFont('helvetica', 'bold');
                     doc.text('DINNER (8:30-9:30 PM)', 15, yPos);
                     yPos += 7;
-                    
+
                     doc.setFontSize(contentSize);
                     doc.setFont('helvetica', 'bold');
                     doc.text('Option A:', 20, yPos);
@@ -2109,7 +2130,7 @@
                     const linesA = doc.splitTextToSize(sanitizeForPdf(formData.mealPlan.meals.dinnerA), 170);
                     doc.text(linesA, 25, yPos);
                     yPos += linesA.length * (contentSize * 0.4) + 3;
-                    
+
                     if (formData.mealPlan.meals.dinnerB) {
                         doc.setFont('helvetica', 'bold');
                         doc.text('Option B:', 20, yPos);
@@ -2120,19 +2141,71 @@
                         yPos += linesB.length * (contentSize * 0.4) + 4;
                     }
                 }
-                
+
+                if (includeMealTable) {
+                    doc.addPage();
+                    doc.setTextColor(24, 119, 242);
+                    doc.setFont('helvetica', 'bold');
+                    doc.setFontSize(titleSize);
+                    doc.text('MEAL PLAN TABLE', 15, 20);
+
+                    const mealTableRows = [
+                        ['Early Morning (7:00 AM)', sanitizeForPdf(formData.mealPlan.meals.earlyMorning || '-')],
+                        ['Breakfast (8:30-9:30 AM)', formatMealOptions(
+                            formData.mealPlan.meals.breakfastA && `Option A:\n${formData.mealPlan.meals.breakfastA}`,
+                            formData.mealPlan.meals.breakfastB && `Option B:\n${formData.mealPlan.meals.breakfastB}`,
+                            formData.mealPlan.meals.breakfastC && `Option C:\n${formData.mealPlan.meals.breakfastC}`
+                        ) || '-'],
+                        ['Mid-Morning Snack (10:30-11:30 AM)', sanitizeForPdf(formData.mealPlan.meals.midMorning || '-')],
+                        ['Lunch (1:00-2:00 PM)', formatMealOptions(
+                            formData.mealPlan.meals.lunchA && `Option A:\n${formData.mealPlan.meals.lunchA}`,
+                            formData.mealPlan.meals.lunchB && `Option B:\n${formData.mealPlan.meals.lunchB}`
+                        ) || '-'],
+                        ['Evening Snack (4:00-5:00 PM)', sanitizeForPdf(formData.mealPlan.meals.eveningSnack || '-')],
+                        ['Before Dinner (7:00-8:00 PM)', sanitizeForPdf(formData.mealPlan.meals.beforeDinner || '-')],
+                        ['Dinner (8:30-9:30 PM)', formatMealOptions(
+                            formData.mealPlan.meals.dinnerA && `Option A:\n${formData.mealPlan.meals.dinnerA}`,
+                            formData.mealPlan.meals.dinnerB && `Option B:\n${formData.mealPlan.meals.dinnerB}`
+                        ) || '-']
+                    ];
+
+                    doc.autoTable({
+                        startY: 28,
+                        head: [['Meal Time', 'Plan Details']],
+                        body: mealTableRows,
+                        theme: 'grid',
+                        headStyles: {
+                            fillColor: [24, 119, 242],
+                            textColor: 255,
+                            fontStyle: 'bold'
+                        },
+                        styles: {
+                            font: 'helvetica',
+                            fontSize: Math.max(8, contentSize - 1),
+                            cellPadding: 2,
+                            overflow: 'linebreak',
+                            valign: 'top'
+                        },
+                        columnStyles: {
+                            0: { cellWidth: 52, fontStyle: 'bold' },
+                            1: { cellWidth: 128 }
+                        },
+                        margin: { left: 15, right: 15 }
+                    });
+                }
+
                 // New page for guidelines
                 doc.addPage();
                 yPos = 20;
-                
+
                 // Guidelines Section
                 doc.setFontSize(titleSize);
                 doc.setFont('helvetica', 'bold');
                 doc.setTextColor(24, 119, 242);
                 doc.text('NUTRITIONAL GUIDELINES & RECOMMENDATIONS', 15, yPos);
-                
+
                 yPos += 12;
-                
+
                 // Water & Coconut Oil
                 doc.setFontSize(contentSize);
                 doc.setFont('helvetica', 'bold');
@@ -2141,13 +2214,13 @@
                 doc.setFont('helvetica', 'normal');
                 doc.text(sanitizeForPdf(formData.guidelines.waterIntake), 50, yPos);
                 yPos += 7;
-                
+
                 doc.setFont('helvetica', 'bold');
                 doc.text('Coconut Oil:', 15, yPos);
                 doc.setFont('helvetica', 'normal');
                 doc.text(sanitizeForPdf(formData.guidelines.coconutOil), 50, yPos);
                 yPos += 10;
-                
+
                 // Exercise
                 doc.setFont('helvetica', 'bold');
                 doc.text('Exercise Recommendation:', 15, yPos);
@@ -2156,18 +2229,18 @@
                 const exerciseLines = doc.splitTextToSize(sanitizeForPdf(formData.guidelines.exercise), 175);
                 doc.text(exerciseLines, 20, yPos);
                 yPos += exerciseLines.length * (contentSize * 0.4) + 10;
-                
+
                 // Things to Consider (Selected checkboxes only)
                 doc.setFont('helvetica', 'bold');
                 doc.setTextColor(24, 119, 242);
                 doc.setFontSize(headingSize);
                 doc.text('Things to Consider:', 15, yPos);
                 yPos += 8;
-                
+
                 doc.setFontSize(contentSize - 1);
                 doc.setFont('helvetica', 'normal');
                 doc.setTextColor(0, 0, 0);
-                
+
                 const guidelineTexts = [
                     'Have your three main meals on time in small portions, do not skip any meals',
                     'Have less salt diet',
@@ -2181,7 +2254,7 @@
                     'Stress Management is very important',
                     'Get good sleep - Lack of sleep can increase insulin resistance'
                 ];
-                
+
                 guidelineTexts.forEach((text, i) => {
                     if (formData.guidelines.checkboxes[i]) {
                         if (yPos > 270) {
@@ -2193,7 +2266,7 @@
                         yPos += lines.length * (contentSize * 0.35) + 3;
                     }
                 });
-                
+
                 // Foods to Avoid
                 if (formData.guidelines.foodsToAvoid) {
                     yPos += 5;
@@ -2201,13 +2274,13 @@
                         doc.addPage();
                         yPos = 20;
                     }
-                    
+
                     doc.setFont('helvetica', 'bold');
                     doc.setTextColor(239, 68, 68);
                     doc.setFontSize(headingSize);
                     doc.text('Foods to Avoid:', 15, yPos);
                     yPos += 7;
-                    
+
                     doc.setFont('helvetica', 'normal');
                     doc.setTextColor(0, 0, 0);
                     doc.setFontSize(contentSize);
@@ -2215,7 +2288,7 @@
                     doc.text(avoidLines, 20, yPos);
                     yPos += avoidLines.length * (contentSize * 0.4) + 5;
                 }
-                
+
                 // Special Instructions
                 if (formData.guidelines.specialInstructions) {
                     yPos += 5;
@@ -2223,20 +2296,20 @@
                         doc.addPage();
                         yPos = 20;
                     }
-                    
+
                     doc.setFont('helvetica', 'bold');
                     doc.setTextColor(24, 119, 242);
                     doc.setFontSize(headingSize);
                     doc.text('Special Instructions:', 15, yPos);
                     yPos += 7;
-                    
+
                     doc.setFont('helvetica', 'normal');
                     doc.setTextColor(0, 0, 0);
                     doc.setFontSize(contentSize);
                     const instructionLines = doc.splitTextToSize(sanitizeForPdf(formData.guidelines.specialInstructions), 175);
                     doc.text(instructionLines, 20, yPos);
                 }
-                
+
                 // Footer on all pages
                 const pageCount = doc.internal.getNumberOfPages();
                 for (let i = 1; i <= pageCount; i++) {
@@ -2248,11 +2321,11 @@
                     doc.setFontSize(contentSize - 1);
                     doc.text(`© ${formData.nutritionist.name} - All Rights Reserved`, 105, 292, { align: 'center' });
                 }
-                
+
                 // Save PDF
                 const fileName = `MealPlan_${name.replace(/\s+/g, '_')}_${date}.pdf`;
                 doc.save(fileName);
-                
+
                 Swal.fire({
                     icon: 'success',
                     title: 'PDF Generated Successfully!',
@@ -2260,7 +2333,7 @@
                     confirmButtonColor: '#42B72A',
                     confirmButtonText: 'Great!'
                 });
-                
+
             } catch (error) {
                 console.error('PDF Generation Error:', error);
                 Swal.fire({
@@ -2271,7 +2344,7 @@
                 });
             }
         }
-        
+
         // Initialize
         updateFontSizeDisplay();
         updateProgressIndicators(currentStep);
