@@ -138,6 +138,18 @@
             resize: vertical;
         }
 
+        .meal-schedule-textarea {
+            min-height: 11.5rem;
+        }
+
+        .guidance-textarea {
+            min-height: 10.5rem;
+        }
+
+        .address-textarea {
+            min-height: 8.5rem;
+        }
+
         @media (max-width: 768px) {
             .floating-save-btn {
                 bottom: 1rem;
@@ -147,6 +159,18 @@
             .meal-time-title {
                 font-size: 0.95rem;
                 line-height: 1.25rem;
+            }
+
+            .meal-schedule-textarea {
+                min-height: 9.5rem;
+            }
+
+            .guidance-textarea {
+                min-height: 8.75rem;
+            }
+
+            .address-textarea {
+                min-height: 7.5rem;
             }
         }
     </style>
@@ -591,7 +615,7 @@
                             <div id="earlyMorningSection" class="p-6 bg-white" style="display: none;">
                                 <textarea
                                     id="earlyMorning"
-                                    class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
+                                    class="meal-schedule-textarea w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
                                     rows="2"
                                     placeholder="e.g., Detox water 1 glass / Warm water 1 glass&#10;ABC juice 1 glass + Swiss collagen"
                                 ></textarea>
@@ -610,7 +634,7 @@
                                         <label class="block text-sm font-semibold text-gray-600 mb-2">Option A</label>
                                         <textarea
                                             id="breakfastA"
-                                            class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
+                                            class="meal-schedule-textarea w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
                                             rows="4"
                                             placeholder="e.g., Chapati / Atta Rotti - 02 (medium size)&#10;Mixed vegetable preparation Sambar - 02-03 tbsp&#10;Lentil preparation - 2-3 tbsp&#10;Fish or chicken - 01 piece (30g)"
                                         ></textarea>
@@ -619,7 +643,7 @@
                                         <label class="block text-sm font-semibold text-gray-600 mb-2">Option B</label>
                                         <textarea
                                             id="breakfastB"
-                                            class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
+                                            class="meal-schedule-textarea w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
                                             rows="4"
                                             placeholder="e.g., Oats - 1/2 cup&#10;Milk - 1 cup (low-fat)&#10;Cinnamon - 1/2 tsp&#10;Chopped nuts - 1 tbsp"
                                         ></textarea>
@@ -628,7 +652,7 @@
                                         <label class="block text-sm font-semibold text-gray-600 mb-2">Option C (Optional)</label>
                                         <textarea
                                             id="breakfastC"
-                                            class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
+                                            class="meal-schedule-textarea w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
                                             rows="4"
                                             placeholder="Add third breakfast option if needed..."
                                         ></textarea>
@@ -646,7 +670,7 @@
                             <div id="midMorningSection" class="p-6 bg-white" style="display: none;">
                                 <textarea
                                     id="midMorning"
-                                    class="auto-grow w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
+                                    class="meal-schedule-textarea auto-grow w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
                                     rows="2" maxlength="600"
                                     placeholder="e.g., Suitable fruit serving:&#10;Green Apple (1 medium), Strawberries (4-5), Orange (1 medium)&#10;OR Yogurt (sugar-free) + Vegetable salad"
                                 ></textarea>
@@ -665,7 +689,7 @@
                                         <label class="block text-sm font-semibold text-gray-600 mb-2">Option A</label>
                                         <textarea
                                             id="lunchA"
-                                            class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
+                                            class="meal-schedule-textarea w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
                                             rows="4"
                                             placeholder="e.g., Rice - 1 cup&#10;Lentil preparation - 2-3 tbsp&#10;Cooked vegetables - 2-3 tbsp&#10;Fish/Meat - 01 piece (30g) OR 01 egg"
                                         ></textarea>
@@ -674,7 +698,7 @@
                                         <label class="block text-sm font-semibold text-gray-600 mb-2">Option B</label>
                                         <textarea
                                             id="lunchB"
-                                            class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
+                                            class="meal-schedule-textarea w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
                                             rows="4"
                                             placeholder="e.g., Pasta/Noodles - 1 cup&#10;Egg - 01 or Chicken/Fish - 1 piece (30g)&#10;Boiled/Sauté vegetables - 1 bowl"
                                         ></textarea>
@@ -692,7 +716,7 @@
                             <div id="eveningSnackSection" class="p-6 bg-white" style="display: none;">
                                 <textarea
                                     id="eveningSnack"
-                                    class="auto-grow w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
+                                    class="meal-schedule-textarea auto-grow w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
                                     rows="2" maxlength="600"
                                     placeholder="e.g., Ginger + lemon peel tea OR Cinnamon tea - 1 cup&#10;Nuts&#10;OR Fruit smoothie with yogurt + chia seeds"
                                 ></textarea>
@@ -708,7 +732,7 @@
                             <div id="beforeDinnerSection" class="p-6 bg-white" style="display: none;">
                                 <textarea
                                     id="beforeDinner"
-                                    class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
+                                    class="meal-schedule-textarea w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
                                     rows="2"
                                     placeholder="e.g., Vegetable salad OR Boiled/Sauté vegetables OR Vegetable soup - 01 bowl"
                                 ></textarea>
@@ -727,7 +751,7 @@
                                         <label class="block text-sm font-semibold text-gray-600 mb-2">Option A</label>
                                         <textarea
                                             id="dinnerA"
-                                            class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
+                                            class="meal-schedule-textarea w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
                                             rows="4"
                                             placeholder="e.g., Chapati - 02 (medium size)&#10;Mixed vegetable sambar - 2-3 tbsp&#10;Lentil preparation - 2-3 tbsp&#10;Fish or chicken - 01 piece (30g)"
                                         ></textarea>
@@ -736,7 +760,7 @@
                                         <label class="block text-sm font-semibold text-gray-600 mb-2">Option B</label>
                                         <textarea
                                             id="dinnerB"
-                                            class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
+                                            class="meal-schedule-textarea w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
                                             rows="4"
                                             placeholder="e.g., Mixed soup - 01 bowl&#10;(Vegetables + Chicken/Egg + Lentil + Vermicelli + Coconut oil)"
                                         ></textarea>
@@ -804,7 +828,7 @@
                         </label>
                         <textarea
                             id="exerciseRecommendation"
-                            class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
+                            class="guidance-textarea w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
                             rows="3"
                         >Weight Loss: Moderate intensity exercise - minimum 300 min/week
 (Daily - 30 min to 01 hr. or 3-4 days/week - 1-1.5 hrs. e.g.: Cycling, Brisk walk, Jogging)</textarea>
@@ -867,7 +891,7 @@
                         </label>
                         <textarea
                             id="foodsToAvoid"
-                            class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
+                            class="guidance-textarea w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
                             rows="4"
                             placeholder="Enter specific foods to avoid (optional)&#10;e.g., Spicy food, Fried food, Processed snacks, Caffeine on empty stomach..."
                         ></textarea>
@@ -879,7 +903,7 @@
                         </label>
                         <textarea
                             id="specialInstructions"
-                            class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
+                            class="guidance-textarea w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
                             rows="4"
                             placeholder="Any additional instructions, allergies, medical conditions, or special considerations..."
                         ></textarea>
@@ -967,7 +991,7 @@
                         </label>
                         <textarea
                             id="nutritionistAddress"
-                            class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
+                            class="address-textarea w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
                             rows="2"
                             placeholder="Enter clinic/practice address"
                         ></textarea>
