@@ -2010,8 +2010,7 @@
                     if (content && content.trim() && yPos < 265) {
                         doc.setFontSize(headingSize);
                         doc.setFont('helvetica', 'bold');
-                        doc.setTextColor(0, 0, 0);
-                        doc.text(sanitizeForPdf(title), 15, yPos);
+                        doc.text('BREAKFAST (8:00-9:00 AM)', 15, yPos);
                         yPos += 7;
 
                         doc.setFontSize(contentSize);
@@ -2042,9 +2041,19 @@
                         doc.text('Option A:', 20, yPos);
                         yPos += 5;
                         doc.setFont('helvetica', 'normal');
-                        const linesA = doc.splitTextToSize(sanitizeForPdf(formData.mealPlan.meals.breakfastA), 170);
+                        const linesA = doc.splitTextToSize(sanitizeForPdf(formData.mealPlan.meals.lunchA), 170);
                         doc.text(linesA, 25, yPos);
                         yPos += linesA.length * (contentSize * 0.4) + 3;
+
+                        if (formData.mealPlan.meals.lunchB) {
+                            doc.setFont('helvetica', 'bold');
+                            doc.text('Option B:', 20, yPos);
+                            yPos += 5;
+                            doc.setFont('helvetica', 'normal');
+                            const linesB = doc.splitTextToSize(sanitizeForPdf(formData.mealPlan.meals.lunchB), 170);
+                            doc.text(linesB, 25, yPos);
+                            yPos += linesB.length * (contentSize * 0.4) + 4;
+                        }
                     }
 
                     if (formData.mealPlan.meals.breakfastB) {
@@ -2133,13 +2142,79 @@
 
                     if (formData.mealPlan.meals.dinnerB) {
                         doc.setFont('helvetica', 'bold');
-                        doc.text('Option B:', 20, yPos);
+                        doc.text('Option A:', 20, yPos);
                         yPos += 5;
                         doc.setFont('helvetica', 'normal');
-                        const linesB = doc.splitTextToSize(sanitizeForPdf(formData.mealPlan.meals.dinnerB), 170);
-                        doc.text(linesB, 25, yPos);
-                        yPos += linesB.length * (contentSize * 0.4) + 4;
+                        const linesA = doc.splitTextToSize(sanitizeForPdf(formData.mealPlan.meals.dinnerA), 170);
+                        doc.text(linesA, 25, yPos);
+                        yPos += linesA.length * (contentSize * 0.4) + 3;
+
+                        if (formData.mealPlan.meals.dinnerB) {
+                            doc.setFont('helvetica', 'bold');
+                            doc.text('Option B:', 20, yPos);
+                            yPos += 5;
+                            doc.setFont('helvetica', 'normal');
+                            const linesB = doc.splitTextToSize(sanitizeForPdf(formData.mealPlan.meals.dinnerB), 170);
+                            doc.text(linesB, 25, yPos);
+                            yPos += linesB.length * (contentSize * 0.4) + 4;
+                        }
                     }
+                } else {
+                    doc.setTextColor(24, 119, 242);
+                    doc.setFont('helvetica', 'bold');
+                    doc.setFontSize(titleSize);
+                    doc.text('MEAL PLAN TABLE', 15, 20);
+
+                    const mealTableRows = [
+                        ['Early Morning (7:00 AM)', sanitizeForPdf(formData.mealPlan.meals.earlyMorning || '-')],
+                        ['Breakfast (8:30-9:30 AM)', formatMealOptions(
+                            formData.mealPlan.meals.breakfastA && `Option A:
+${formData.mealPlan.meals.breakfastA}`,
+                            formData.mealPlan.meals.breakfastB && `Option B:
+${formData.mealPlan.meals.breakfastB}`,
+                            formData.mealPlan.meals.breakfastC && `Option C:
+${formData.mealPlan.meals.breakfastC}`
+                        ) || '-'],
+                        ['Mid-Morning Snack (10:30-11:30 AM)', sanitizeForPdf(formData.mealPlan.meals.midMorning || '-')],
+                        ['Lunch (1:00-2:00 PM)', formatMealOptions(
+                            formData.mealPlan.meals.lunchA && `Option A:
+${formData.mealPlan.meals.lunchA}`,
+                            formData.mealPlan.meals.lunchB && `Option B:
+${formData.mealPlan.meals.lunchB}`
+                        ) || '-'],
+                        ['Evening Snack (4:00-5:00 PM)', sanitizeForPdf(formData.mealPlan.meals.eveningSnack || '-')],
+                        ['Before Dinner (7:00-8:00 PM)', sanitizeForPdf(formData.mealPlan.meals.beforeDinner || '-')],
+                        ['Dinner (8:30-9:30 PM)', formatMealOptions(
+                            formData.mealPlan.meals.dinnerA && `Option A:
+${formData.mealPlan.meals.dinnerA}`,
+                            formData.mealPlan.meals.dinnerB && `Option B:
+${formData.mealPlan.meals.dinnerB}`
+                        ) || '-']
+                    ];
+
+                    doc.autoTable({
+                        startY: 28,
+                        head: [['Meal Time', 'Plan Details']],
+                        body: mealTableRows,
+                        theme: 'grid',
+                        headStyles: {
+                            fillColor: [24, 119, 242],
+                            textColor: 255,
+                            fontStyle: 'bold'
+                        },
+                        styles: {
+                            font: 'helvetica',
+                            fontSize: Math.max(8, contentSize - 1),
+                            cellPadding: 2,
+                            overflow: 'linebreak',
+                            valign: 'top'
+                        },
+                        columnStyles: {
+                            0: { cellWidth: 52, fontStyle: 'bold' },
+                            1: { cellWidth: 128 }
+                        },
+                        margin: { left: 15, right: 15 }
+                    });
                 }
 
                 if (includeMealTable) {
