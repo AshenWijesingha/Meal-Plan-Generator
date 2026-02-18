@@ -133,6 +133,11 @@
             max-width: 280px;
         }
 
+        textarea {
+            min-height: 8.5rem;
+            resize: vertical;
+        }
+
         @media (max-width: 768px) {
             .floating-save-btn {
                 bottom: 1rem;
@@ -1925,8 +1930,9 @@
                 const counter = document.createElement('div');
                 counter.className = 'text-xs text-gray-500 mt-1 text-right';
                 const updateCounter = () => {
-                    textarea.style.height = 'auto';
-                    textarea.style.height = `${textarea.scrollHeight}px`;
+                    const minimumHeight = 136;
+                    const preferredHeight = Math.max(textarea.scrollHeight, minimumHeight, textarea.clientHeight);
+                    textarea.style.height = `${preferredHeight}px`;
                     counter.textContent = `${textarea.value.length} chars`;
                 };
                 textarea.insertAdjacentElement('afterend', counter);
