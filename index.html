@@ -586,18 +586,27 @@
                         <h3 class="text-xl md:text-2xl font-bold text-gray-800 mb-3">🍽️ Meal Plate Ratio</h3>
                         <p class="text-sm text-gray-600 mb-5">Customize plate percentages. Total must be exactly 100% before moving to next step.</p>
 
+                        <div class="mb-5">
+                            <label for="platePatientType" class="block text-sm font-semibold text-gray-700 mb-2">Patient Type for Meal Plate</label>
+                            <select id="platePatientType" class="w-full md:w-80 px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition" onchange="handlePlatePatientTypeChange()">
+                                <option value="nonDiabetic">Non-Diabetic Patient</option>
+                                <option value="diabetic">Diabetic Patient</option>
+                            </select>
+                            <p id="platePatientTypeHint" class="text-xs text-gray-500 mt-2">Non-diabetic meal plate uses Carbohydrate, Protein, and Fat percentages.</p>
+                        </div>
+
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
                             <div class="space-y-4">
                                 <div>
-                                    <label for="plateVegetables" class="block text-sm font-semibold text-gray-700 mb-2">Vegetables & Fruits (%)</label>
+                                    <label for="plateVegetables" id="plateVegetablesLabel" class="block text-sm font-semibold text-gray-700 mb-2">Carbohydrate (%)</label>
                                     <input type="number" id="plateVegetables" min="0" max="100" value="50" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition" oninput="updateMealPlateChart()">
                                 </div>
                                 <div>
-                                    <label for="plateProtein" class="block text-sm font-semibold text-gray-700 mb-2">Protein Foods (%)</label>
+                                    <label for="plateProtein" id="plateProteinLabel" class="block text-sm font-semibold text-gray-700 mb-2">Protein (%)</label>
                                     <input type="number" id="plateProtein" min="0" max="100" value="25" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition" oninput="updateMealPlateChart()">
                                 </div>
                                 <div>
-                                    <label for="plateGrains" class="block text-sm font-semibold text-gray-700 mb-2">Carbohydrates (%)</label>
+                                    <label for="plateGrains" id="plateGrainsLabel" class="block text-sm font-semibold text-gray-700 mb-2">Fat (%)</label>
                                     <input type="number" id="plateGrains" min="0" max="100" value="25" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition" oninput="updateMealPlateChart()">
                                 </div>
                                 <div class="bg-white border rounded-lg p-3">
@@ -1380,6 +1389,17 @@
                     isValid = false;
                 }
 
+                const platePercentages = getMealPlatePercentages();
+                if (platePercentages.total !== 100) {
+                    isValid = false;
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Meal plate total must be 100%',
+                        text: 'Please adjust the meal plate percentages so the total equals exactly 100%.',
+                        confirmButtonColor: '#1877F2'
+                    });
+                }
+
                 if (!hasMealContent) {
                     isValid = false;
                     Swal.fire({
@@ -1565,6 +1585,58 @@
             }
         }
 
+        const mealPlateTypeConfig = {
+            diabetic: {
+                labels: {
+                    vegetables: 'Non-Starchy Vegetables (%)',
+                    protein: 'Protein (%)',
+                    grains: 'Carbohydrate (%)'
+                },
+                legend: ['Non-Starchy Vegetables', 'Protein', 'Carbohydrate'],
+                hint: 'Diabetic meal plate uses Non-Starchy Vegetables, Carbohydrate, and Protein percentages.',
+                defaults: { vegetables: 50, protein: 25, grains: 25 }
+            },
+            nonDiabetic: {
+                labels: {
+                    vegetables: 'Carbohydrate (%)',
+                    protein: 'Protein (%)',
+                    grains: 'Fat (%)'
+                },
+                legend: ['Carbohydrate', 'Protein', 'Fat'],
+                hint: 'Non-diabetic meal plate uses Carbohydrate, Protein, and Fat percentages.',
+                defaults: { vegetables: 50, protein: 25, grains: 25 }
+            }
+        };
+
+        function getSelectedPlatePatientType() {
+            return document.getElementById('platePatientType')?.value === 'diabetic' ? 'diabetic' : 'nonDiabetic';
+        }
+
+        function getMealPlateTypeDetails() {
+            return mealPlateTypeConfig[getSelectedPlatePatientType()] || mealPlateTypeConfig.nonDiabetic;
+        }
+
+        function handlePlatePatientTypeChange(resetValues = true) {
+            const typeDetails = getMealPlateTypeDetails();
+            const vegetablesLabel = document.getElementById('plateVegetablesLabel');
+            const proteinLabel = document.getElementById('plateProteinLabel');
+            const grainsLabel = document.getElementById('plateGrainsLabel');
+            const hintLabel = document.getElementById('platePatientTypeHint');
+
+            if (vegetablesLabel) vegetablesLabel.textContent = typeDetails.labels.vegetables;
+            if (proteinLabel) proteinLabel.textContent = typeDetails.labels.protein;
+            if (grainsLabel) grainsLabel.textContent = typeDetails.labels.grains;
+            if (hintLabel) hintLabel.textContent = typeDetails.hint;
+
+            if (resetValues) {
+                document.getElementById('plateVegetables').value = typeDetails.defaults.vegetables;
+                document.getElementById('plateProtein').value = typeDetails.defaults.protein;
+                document.getElementById('plateGrains').value = typeDetails.defaults.grains;
+            }
+
+            updateMealPlateChart();
+        }
+
         function getMealPlatePercentages() {
             const vegetables = parseInt(document.getElementById('plateVegetables').value, 10) || 0;
             const protein = parseInt(document.getElementById('plateProtein').value, 10) || 0;
@@ -1578,6 +1650,7 @@
 
             const ctx = canvas.getContext('2d');
             const { vegetables, protein, grains, total } = getMealPlatePercentages();
+            const typeDetails = getMealPlateTypeDetails();
             const totalLabel = document.getElementById('plateTotal');
             const errorLabel = document.getElementById('plateTotalError');
 
@@ -1631,6 +1704,21 @@
             ctx.textAlign = 'center';
             ctx.fillText('MEAL', centerX, centerY - 5);
             ctx.fillText('PLATE', centerX, centerY + 13);
+
+            const legendContainerId = 'mealPlateLegend';
+            let legendContainer = document.getElementById(legendContainerId);
+            if (!legendContainer) {
+                legendContainer = document.createElement('div');
+                legendContainer.id = legendContainerId;
+                legendContainer.className = 'w-full grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs';
+                canvas.parentElement.appendChild(legendContainer);
+            }
+            legendContainer.innerHTML = typeDetails.legend.map((label, index) => `
+                <div class="flex items-center gap-2 justify-center px-2 py-1 rounded bg-white border border-gray-200">
+                    <span class="inline-block w-3 h-3 rounded-full" style="background:${colors[index]}"></span>
+                    <span class="text-gray-700">${label}</span>
+                </div>
+            `).join('');
         }
 
         // Font size customization
@@ -1715,6 +1803,7 @@
                         dinnerB: document.getElementById('dinnerB').value
                     },
                     mealPlate: {
+                        patientType: getSelectedPlatePatientType(),
                         vegetables: document.getElementById('plateVegetables').value,
                         protein: document.getElementById('plateProtein').value,
                         grains: document.getElementById('plateGrains').value
@@ -1796,6 +1885,7 @@
                     }
 
                     if (data.mealPlan.mealPlate) {
+                        document.getElementById('platePatientType').value = data.mealPlan.mealPlate.patientType === 'diabetic' ? 'diabetic' : 'nonDiabetic';
                         document.getElementById('plateVegetables').value = data.mealPlan.mealPlate.vegetables ?? 50;
                         document.getElementById('plateProtein').value = data.mealPlan.mealPlate.protein ?? 25;
                         document.getElementById('plateGrains').value = data.mealPlan.mealPlate.grains ?? 25;
@@ -1836,6 +1926,7 @@
                 }
 
                 calculateBMI();
+                handlePlatePatientTypeChange(false);
                 updateMealPlateChart();
 
                 Swal.fire({
@@ -2174,10 +2265,17 @@
                     const desiredPlateWidth = pageWidth * 0.8;
                     const plateImage = plateCanvas.toDataURL('image/png');
                     const plate = formData.mealPlan.mealPlate || {};
+                    const plateTypeDetails = mealPlateTypeConfig[plate.patientType === 'diabetic' ? 'diabetic' : 'nonDiabetic'];
                     doc.setTextColor(24, 119, 242);
                     doc.setFont('helvetica', 'bold');
                     doc.setFontSize(subheadingSize);
                     doc.text('CUSTOM MEAL PLATE RATIO', 105, yPos, { align: 'center' });
+                    yPos += 6;
+
+                    doc.setFont('helvetica', 'normal');
+                    doc.setFontSize(Math.max(contentSize - 1, 9));
+                    doc.setTextColor(71, 85, 105);
+                    doc.text(`Patient Type: ${plate.patientType === 'diabetic' ? 'Diabetic' : 'Non-Diabetic'}`, 105, yPos, { align: 'center' });
                     yPos += 6;
 
                     const plateLegendSpace = 12;
@@ -2192,9 +2290,9 @@
                     doc.setFont('helvetica', 'normal');
                     doc.setTextColor(0, 0, 0);
                     doc.setFontSize(Math.max(contentSize - 1, 9));
-                    doc.text(`Vegetables/Fruits: ${plate.vegetables || 0}%`, 62, yPos, { align: 'center' });
-                    doc.text(`Protein: ${plate.protein || 0}%`, 105, yPos, { align: 'center' });
-                    doc.text(`Carbohydrates: ${plate.grains || 0}%`, 148, yPos, { align: 'center' });
+                    doc.text(`${plateTypeDetails.legend[0]}: ${plate.vegetables || 0}%`, 62, yPos, { align: 'center' });
+                    doc.text(`${plateTypeDetails.legend[1]}: ${plate.protein || 0}%`, 105, yPos, { align: 'center' });
+                    doc.text(`${plateTypeDetails.legend[2]}: ${plate.grains || 0}%`, 148, yPos, { align: 'center' });
                 }
 
                 doc.addPage();
@@ -2375,6 +2473,7 @@ Coconut Oil Guidance: ${ensureSafe(formData.guidelines.coconutOil)}`;
         }
 
         // Initialize
+        handlePlatePatientTypeChange(false);
         updateFontSizeDisplay();
         updateProgressIndicators(currentStep);
         initRealtimeValidation();
