@@ -1018,51 +1018,48 @@
                 
                 yPos += 35;
                 
-                // Meal plan sections
-                doc.setFontSize(14);
-                doc.setFont('helvetica', 'bold');
-                doc.setTextColor(24, 119, 242);
-                doc.text('DAILY MEAL SCHEDULE', 15, yPos);
-                
-                yPos += 8;
-                
-                // Function to add meal section
-                function addMealSection(title, content) {
-                    if (content && yPos < 270) {
-                        doc.setFontSize(11);
-                        doc.setFont('helvetica', 'bold');
-                        doc.setTextColor(0, 0, 0);
-                        doc.text(title, 15, yPos);
-                        yPos += 6;
-                        
-                        doc.setFontSize(10);
-                        doc.setFont('helvetica', 'normal');
-                        const lines = doc.splitTextToSize(content, 175);
-                        doc.text(lines, 20, yPos);
-                        yPos += lines.length * 5 + 3;
-                    }
-                }
-                
-                addMealSection('EARLY MORNING', document.getElementById('earlyMorning').value);
-                addMealSection('BREAKFAST', document.getElementById('breakfastA').value);
-                addMealSection('MID-MORNING', document.getElementById('midMorning').value);
-                addMealSection('LUNCH', document.getElementById('lunchA').value);
-                
-                if (yPos > 250) {
-                    doc.addPage();
-                    yPos = 20;
-                }
-                
-                addMealSection('EVENING SNACK', document.getElementById('eveningSnack').value);
-                addMealSection('BEFORE DINNER', document.getElementById('beforeDinner').value);
-                addMealSection('DINNER', document.getElementById('dinnerA').value);
-
                 const includeMealTable = document.getElementById('includeMealTable').checked;
 
-                if (includeMealTable) {
-                    doc.addPage();
-                    yPos = 20;
+                if (!includeMealTable) {
+                    // Meal plan sections
+                    doc.setFontSize(14);
+                    doc.setFont('helvetica', 'bold');
+                    doc.setTextColor(24, 119, 242);
+                    doc.text('DAILY MEAL SCHEDULE', 15, yPos);
 
+                    yPos += 8;
+
+                    // Function to add meal section
+                    function addMealSection(title, content) {
+                        if (content && yPos < 270) {
+                            doc.setFontSize(11);
+                            doc.setFont('helvetica', 'bold');
+                            doc.setTextColor(0, 0, 0);
+                            doc.text(title, 15, yPos);
+                            yPos += 6;
+
+                            doc.setFontSize(10);
+                            doc.setFont('helvetica', 'normal');
+                            const lines = doc.splitTextToSize(content, 175);
+                            doc.text(lines, 20, yPos);
+                            yPos += lines.length * 5 + 3;
+                        }
+                    }
+
+                    addMealSection('EARLY MORNING', document.getElementById('earlyMorning').value);
+                    addMealSection('BREAKFAST', document.getElementById('breakfastA').value);
+                    addMealSection('MID-MORNING', document.getElementById('midMorning').value);
+                    addMealSection('LUNCH', document.getElementById('lunchA').value);
+
+                    if (yPos > 250) {
+                        doc.addPage();
+                        yPos = 20;
+                    }
+
+                    addMealSection('EVENING SNACK', document.getElementById('eveningSnack').value);
+                    addMealSection('BEFORE DINNER', document.getElementById('beforeDinner').value);
+                    addMealSection('DINNER', document.getElementById('dinnerA').value);
+                } else {
                     doc.setFontSize(14);
                     doc.setFont('helvetica', 'bold');
                     doc.setTextColor(24, 119, 242);
@@ -1131,7 +1128,7 @@
                         yPos += rowHeight;
                     });
                 }
-                
+
                 // Guidelines
                 doc.addPage();
                 yPos = 20;
