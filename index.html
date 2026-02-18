@@ -1641,7 +1641,8 @@
                 pdfSettings: {
                     fontSizePreset: document.getElementById('pdfFontSizePreset').value,
                     headingFontSize: document.getElementById('headingFontSize').value,
-                    contentFontSize: document.getElementById('contentFontSize').value
+                    contentFontSize: document.getElementById('contentFontSize').value,
+                    includeMealTable: document.getElementById('includeMealTable')?.checked || false
                 }
             };
         }
@@ -1730,6 +1731,7 @@
                     document.getElementById('pdfFontSizePreset').value = data.pdfSettings.fontSizePreset || 'standard';
                     document.getElementById('headingFontSize').value = data.pdfSettings.headingFontSize || 14;
                     document.getElementById('contentFontSize').value = data.pdfSettings.contentFontSize || 10;
+                    document.getElementById('includeMealTable').checked = data.pdfSettings.includeMealTable || false;
                     updateFontSizeDisplay();
                 }
 
@@ -1994,16 +1996,17 @@
                     doc.text(sanitizeForPdf(`Whole Grains/Carbs: ${plate.grains || 0}%`), 148, firstPagePlateY, { align: 'center' });
                 }
 
-                // Meal Plan Section always begins on a new page for readability
-                doc.addPage();
-                yPos = 20;
+                if (!includeMealTable) {
+                    // Meal Plan Section always begins on a new page for readability
+                    doc.addPage();
+                    yPos = 20;
 
-                doc.setFontSize(titleSize);
-                doc.setFont('helvetica', 'bold');
-                doc.setTextColor(24, 119, 242);
-                doc.text('DAILY MEAL SCHEDULE', 15, yPos);
+                    doc.setFontSize(titleSize);
+                    doc.setFont('helvetica', 'bold');
+                    doc.setTextColor(24, 119, 242);
+                    doc.text('DAILY MEAL SCHEDULE', 15, yPos);
 
-                yPos += 10;
+                    yPos += 10;
 
                 // Function to add meal section with custom font sizes
                 function addMealSection(title, content) {
@@ -2159,62 +2162,8 @@
                             yPos += linesB.length * (contentSize * 0.4) + 4;
                         }
                     }
-                } else {
-                    doc.setTextColor(24, 119, 242);
-                    doc.setFont('helvetica', 'bold');
-                    doc.setFontSize(titleSize);
-                    doc.text('MEAL PLAN TABLE', 15, 20);
+                }
 
-                    const mealTableRows = [
-                        ['Early Morning (7:00 AM)', sanitizeForPdf(formData.mealPlan.meals.earlyMorning || '-')],
-                        ['Breakfast (8:30-9:30 AM)', formatMealOptions(
-                            formData.mealPlan.meals.breakfastA && `Option A:
-${formData.mealPlan.meals.breakfastA}`,
-                            formData.mealPlan.meals.breakfastB && `Option B:
-${formData.mealPlan.meals.breakfastB}`,
-                            formData.mealPlan.meals.breakfastC && `Option C:
-${formData.mealPlan.meals.breakfastC}`
-                        ) || '-'],
-                        ['Mid-Morning Snack (10:30-11:30 AM)', sanitizeForPdf(formData.mealPlan.meals.midMorning || '-')],
-                        ['Lunch (1:00-2:00 PM)', formatMealOptions(
-                            formData.mealPlan.meals.lunchA && `Option A:
-${formData.mealPlan.meals.lunchA}`,
-                            formData.mealPlan.meals.lunchB && `Option B:
-${formData.mealPlan.meals.lunchB}`
-                        ) || '-'],
-                        ['Evening Snack (4:00-5:00 PM)', sanitizeForPdf(formData.mealPlan.meals.eveningSnack || '-')],
-                        ['Before Dinner (7:00-8:00 PM)', sanitizeForPdf(formData.mealPlan.meals.beforeDinner || '-')],
-                        ['Dinner (8:30-9:30 PM)', formatMealOptions(
-                            formData.mealPlan.meals.dinnerA && `Option A:
-${formData.mealPlan.meals.dinnerA}`,
-                            formData.mealPlan.meals.dinnerB && `Option B:
-${formData.mealPlan.meals.dinnerB}`
-                        ) || '-']
-                    ];
-
-                    doc.autoTable({
-                        startY: 28,
-                        head: [['Meal Time', 'Plan Details']],
-                        body: mealTableRows,
-                        theme: 'grid',
-                        headStyles: {
-                            fillColor: [24, 119, 242],
-                            textColor: 255,
-                            fontStyle: 'bold'
-                        },
-                        styles: {
-                            font: 'helvetica',
-                            fontSize: Math.max(8, contentSize - 1),
-                            cellPadding: 2,
-                            overflow: 'linebreak',
-                            valign: 'top'
-                        },
-                        columnStyles: {
-                            0: { cellWidth: 52, fontStyle: 'bold' },
-                            1: { cellWidth: 128 }
-                        },
-                        margin: { left: 15, right: 15 }
-                    });
                 }
 
                 if (includeMealTable) {
