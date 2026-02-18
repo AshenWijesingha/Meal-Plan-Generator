@@ -2107,7 +2107,7 @@
 
                 doc.setFillColor(244, 248, 255);
                 doc.setDrawColor(210, 221, 238);
-                doc.roundedRect(15, yPos, 180, 34, 3, 3, 'FD');
+                doc.roundedRect(15, yPos, 180, 40, 3, 3, 'FD');
                 doc.setFont('helvetica', 'bold');
                 doc.setTextColor(15, 23, 42);
                 doc.setFontSize(headingSize);
@@ -2123,7 +2123,8 @@
                 doc.text(`Target: ${ensureSafe(formData.measurements.targetWeight)} kg`, 140, yPos + 23);
                 doc.text(`BMI: ${ensureSafe(formData.measurements.bmi)} kg/m2`, 20, yPos + 30);
                 doc.text(`Calories: ${ensureSafe(formData.mealPlan.calorieTarget, 'Not set')} kcal/day`, 80, yPos + 30);
-                yPos += 42;
+                doc.text(`Next Follow-up: ${renderDate(formData.patient.nextFollowupDate)}`, 20, yPos + 37);
+                yPos += 48;
 
                 const prefs = [];
                 if (formData.mealPlan.preferences?.vegetarian) prefs.push('Vegetarian');
@@ -2140,17 +2141,25 @@
 
                 const plateCanvas = document.getElementById('mealPlateCanvas');
                 if (plateCanvas) {
-                    yPos = ensureSpace(yPos, 80);
+                    const pageWidth = doc.internal.pageSize.getWidth();
+                    const desiredPlateWidth = pageWidth * 0.8;
                     const plateImage = plateCanvas.toDataURL('image/png');
                     const plate = formData.mealPlan.mealPlate || {};
                     doc.setTextColor(24, 119, 242);
                     doc.setFont('helvetica', 'bold');
                     doc.setFontSize(subheadingSize);
                     doc.text('CUSTOM MEAL PLATE RATIO', 105, yPos, { align: 'center' });
-                    yPos += 4;
+                    yPos += 6;
 
-                    doc.addImage(plateImage, 'PNG', 75, yPos, 60, 60);
-                    yPos += 66;
+                    const plateLegendSpace = 12;
+                    const maxAvailableHeight = Math.max(60, 272 - yPos - plateLegendSpace);
+                    const plateSize = Math.min(desiredPlateWidth, maxAvailableHeight);
+                    const plateX = (pageWidth - plateSize) / 2;
+
+                    yPos = ensureSpace(yPos, plateSize + plateLegendSpace + 2);
+
+                    doc.addImage(plateImage, 'PNG', plateX, yPos, plateSize, plateSize);
+                    yPos += plateSize + 6;
                     doc.setFont('helvetica', 'normal');
                     doc.setTextColor(0, 0, 0);
                     doc.setFontSize(Math.max(contentSize - 1, 9));
