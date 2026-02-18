@@ -78,13 +78,23 @@
         }
 
         .checkbox-custom {
+            --checkbox-size: 22px;
             appearance: none;
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--border);
+            width: var(--checkbox-size);
+            height: var(--checkbox-size);
+            min-width: var(--checkbox-size);
+            min-height: var(--checkbox-size);
+            flex: 0 0 var(--checkbox-size);
+            border: 2px solid #94A3B8;
+            background: #FFFFFF;
             border-radius: 4px;
             cursor: pointer;
             position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            vertical-align: middle;
+            box-shadow: 0 1px 2px rgba(2, 6, 23, 0.08);
         }
 
         .checkbox-custom:checked {
@@ -102,8 +112,9 @@
             position: absolute;
             color: white;
             font-size: 14px;
-            top: -2px;
-            left: 3px;
+            font-weight: 700;
+            top: 0px;
+            left: 4px;
         }
 
         .error-border {
@@ -839,47 +850,47 @@
                         <h3 class="text-xl font-bold text-gray-800 mb-4">✅ Things to Consider</h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <label class="flex items-start p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:bg-blue-50 transition">
-                                <input type="checkbox" class="checkbox-custom mr-3 mt-1" id="guideline1" checked>
+                                <input type="checkbox" class="checkbox-custom mr-3" id="guideline1" checked>
                                 <span class="text-sm">Have your three main meals on time in small portions, do not skip any meals</span>
                             </label>
                             <label class="flex items-start p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:bg-blue-50 transition">
-                                <input type="checkbox" class="checkbox-custom mr-3 mt-1" id="guideline2" checked>
+                                <input type="checkbox" class="checkbox-custom mr-3" id="guideline2" checked>
                                 <span class="text-sm">Have less salt diet</span>
                             </label>
                             <label class="flex items-start p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:bg-blue-50 transition">
-                                <input type="checkbox" class="checkbox-custom mr-3 mt-1" id="guideline3" checked>
+                                <input type="checkbox" class="checkbox-custom mr-3" id="guideline3" checked>
                                 <span class="text-sm">Better to eat fruits rather than having fruit juices</span>
                             </label>
                             <label class="flex items-start p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:bg-blue-50 transition">
-                                <input type="checkbox" class="checkbox-custom mr-3 mt-1" id="guideline4" checked>
+                                <input type="checkbox" class="checkbox-custom mr-3" id="guideline4" checked>
                                 <span class="text-sm">Small fish like Herrings (Salaya), Hurulla, Salmon, Handella Sprats are preferable</span>
                             </label>
                             <label class="flex items-start p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:bg-blue-50 transition">
-                                <input type="checkbox" class="checkbox-custom mr-3 mt-1" id="guideline5" checked>
+                                <input type="checkbox" class="checkbox-custom mr-3" id="guideline5" checked>
                                 <span class="text-sm">Add garlic frequently to your food preparations</span>
                             </label>
                             <label class="flex items-start p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:bg-blue-50 transition">
-                                <input type="checkbox" class="checkbox-custom mr-3 mt-1" id="guideline6" checked>
+                                <input type="checkbox" class="checkbox-custom mr-3" id="guideline6" checked>
                                 <span class="text-sm">Be alert of your weight changes</span>
                             </label>
                             <label class="flex items-start p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:bg-blue-50 transition">
-                                <input type="checkbox" class="checkbox-custom mr-3 mt-1" id="guideline7" checked>
+                                <input type="checkbox" class="checkbox-custom mr-3" id="guideline7" checked>
                                 <span class="text-sm">Take 2-3 healthy snacks in addition to the 3 main meals</span>
                             </label>
                             <label class="flex items-start p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:bg-blue-50 transition">
-                                <input type="checkbox" class="checkbox-custom mr-3 mt-1" id="guideline8" checked>
+                                <input type="checkbox" class="checkbox-custom mr-3" id="guideline8" checked>
                                 <span class="text-sm">Avoid using oil during food preparation - select Baking, Grilling, Microwave</span>
                             </label>
                             <label class="flex items-start p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:bg-blue-50 transition">
-                                <input type="checkbox" class="checkbox-custom mr-3 mt-1" id="guideline9" checked>
+                                <input type="checkbox" class="checkbox-custom mr-3" id="guideline9" checked>
                                 <span class="text-sm">Regular exercise is important (for about 45 min) - Brisk Walk, Jogging, Swimming, Cycling</span>
                             </label>
                             <label class="flex items-start p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:bg-blue-50 transition">
-                                <input type="checkbox" class="checkbox-custom mr-3 mt-1" id="guideline10" checked>
+                                <input type="checkbox" class="checkbox-custom mr-3" id="guideline10" checked>
                                 <span class="text-sm">Stress Management is very important (Stress may affect Blood sugar level)</span>
                             </label>
                             <label class="flex items-start p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:bg-blue-50 transition">
-                                <input type="checkbox" class="checkbox-custom mr-3 mt-1" id="guideline11" checked>
+                                <input type="checkbox" class="checkbox-custom mr-3" id="guideline11" checked>
                                 <span class="text-sm">Get good sleep - Lack of sleep can increase insulin resistance</span>
                             </label>
                         </div>
@@ -1100,7 +1111,7 @@
                             <input
                                 type="checkbox"
                                 id="includeMealTable"
-                                class="checkbox-custom mt-0.5"
+                                class="checkbox-custom"
                             >
                             <span>
                                 <span class="block text-base font-semibold text-gray-800">Include meal plan as a table in PDF (optional)</span>
@@ -1991,330 +2002,227 @@
 
             try {
                 const { jsPDF } = window.jspdf;
-                const doc = new jsPDF();
+                const doc = new jsPDF({ unit: 'mm', format: 'a4' });
 
-                // Get font sizes
-                const headingSize = parseInt(document.getElementById('headingFontSize').value);
-                const contentSize = parseInt(document.getElementById('contentFontSize').value);
+                const headingSize = parseInt(document.getElementById('headingFontSize').value, 10);
+                const contentSize = parseInt(document.getElementById('contentFontSize').value, 10);
                 const titleSize = headingSize + 4;
-                const subheadingSize = headingSize - 2;
+                const subheadingSize = Math.max(headingSize - 1, 10);
 
-                // Get data
                 const formData = collectFormData();
-                const name = formData.patient.name;
-                const age = formData.patient.age;
-                const gender = formData.patient.gender;
-                const date = formData.patient.date;
-                const height = formData.measurements.height;
-                const weight = formData.measurements.weight;
-                const targetWeight = formData.measurements.targetWeight;
-                const bmi = formData.measurements.bmi;
-
-                let yPos = 15;
-
-                const sanitizeForPdf = (value = '') => String(value).replace(/[^\x20-\x7E\n\r\t]/g, '');
-
                 const includeMealTable = document.getElementById('includeMealTable')?.checked || false;
+                const now = new Date();
 
-                const formatMealOptions = (...options) => options
-                    .map((opt) => sanitizeForPdf(opt || '').trim())
+                const sanitizeForPdf = (value = '') => String(value ?? '').replace(/[^\x20-\x7E\n\r\t]/g, '').trim();
+                const sanitizeMultiline = (value = '') => String(value ?? '')
+                    .replace(/[^\x20-\x7E\n\r\t]/g, '')
+                    .split('\n')
+                    .map((line) => line.trim())
                     .filter(Boolean)
-                    .join('\n\n');
+                    .join('\n');
+                const ensureSafe = (value, fallback = 'Not provided') => sanitizeForPdf(value) || fallback;
+                const renderDate = (value) => {
+                    const d = new Date(value);
+                    return Number.isNaN(d.getTime()) ? ensureSafe(value) : d.toLocaleDateString();
+                };
 
-                // Professional Letterhead
-                doc.setFillColor(24, 119, 242);
-                doc.rect(0, 0, 210, 45, 'F');
+                const drawHeader = () => {
+                    doc.setFillColor(24, 119, 242);
+                    doc.rect(0, 0, 210, 38, 'F');
 
-                // PDF-safe logo badge (avoids unsupported emoji glyphs)
-                doc.setFillColor(255, 255, 255);
-                doc.circle(20, 20, 8, 'F');
+                    doc.setFillColor(255, 255, 255);
+                    doc.circle(18, 18, 7.5, 'F');
+                    doc.setFont('helvetica', 'bold');
+                    doc.setFontSize(10);
+                    doc.setTextColor(24, 119, 242);
+                    doc.text('MP', 18, 20, { align: 'center' });
+
+                    doc.setTextColor(255, 255, 255);
+                    doc.setFontSize(titleSize);
+                    doc.text(ensureSafe(formData.nutritionist.name, 'Meal Plan Generator'), 32, 15);
+
+                    doc.setFont('helvetica', 'normal');
+                    doc.setFontSize(subheadingSize);
+                    doc.text(ensureSafe(formData.nutritionist.credentials, 'Dietitian & Nutritionist'), 32, 23);
+
+                    const contact = [sanitizeForPdf(formData.nutritionist.phone), sanitizeForPdf(formData.nutritionist.email)]
+                        .filter(Boolean)
+                        .join(' | ');
+                    if (contact) {
+                        doc.setFontSize(Math.max(contentSize - 1, 9));
+                        doc.text(contact, 32, 30);
+                    }
+                };
+
+                const ensureSpace = (yPos, needed = 20) => {
+                    if (yPos + needed > 276) {
+                        doc.addPage();
+                        drawHeader();
+                        return 48;
+                    }
+                    return yPos;
+                };
+
+                const renderTextBlock = (title, content, yPos, opts = {}) => {
+                    if (!content) return yPos;
+                    const headingColor = opts.headingColor || [24, 119, 242];
+                    const contentColor = opts.contentColor || [17, 24, 39];
+
+                    doc.setFont('helvetica', 'bold');
+                    doc.setFontSize(headingSize);
+                    doc.setTextColor(...headingColor);
+                    doc.text(title, 15, yPos);
+                    yPos += 6;
+
+                    doc.setFont('helvetica', 'normal');
+                    doc.setFontSize(contentSize);
+                    doc.setTextColor(...contentColor);
+                    const lines = doc.splitTextToSize(content, 175);
+                    doc.text(lines, 18, yPos);
+                    return yPos + (lines.length * (contentSize * 0.42)) + 6;
+                };
+
+                const addFooter = () => {
+                    const pageCount = doc.getNumberOfPages();
+                    for (let i = 1; i <= pageCount; i++) {
+                        doc.setPage(i);
+                        doc.setDrawColor(220, 224, 230);
+                        doc.line(12, 283, 198, 283);
+                        doc.setFontSize(Math.max(contentSize - 2, 8));
+                        doc.setTextColor(100, 110, 125);
+                        doc.text(`Generated on: ${now.toLocaleDateString()}`, 15, 288);
+                        doc.text(`Page ${i} of ${pageCount}`, 195, 288, { align: 'right' });
+                        doc.text(`© ${ensureSafe(formData.nutritionist.name, 'Meal Plan Generator')}`, 105, 292, { align: 'center' });
+                    }
+                };
+
+                drawHeader();
+                let yPos = 48;
+
                 doc.setTextColor(24, 119, 242);
                 doc.setFont('helvetica', 'bold');
-                doc.setFontSize(10);
-                doc.text('MP', 20, 22, { align: 'center' });
-
-                // Nutritionist name
-                doc.setTextColor(255, 255, 255);
-                doc.setFontSize(titleSize);
-                doc.setFont('helvetica', 'bold');
-                doc.text(sanitizeForPdf(formData.nutritionist.name), 40, 18);
-
-                // Credentials
-                doc.setFontSize(subheadingSize);
-                doc.setFont('helvetica', 'normal');
-                doc.text(sanitizeForPdf(formData.nutritionist.credentials), 40, 26);
-
-                // Contact
-                if (formData.nutritionist.phone || formData.nutritionist.email) {
-                    doc.setFontSize(contentSize - 1);
-                    doc.text(sanitizeForPdf(`${formData.nutritionist.phone || ''} ${formData.nutritionist.email ? '| ' + formData.nutritionist.email : ''}`), 40, 33);
-                }
-
-                if (formData.nutritionist.address) {
-                    doc.setFontSize(contentSize - 2);
-                    doc.text(sanitizeForPdf(formData.nutritionist.address.substring(0, 80)), 40, 39);
-                }
-
-                yPos = 55;
-
-                // Title
-                doc.setTextColor(24, 119, 242);
-                doc.setFontSize(titleSize + 2);
-                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(titleSize + 1);
                 doc.text('PERSONALIZED MEAL PLAN', 105, yPos, { align: 'center' });
+                yPos += 8;
 
-                yPos += 12;
-
-                // Patient info box
-                doc.setFillColor(231, 243, 255);
-                doc.roundedRect(15, yPos, 180, 30, 3, 3, 'F');
-
-                doc.setTextColor(0, 0, 0);
-                doc.setFontSize(headingSize);
+                doc.setFillColor(244, 248, 255);
+                doc.setDrawColor(210, 221, 238);
+                doc.roundedRect(15, yPos, 180, 34, 3, 3, 'FD');
                 doc.setFont('helvetica', 'bold');
-                doc.text(sanitizeForPdf(`Patient: ${name}`), 20, yPos + 8);
-                doc.text(`Date: ${new Date(date).toLocaleDateString()}`, 140, yPos + 8);
+                doc.setTextColor(15, 23, 42);
+                doc.setFontSize(headingSize);
+                doc.text(`Patient: ${ensureSafe(formData.patient.name)}`, 20, yPos + 8);
+                doc.text(`Date: ${renderDate(formData.patient.date)}`, 140, yPos + 8);
 
                 doc.setFont('helvetica', 'normal');
                 doc.setFontSize(contentSize);
-                doc.text(sanitizeForPdf(`Age: ${age} years | Gender: ${gender}`), 20, yPos + 16);
-                doc.text(sanitizeForPdf(`Height: ${height} cm | Weight: ${weight} kg`), 20, yPos + 23);
-                doc.text(sanitizeForPdf(`BMI: ${bmi} kg/m2 | Target: ${targetWeight} kg`), 110, yPos + 16);
-                doc.text(sanitizeForPdf(`Calories: ${formData.mealPlan.calorieTarget || 'Not set'} kcal/day`), 110, yPos + 23);
+                doc.text(`Age: ${ensureSafe(formData.patient.age)} years`, 20, yPos + 16);
+                doc.text(`Gender: ${ensureSafe(formData.patient.gender)}`, 80, yPos + 16);
+                doc.text(`Height: ${ensureSafe(formData.measurements.height)} cm`, 20, yPos + 23);
+                doc.text(`Weight: ${ensureSafe(formData.measurements.weight)} kg`, 80, yPos + 23);
+                doc.text(`Target: ${ensureSafe(formData.measurements.targetWeight)} kg`, 140, yPos + 23);
+                doc.text(`BMI: ${ensureSafe(formData.measurements.bmi)} kg/m2`, 20, yPos + 30);
+                doc.text(`Calories: ${ensureSafe(formData.mealPlan.calorieTarget, 'Not set')} kcal/day`, 80, yPos + 30);
+                yPos += 42;
 
-                yPos += 38;
-
-                // Dietary Preferences
-                if (formData.mealPlan.preferences) {
-                    const prefs = [];
-                    if (formData.mealPlan.preferences.vegetarian) prefs.push('Vegetarian');
-                    if (formData.mealPlan.preferences.nonVeg) prefs.push('Non-Veg');
-                    if (formData.mealPlan.preferences.lowCarb) prefs.push('Low Carb');
-                    if (formData.mealPlan.preferences.highProtein) prefs.push('High Protein');
-
-                    if (prefs.length > 0) {
-                        doc.setFontSize(contentSize - 1);
-                        doc.setTextColor(101, 103, 107);
-                        doc.text(sanitizeForPdf(`Dietary Preferences: ${prefs.join(', ')}`), 20, yPos);
-                        yPos += 8;
-                    }
+                const prefs = [];
+                if (formData.mealPlan.preferences?.vegetarian) prefs.push('Vegetarian');
+                if (formData.mealPlan.preferences?.nonVeg) prefs.push('Non-Vegetarian');
+                if (formData.mealPlan.preferences?.lowCarb) prefs.push('Low Carb');
+                if (formData.mealPlan.preferences?.highProtein) prefs.push('High Protein');
+                if (prefs.length) {
+                    doc.setFont('helvetica', 'italic');
+                    doc.setFontSize(Math.max(contentSize - 1, 9));
+                    doc.setTextColor(71, 85, 105);
+                    doc.text(`Dietary preferences: ${prefs.join(', ')}`, 15, yPos);
+                    yPos += 7;
                 }
 
-                // Use remaining space on first page for meal plate chart
                 const plateCanvas = document.getElementById('mealPlateCanvas');
                 if (plateCanvas) {
+                    yPos = ensureSpace(yPos, 80);
                     const plateImage = plateCanvas.toDataURL('image/png');
                     const plate = formData.mealPlan.mealPlate || {};
-                    let firstPagePlateY = Math.max(yPos + 4, 120);
-
-                    doc.setFontSize(subheadingSize);
-                    doc.setFont('helvetica', 'bold');
                     doc.setTextColor(24, 119, 242);
-                    doc.text('CUSTOM MEAL PLATE RATIO', 105, firstPagePlateY, { align: 'center' });
-                    firstPagePlateY += 6;
+                    doc.setFont('helvetica', 'bold');
+                    doc.setFontSize(subheadingSize);
+                    doc.text('CUSTOM MEAL PLATE RATIO', 105, yPos, { align: 'center' });
+                    yPos += 4;
 
-                    doc.addImage(plateImage, 'PNG', 75, firstPagePlateY, 60, 60);
-                    firstPagePlateY += 68;
-
+                    doc.addImage(plateImage, 'PNG', 75, yPos, 60, 60);
+                    yPos += 66;
                     doc.setFont('helvetica', 'normal');
                     doc.setTextColor(0, 0, 0);
-                    doc.setFontSize(contentSize - 1);
-                    doc.text(sanitizeForPdf(`Vegetables/Fruits: ${plate.vegetables || 0}%`), 62, firstPagePlateY, { align: 'center' });
-                    doc.text(sanitizeForPdf(`Protein: ${plate.protein || 0}%`), 105, firstPagePlateY, { align: 'center' });
-                    doc.text(sanitizeForPdf(`Carbohydrates: ${plate.grains || 0}%`), 148, firstPagePlateY, { align: 'center' });
+                    doc.setFontSize(Math.max(contentSize - 1, 9));
+                    doc.text(`Vegetables/Fruits: ${plate.vegetables || 0}%`, 62, yPos, { align: 'center' });
+                    doc.text(`Protein: ${plate.protein || 0}%`, 105, yPos, { align: 'center' });
+                    doc.text(`Carbohydrates: ${plate.grains || 0}%`, 148, yPos, { align: 'center' });
                 }
 
-                if (!includeMealTable) {
-                    // Meal Plan Section always begins on a new page for readability
-                    doc.addPage();
-                    yPos = 20;
+                doc.addPage();
+                drawHeader();
+                yPos = 48;
 
-                    doc.setFontSize(titleSize);
-                    doc.setFont('helvetica', 'bold');
-                    doc.setTextColor(24, 119, 242);
-                    doc.text('DAILY MEAL SCHEDULE', 15, yPos);
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(titleSize);
+                doc.setTextColor(24, 119, 242);
+                doc.text('DAILY MEAL SCHEDULE', 15, yPos);
+                yPos += 10;
 
-                    yPos += 10;
+                const mealBlocks = [
+                    ['Early Morning (7:00 AM)', sanitizeMultiline(formData.mealPlan.meals.earlyMorning)],
+                    ['Breakfast (8:30-9:30 AM)', [
+                        formData.mealPlan.meals.breakfastA ? `Option A: ${sanitizeMultiline(formData.mealPlan.meals.breakfastA)}` : '',
+                        formData.mealPlan.meals.breakfastB ? `Option B: ${sanitizeMultiline(formData.mealPlan.meals.breakfastB)}` : '',
+                        formData.mealPlan.meals.breakfastC ? `Option C: ${sanitizeMultiline(formData.mealPlan.meals.breakfastC)}` : ''
+                    ].filter(Boolean).join('\n\n')],
+                    ['Mid-Morning Snack (10:30-11:30 AM)', sanitizeMultiline(formData.mealPlan.meals.midMorning)],
+                    ['Lunch (1:00-2:00 PM)', [
+                        formData.mealPlan.meals.lunchA ? `Option A: ${sanitizeMultiline(formData.mealPlan.meals.lunchA)}` : '',
+                        formData.mealPlan.meals.lunchB ? `Option B: ${sanitizeMultiline(formData.mealPlan.meals.lunchB)}` : ''
+                    ].filter(Boolean).join('\n\n')],
+                    ['Evening Snack (4:00-5:00 PM)', sanitizeMultiline(formData.mealPlan.meals.eveningSnack)],
+                    ['Before Dinner (7:00-8:00 PM)', sanitizeMultiline(formData.mealPlan.meals.beforeDinner)],
+                    ['Dinner (8:30-9:30 PM)', [
+                        formData.mealPlan.meals.dinnerA ? `Option A: ${sanitizeMultiline(formData.mealPlan.meals.dinnerA)}` : '',
+                        formData.mealPlan.meals.dinnerB ? `Option B: ${sanitizeMultiline(formData.mealPlan.meals.dinnerB)}` : ''
+                    ].filter(Boolean).join('\n\n')]
+                ];
 
-                // Function to add meal section with custom font sizes
-                function addMealSection(title, content) {
-                    if (content && content.trim() && yPos < 265) {
-                        doc.setFontSize(headingSize);
-                        doc.setFont('helvetica', 'bold');
-                        doc.text('BREAKFAST (8:00-9:00 AM)', 15, yPos);
-                        yPos += 7;
-
-                        doc.setFontSize(contentSize);
-                        doc.setFont('helvetica', 'normal');
-                        const lines = doc.splitTextToSize(sanitizeForPdf(content), 175);
-                        doc.text(lines, 20, yPos);
-                        yPos += lines.length * (contentSize * 0.4) + 4;
-                    }
-
-                    if (yPos > 265) {
-                        doc.addPage();
-                        yPos = 20;
-                    }
-                }
-
-                // Add all meal sections
-                addMealSection('EARLY MORNING (7:00-7:30 AM)', formData.mealPlan.meals.earlyMorning);
-
-                if (formData.mealPlan.meals.breakfastA) {
-                    doc.setFontSize(headingSize);
-                    doc.setFont('helvetica', 'bold');
-                    doc.text('BREAKFAST (8:00-9:00 AM)', 15, yPos);
-                    yPos += 7;
-
-                    if (formData.mealPlan.meals.breakfastA) {
-                        doc.setFontSize(contentSize);
-                        doc.setFont('helvetica', 'bold');
-                        doc.text('Option A:', 20, yPos);
-                        yPos += 5;
-                        doc.setFont('helvetica', 'normal');
-                        const linesA = doc.splitTextToSize(sanitizeForPdf(formData.mealPlan.meals.lunchA), 170);
-                        doc.text(linesA, 25, yPos);
-                        yPos += linesA.length * (contentSize * 0.4) + 3;
-
-                        if (formData.mealPlan.meals.lunchB) {
-                            doc.setFont('helvetica', 'bold');
-                            doc.text('Option B:', 20, yPos);
-                            yPos += 5;
-                            doc.setFont('helvetica', 'normal');
-                            const linesB = doc.splitTextToSize(sanitizeForPdf(formData.mealPlan.meals.lunchB), 170);
-                            doc.text(linesB, 25, yPos);
-                            yPos += linesB.length * (contentSize * 0.4) + 4;
-                        }
-                    }
-
-                    if (formData.mealPlan.meals.breakfastB) {
-                        doc.setFont('helvetica', 'bold');
-                        doc.text('Option B:', 20, yPos);
-                        yPos += 5;
-                        doc.setFont('helvetica', 'normal');
-                        const linesB = doc.splitTextToSize(sanitizeForPdf(formData.mealPlan.meals.breakfastB), 170);
-                        doc.text(linesB, 25, yPos);
-                        yPos += linesB.length * (contentSize * 0.4) + 3;
-                    }
-
-                    if (formData.mealPlan.meals.breakfastC) {
-                        doc.setFont('helvetica', 'bold');
-                        doc.text('Option C:', 20, yPos);
-                        yPos += 5;
-                        doc.setFont('helvetica', 'normal');
-                        const linesC = doc.splitTextToSize(sanitizeForPdf(formData.mealPlan.meals.breakfastC), 170);
-                        doc.text(linesC, 25, yPos);
-                        yPos += linesC.length * (contentSize * 0.4) + 4;
-                    }
-                }
-
-                if (yPos > 250) {
-                    doc.addPage();
-                    yPos = 20;
-                }
-
-                addMealSection('MID-MORNING SNACK (10:30-11:30 AM)', formData.mealPlan.meals.midMorning);
-
-                // Lunch with options
-                if (formData.mealPlan.meals.lunchA) {
-                    doc.setFontSize(headingSize);
-                    doc.setFont('helvetica', 'bold');
-                    doc.text('LUNCH (1:00-2:00 PM)', 15, yPos);
-                    yPos += 7;
-
-                    doc.setFontSize(contentSize);
-                    doc.setFont('helvetica', 'bold');
-                    doc.text('Option A:', 20, yPos);
-                    yPos += 5;
-                    doc.setFont('helvetica', 'normal');
-                    const linesA = doc.splitTextToSize(sanitizeForPdf(formData.mealPlan.meals.lunchA), 170);
-                    doc.text(linesA, 25, yPos);
-                    yPos += linesA.length * (contentSize * 0.4) + 3;
-
-                    if (formData.mealPlan.meals.lunchB) {
-                        doc.setFont('helvetica', 'bold');
-                        doc.text('Option B:', 20, yPos);
-                        yPos += 5;
-                        doc.setFont('helvetica', 'normal');
-                        const linesB = doc.splitTextToSize(sanitizeForPdf(formData.mealPlan.meals.lunchB), 170);
-                        doc.text(linesB, 25, yPos);
-                        yPos += linesB.length * (contentSize * 0.4) + 4;
-                    }
-                }
-
-                if (yPos > 250) {
-                    doc.addPage();
-                    yPos = 20;
-                }
-
-                addMealSection('EVENING SNACK (4:00-5:00 PM)', formData.mealPlan.meals.eveningSnack);
-                addMealSection('BEFORE DINNER (7:00-8:00 PM)', formData.mealPlan.meals.beforeDinner);
-
-                // Dinner with options
-                if (formData.mealPlan.meals.dinnerA) {
-                    if (yPos > 230) {
-                        doc.addPage();
-                        yPos = 20;
-                    }
-
-                    doc.setFontSize(headingSize);
-                    doc.setFont('helvetica', 'bold');
-                    doc.text('DINNER (8:30-9:30 PM)', 15, yPos);
-                    yPos += 7;
-
-                    doc.setFontSize(contentSize);
-                    doc.setFont('helvetica', 'bold');
-                    doc.text('Option A:', 20, yPos);
-                    yPos += 5;
-                    doc.setFont('helvetica', 'normal');
-                    const linesA = doc.splitTextToSize(sanitizeForPdf(formData.mealPlan.meals.dinnerA), 170);
-                    doc.text(linesA, 25, yPos);
-                    yPos += linesA.length * (contentSize * 0.4) + 3;
-
-                    if (formData.mealPlan.meals.dinnerB) {
-                        doc.setFont('helvetica', 'bold');
-                        doc.text('Option A:', 20, yPos);
-                        yPos += 5;
-                        doc.setFont('helvetica', 'normal');
-                        const linesA = doc.splitTextToSize(sanitizeForPdf(formData.mealPlan.meals.dinnerA), 170);
-                        doc.text(linesA, 25, yPos);
-                        yPos += linesA.length * (contentSize * 0.4) + 3;
-
-                        if (formData.mealPlan.meals.dinnerB) {
-                            doc.setFont('helvetica', 'bold');
-                            doc.text('Option B:', 20, yPos);
-                            yPos += 5;
-                            doc.setFont('helvetica', 'normal');
-                            const linesB = doc.splitTextToSize(sanitizeForPdf(formData.mealPlan.meals.dinnerB), 170);
-                            doc.text(linesB, 25, yPos);
-                            yPos += linesB.length * (contentSize * 0.4) + 4;
-                        }
-                    }
-                }
-
-                }
+                mealBlocks.forEach(([title, content]) => {
+                    if (!content) return;
+                    yPos = ensureSpace(yPos, 22);
+                    yPos = renderTextBlock(title, content, yPos, { headingColor: [30, 64, 175] });
+                });
 
                 if (includeMealTable) {
                     doc.addPage();
+                    drawHeader();
+
                     doc.setTextColor(24, 119, 242);
                     doc.setFont('helvetica', 'bold');
                     doc.setFontSize(titleSize);
-                    doc.text('MEAL PLAN TABLE', 15, 20);
+                    doc.text('MEAL PLAN TABLE', 15, 48);
+
+                    const formatMealOptions = (...options) => options
+                        .map((opt) => sanitizeMultiline(opt || '').trim())
+                        .filter(Boolean)
+                        .join('\n\n');
 
                     const mealTableRows = [
-                        ['Early Morning (7:00 AM)', sanitizeForPdf(formData.mealPlan.meals.earlyMorning || '-')],
+                        ['Early Morning (7:00 AM)', sanitizeMultiline(formData.mealPlan.meals.earlyMorning || '-')],
                         ['Breakfast (8:30-9:30 AM)', formatMealOptions(
                             formData.mealPlan.meals.breakfastA && `Option A:\n${formData.mealPlan.meals.breakfastA}`,
                             formData.mealPlan.meals.breakfastB && `Option B:\n${formData.mealPlan.meals.breakfastB}`,
                             formData.mealPlan.meals.breakfastC && `Option C:\n${formData.mealPlan.meals.breakfastC}`
                         ) || '-'],
-                        ['Mid-Morning Snack (10:30-11:30 AM)', sanitizeForPdf(formData.mealPlan.meals.midMorning || '-')],
+                        ['Mid-Morning Snack (10:30-11:30 AM)', sanitizeMultiline(formData.mealPlan.meals.midMorning || '-')],
                         ['Lunch (1:00-2:00 PM)', formatMealOptions(
                             formData.mealPlan.meals.lunchA && `Option A:\n${formData.mealPlan.meals.lunchA}`,
                             formData.mealPlan.meals.lunchB && `Option B:\n${formData.mealPlan.meals.lunchB}`
                         ) || '-'],
-                        ['Evening Snack (4:00-5:00 PM)', sanitizeForPdf(formData.mealPlan.meals.eveningSnack || '-')],
-                        ['Before Dinner (7:00-8:00 PM)', sanitizeForPdf(formData.mealPlan.meals.beforeDinner || '-')],
+                        ['Evening Snack (4:00-5:00 PM)', sanitizeMultiline(formData.mealPlan.meals.eveningSnack || '-')],
+                        ['Before Dinner (7:00-8:00 PM)', sanitizeMultiline(formData.mealPlan.meals.beforeDinner || '-')],
                         ['Dinner (8:30-9:30 PM)', formatMealOptions(
                             formData.mealPlan.meals.dinnerA && `Option A:\n${formData.mealPlan.meals.dinnerA}`,
                             formData.mealPlan.meals.dinnerB && `Option B:\n${formData.mealPlan.meals.dinnerB}`
@@ -2322,19 +2230,16 @@
                     ];
 
                     doc.autoTable({
-                        startY: 28,
+                        startY: 56,
                         head: [['Meal Time', 'Plan Details']],
                         body: mealTableRows,
                         theme: 'grid',
-                        headStyles: {
-                            fillColor: [24, 119, 242],
-                            textColor: 255,
-                            fontStyle: 'bold'
-                        },
+                        headStyles: { fillColor: [24, 119, 242], textColor: 255, fontStyle: 'bold' },
+                        alternateRowStyles: { fillColor: [248, 250, 252] },
                         styles: {
                             font: 'helvetica',
                             fontSize: Math.max(8, contentSize - 1),
-                            cellPadding: 2,
+                            cellPadding: 2.4,
                             overflow: 'linebreak',
                             valign: 'top'
                         },
@@ -2346,52 +2251,21 @@
                     });
                 }
 
-                // New page for guidelines
                 doc.addPage();
-                yPos = 20;
+                drawHeader();
+                yPos = 48;
 
-                // Guidelines Section
                 doc.setFontSize(titleSize);
                 doc.setFont('helvetica', 'bold');
                 doc.setTextColor(24, 119, 242);
                 doc.text('NUTRITIONAL GUIDELINES & RECOMMENDATIONS', 15, yPos);
-
                 yPos += 12;
 
-                // Water & Coconut Oil
-                doc.setFontSize(contentSize);
-                doc.setFont('helvetica', 'bold');
-                doc.setTextColor(0, 0, 0);
-                doc.text('Water Intake:', 15, yPos);
-                doc.setFont('helvetica', 'normal');
-                doc.text(sanitizeForPdf(formData.guidelines.waterIntake), 50, yPos);
-                yPos += 7;
-
-                doc.setFont('helvetica', 'bold');
-                doc.text('Coconut Oil:', 15, yPos);
-                doc.setFont('helvetica', 'normal');
-                doc.text(sanitizeForPdf(formData.guidelines.coconutOil), 50, yPos);
-                yPos += 10;
-
-                // Exercise
-                doc.setFont('helvetica', 'bold');
-                doc.text('Exercise Recommendation:', 15, yPos);
-                yPos += 6;
-                doc.setFont('helvetica', 'normal');
-                const exerciseLines = doc.splitTextToSize(sanitizeForPdf(formData.guidelines.exercise), 175);
-                doc.text(exerciseLines, 20, yPos);
-                yPos += exerciseLines.length * (contentSize * 0.4) + 10;
-
-                // Things to Consider (Selected checkboxes only)
-                doc.setFont('helvetica', 'bold');
-                doc.setTextColor(24, 119, 242);
-                doc.setFontSize(headingSize);
-                doc.text('Things to Consider:', 15, yPos);
-                yPos += 8;
-
-                doc.setFontSize(contentSize - 1);
-                doc.setFont('helvetica', 'normal');
-                doc.setTextColor(0, 0, 0);
+                const hydration = `Water Intake: ${ensureSafe(formData.guidelines.waterIntake)}
+Coconut Oil Guidance: ${ensureSafe(formData.guidelines.coconutOil)}`;
+                yPos = renderTextBlock('Daily Targets', hydration, yPos, { headingColor: [2, 132, 199] });
+                yPos = ensureSpace(yPos, 28);
+                yPos = renderTextBlock('Exercise Recommendation', sanitizeMultiline(formData.guidelines.exercise), yPos, { headingColor: [5, 150, 105] });
 
                 const guidelineTexts = [
                     'Have your three main meals on time in small portions, do not skip any meals',
@@ -2403,80 +2277,38 @@
                     'Take 2-3 healthy snacks in addition to the 3 main meals',
                     'Avoid using oil during food preparation - select Baking, Grilling, Microwave',
                     'Regular exercise is important (for about 45 min)',
-                    'Stress Management is very important',
-                    'Get good sleep - Lack of sleep can increase insulin resistance'
+                    'Stress management is very important',
+                    'Get good sleep - lack of sleep can increase insulin resistance'
                 ];
 
-                guidelineTexts.forEach((text, i) => {
-                    if (formData.guidelines.checkboxes[i]) {
-                        if (yPos > 270) {
-                            doc.addPage();
-                            yPos = 20;
-                        }
-                        const lines = doc.splitTextToSize(`- ${sanitizeForPdf(text)}`, 175);
-                        doc.text(lines, 15, yPos);
-                        yPos += lines.length * (contentSize * 0.35) + 3;
-                    }
-                });
+                const selectedGuidelines = guidelineTexts
+                    .filter((_, i) => formData.guidelines.checkboxes?.[i])
+                    .map((line, idx) => `${idx + 1}. ${line}`)
+                    .join('\n');
 
-                // Foods to Avoid
+                yPos = ensureSpace(yPos, 36);
+                yPos = renderTextBlock('Things to Consider', selectedGuidelines || 'No additional checklist items selected.', yPos, { headingColor: [124, 58, 237] });
+
                 if (formData.guidelines.foodsToAvoid) {
-                    yPos += 5;
-                    if (yPos > 250) {
-                        doc.addPage();
-                        yPos = 20;
-                    }
-
-                    doc.setFont('helvetica', 'bold');
-                    doc.setTextColor(239, 68, 68);
-                    doc.setFontSize(headingSize);
-                    doc.text('Foods to Avoid:', 15, yPos);
-                    yPos += 7;
-
-                    doc.setFont('helvetica', 'normal');
-                    doc.setTextColor(0, 0, 0);
-                    doc.setFontSize(contentSize);
-                    const avoidLines = doc.splitTextToSize(sanitizeForPdf(formData.guidelines.foodsToAvoid), 175);
-                    doc.text(avoidLines, 20, yPos);
-                    yPos += avoidLines.length * (contentSize * 0.4) + 5;
+                    yPos = ensureSpace(yPos, 26);
+                    yPos = renderTextBlock('Foods to Avoid', sanitizeMultiline(formData.guidelines.foodsToAvoid), yPos, {
+                        headingColor: [220, 38, 38],
+                        contentColor: [127, 29, 29]
+                    });
                 }
 
-                // Special Instructions
                 if (formData.guidelines.specialInstructions) {
-                    yPos += 5;
-                    if (yPos > 250) {
-                        doc.addPage();
-                        yPos = 20;
-                    }
-
-                    doc.setFont('helvetica', 'bold');
-                    doc.setTextColor(24, 119, 242);
-                    doc.setFontSize(headingSize);
-                    doc.text('Special Instructions:', 15, yPos);
-                    yPos += 7;
-
-                    doc.setFont('helvetica', 'normal');
-                    doc.setTextColor(0, 0, 0);
-                    doc.setFontSize(contentSize);
-                    const instructionLines = doc.splitTextToSize(sanitizeForPdf(formData.guidelines.specialInstructions), 175);
-                    doc.text(instructionLines, 20, yPos);
+                    yPos = ensureSpace(yPos, 26);
+                    renderTextBlock('Special Instructions', sanitizeMultiline(formData.guidelines.specialInstructions), yPos, {
+                        headingColor: [37, 99, 235]
+                    });
                 }
 
-                // Footer on all pages
-                const pageCount = doc.internal.getNumberOfPages();
-                for (let i = 1; i <= pageCount; i++) {
-                    doc.setPage(i);
-                    doc.setFontSize(contentSize - 2);
-                    doc.setTextColor(128, 128, 128);
-                    doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 15, 287);
-                    doc.text(`Page ${i} of ${pageCount}`, 180, 287);
-                    doc.setFontSize(contentSize - 1);
-                    doc.text(`© ${formData.nutritionist.name} - All Rights Reserved`, 105, 292, { align: 'center' });
-                }
+                addFooter();
 
-                // Save PDF
-                const fileName = `MealPlan_${name.replace(/\s+/g, '_')}_${date}.pdf`;
-                doc.save(fileName);
+                const safeName = ensureSafe(formData.patient.name, 'Patient').replace(/\s+/g, '_');
+                const safeDate = ensureSafe(formData.patient.date, now.toISOString().split('T')[0]);
+                doc.save(`MealPlan_${safeName}_${safeDate}.pdf`);
 
                 Swal.fire({
                     icon: 'success',
@@ -2485,7 +2317,6 @@
                     confirmButtonColor: '#42B72A',
                     confirmButtonText: 'Great!'
                 });
-
             } catch (error) {
                 console.error('PDF Generation Error:', error);
                 Swal.fire({
