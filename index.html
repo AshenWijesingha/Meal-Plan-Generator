@@ -1948,6 +1948,30 @@
                         yPos += 8;
                     }
                 }
+
+                // Use remaining space on first page for meal plate chart
+                const plateCanvas = document.getElementById('mealPlateCanvas');
+                if (plateCanvas) {
+                    const plateImage = plateCanvas.toDataURL('image/png');
+                    const plate = formData.mealPlan.mealPlate || {};
+                    let firstPagePlateY = Math.max(yPos + 4, 120);
+
+                    doc.setFontSize(subheadingSize);
+                    doc.setFont('helvetica', 'bold');
+                    doc.setTextColor(24, 119, 242);
+                    doc.text('CUSTOM MEAL PLATE RATIO', 105, firstPagePlateY, { align: 'center' });
+                    firstPagePlateY += 6;
+
+                    doc.addImage(plateImage, 'PNG', 75, firstPagePlateY, 60, 60);
+                    firstPagePlateY += 68;
+
+                    doc.setFont('helvetica', 'normal');
+                    doc.setTextColor(0, 0, 0);
+                    doc.setFontSize(contentSize - 1);
+                    doc.text(sanitizeForPdf(`Vegetables/Fruits: ${plate.vegetables || 0}%`), 62, firstPagePlateY, { align: 'center' });
+                    doc.text(sanitizeForPdf(`Protein: ${plate.protein || 0}%`), 105, firstPagePlateY, { align: 'center' });
+                    doc.text(sanitizeForPdf(`Whole Grains/Carbs: ${plate.grains || 0}%`), 148, firstPagePlateY, { align: 'center' });
+                }
                 
                 // Meal Plan Section always begins on a new page for readability
                 doc.addPage();
@@ -2213,31 +2237,6 @@
                     doc.text(instructionLines, 20, yPos);
                 }
                 
-                // Meal plate chart moved to final page with a compact layout
-                const plateCanvas = document.getElementById('mealPlateCanvas');
-                if (plateCanvas) {
-                    const plateImage = plateCanvas.toDataURL('image/png');
-                    doc.addPage();
-                    let plateY = 20;
-
-                    doc.setFontSize(titleSize);
-                    doc.setTextColor(24, 119, 242);
-                    doc.setFont('helvetica', 'bold');
-                    doc.text('CUSTOM MEAL PLATE RATIO', 105, plateY, { align: 'center' });
-                    plateY += 8;
-
-                    doc.addImage(plateImage, 'PNG', 65, plateY, 80, 80);
-                    plateY += 96;
-
-                    const plate = formData.mealPlan.mealPlate || {};
-                    doc.setFont('helvetica', 'normal');
-                    doc.setTextColor(0, 0, 0);
-                    doc.setFontSize(contentSize + 1);
-                    doc.text(sanitizeForPdf(`Vegetables/Fruits: ${plate.vegetables || 0}%`), 35, plateY);
-                    doc.text(sanitizeForPdf(`Protein: ${plate.protein || 0}%`), 35, plateY + 8);
-                    doc.text(sanitizeForPdf(`Whole Grains/Carbs: ${plate.grains || 0}%`), 35, plateY + 16);
-                }
-
                 // Footer on all pages
                 const pageCount = doc.internal.getNumberOfPages();
                 for (let i = 1; i <= pageCount; i++) {
