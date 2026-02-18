@@ -1115,7 +1115,7 @@
                             >
                             <span>
                                 <span class="block text-base font-semibold text-gray-800">Include meal plan as a table in PDF (optional)</span>
-                                <span class="block text-sm text-gray-600">Turn this on to add a structured table page in the PDF for easier reading. Leave it unchecked to keep the current format only.</span>
+                                <span class="block text-sm text-gray-600">Turn this on to include MEAL PLAN TABLE in the PDF. Leave it unchecked to include DAILY MEAL SCHEDULE instead. Only one section will be included.</span>
                             </span>
                         </label>
                     </div>
@@ -2163,42 +2163,39 @@
                 drawHeader();
                 yPos = 48;
 
-                doc.setFont('helvetica', 'bold');
-                doc.setFontSize(titleSize);
-                doc.setTextColor(24, 119, 242);
-                doc.text('DAILY MEAL SCHEDULE', 15, yPos);
-                yPos += 10;
+                if (!includeMealTable) {
+                    doc.setFont('helvetica', 'bold');
+                    doc.setFontSize(titleSize);
+                    doc.setTextColor(24, 119, 242);
+                    doc.text('DAILY MEAL SCHEDULE', 15, yPos);
+                    yPos += 10;
 
-                const mealBlocks = [
-                    ['Early Morning (7:00 AM)', sanitizeMultiline(formData.mealPlan.meals.earlyMorning)],
-                    ['Breakfast (8:30-9:30 AM)', [
-                        formData.mealPlan.meals.breakfastA ? `Option A: ${sanitizeMultiline(formData.mealPlan.meals.breakfastA)}` : '',
-                        formData.mealPlan.meals.breakfastB ? `Option B: ${sanitizeMultiline(formData.mealPlan.meals.breakfastB)}` : '',
-                        formData.mealPlan.meals.breakfastC ? `Option C: ${sanitizeMultiline(formData.mealPlan.meals.breakfastC)}` : ''
-                    ].filter(Boolean).join('\n\n')],
-                    ['Mid-Morning Snack (10:30-11:30 AM)', sanitizeMultiline(formData.mealPlan.meals.midMorning)],
-                    ['Lunch (1:00-2:00 PM)', [
-                        formData.mealPlan.meals.lunchA ? `Option A: ${sanitizeMultiline(formData.mealPlan.meals.lunchA)}` : '',
-                        formData.mealPlan.meals.lunchB ? `Option B: ${sanitizeMultiline(formData.mealPlan.meals.lunchB)}` : ''
-                    ].filter(Boolean).join('\n\n')],
-                    ['Evening Snack (4:00-5:00 PM)', sanitizeMultiline(formData.mealPlan.meals.eveningSnack)],
-                    ['Before Dinner (7:00-8:00 PM)', sanitizeMultiline(formData.mealPlan.meals.beforeDinner)],
-                    ['Dinner (8:30-9:30 PM)', [
-                        formData.mealPlan.meals.dinnerA ? `Option A: ${sanitizeMultiline(formData.mealPlan.meals.dinnerA)}` : '',
-                        formData.mealPlan.meals.dinnerB ? `Option B: ${sanitizeMultiline(formData.mealPlan.meals.dinnerB)}` : ''
-                    ].filter(Boolean).join('\n\n')]
-                ];
+                    const mealBlocks = [
+                        ['Early Morning (7:00 AM)', sanitizeMultiline(formData.mealPlan.meals.earlyMorning)],
+                        ['Breakfast (8:30-9:30 AM)', [
+                            formData.mealPlan.meals.breakfastA ? `Option A: ${sanitizeMultiline(formData.mealPlan.meals.breakfastA)}` : '',
+                            formData.mealPlan.meals.breakfastB ? `Option B: ${sanitizeMultiline(formData.mealPlan.meals.breakfastB)}` : '',
+                            formData.mealPlan.meals.breakfastC ? `Option C: ${sanitizeMultiline(formData.mealPlan.meals.breakfastC)}` : ''
+                        ].filter(Boolean).join('\n\n')],
+                        ['Mid-Morning Snack (10:30-11:30 AM)', sanitizeMultiline(formData.mealPlan.meals.midMorning)],
+                        ['Lunch (1:00-2:00 PM)', [
+                            formData.mealPlan.meals.lunchA ? `Option A: ${sanitizeMultiline(formData.mealPlan.meals.lunchA)}` : '',
+                            formData.mealPlan.meals.lunchB ? `Option B: ${sanitizeMultiline(formData.mealPlan.meals.lunchB)}` : ''
+                        ].filter(Boolean).join('\n\n')],
+                        ['Evening Snack (4:00-5:00 PM)', sanitizeMultiline(formData.mealPlan.meals.eveningSnack)],
+                        ['Before Dinner (7:00-8:00 PM)', sanitizeMultiline(formData.mealPlan.meals.beforeDinner)],
+                        ['Dinner (8:30-9:30 PM)', [
+                            formData.mealPlan.meals.dinnerA ? `Option A: ${sanitizeMultiline(formData.mealPlan.meals.dinnerA)}` : '',
+                            formData.mealPlan.meals.dinnerB ? `Option B: ${sanitizeMultiline(formData.mealPlan.meals.dinnerB)}` : ''
+                        ].filter(Boolean).join('\n\n')]
+                    ];
 
-                mealBlocks.forEach(([title, content]) => {
-                    if (!content) return;
-                    yPos = ensureSpace(yPos, 22);
-                    yPos = renderTextBlock(title, content, yPos, { headingColor: [30, 64, 175] });
-                });
-
-                if (includeMealTable) {
-                    doc.addPage();
-                    drawHeader();
-
+                    mealBlocks.forEach(([title, content]) => {
+                        if (!content) return;
+                        yPos = ensureSpace(yPos, 22);
+                        yPos = renderTextBlock(title, content, yPos, { headingColor: [30, 64, 175] });
+                    });
+                } else {
                     doc.setTextColor(24, 119, 242);
                     doc.setFont('helvetica', 'bold');
                     doc.setFontSize(titleSize);
