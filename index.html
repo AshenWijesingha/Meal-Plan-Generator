@@ -92,6 +92,11 @@
             border-color: var(--primary-blue);
         }
 
+        .checkbox-custom:focus-visible {
+            outline: 3px solid rgba(24,119,242,0.45);
+            outline-offset: 2px;
+        }
+
         .checkbox-custom:checked::after {
             content: '✓';
             position: absolute;
@@ -154,12 +159,6 @@
                         <p class="text-blue-200 text-sm mt-1">Professional Edition with Advanced Features</p>
                     </div>
                 </div>
-                <div class="text-left md:text-right">
-                    <div class="bg-white/20 px-4 py-2 rounded-lg">
-                        <p class="text-sm">Version 1.0</p>
-                        <p class="text-xs text-blue-100">All Features Included</p>
-                    </div>
-                </div>
             </div>
         </div>
     </header>
@@ -169,43 +168,42 @@
 
         <!-- Progress Steps -->
         <div class="bg-white rounded-xl shadow-lg p-4 md:p-6 mb-6">
-            <div class="step-scroll">
-                <div class="flex justify-between items-center gap-3 min-w-[660px] md:min-w-0">
-                    <div class="flex-1 min-w-[120px] text-center">
-                        <div class="w-14 h-14 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-2 font-bold text-lg">1</div>
-                        <span class="text-sm font-semibold text-blue-600">Patient Info</span>
-                    </div>
-                    <div class="flex-1 min-w-[120px] text-center">
-                        <div class="w-14 h-14 bg-gray-300 text-white rounded-full flex items-center justify-center mx-auto mb-2 font-bold text-lg" id="step2-icon">2</div>
-                        <span class="text-sm text-gray-500 font-medium" id="step2-label">Measurements</span>
-                    </div>
-                    <div class="flex-1 min-w-[120px] text-center">
-                        <div class="w-14 h-14 bg-gray-300 text-white rounded-full flex items-center justify-center mx-auto mb-2 font-bold text-lg" id="step3-icon">3</div>
-                        <span class="text-sm text-gray-500 font-medium" id="step3-label">Meal Plan</span>
-                    </div>
-                    <div class="flex-1 min-w-[120px] text-center">
-                        <div class="w-14 h-14 bg-gray-300 text-white rounded-full flex items-center justify-center mx-auto mb-2 font-bold text-lg" id="step4-icon">4</div>
-                        <span class="text-sm text-gray-500 font-medium" id="step4-label">Guidelines</span>
-                    </div>
-                    <div class="flex-1 min-w-[120px] text-center">
-                        <div class="w-14 h-14 bg-gray-300 text-white rounded-full flex items-center justify-center mx-auto mb-2 font-bold text-lg" id="step5-icon">5</div>
-                        <span class="text-sm text-gray-500 font-medium" id="step5-label">Generate PDF</span>
-                    </div>
-                </div>
-            </div>
-            <div class="mt-5">
-                <div class="flex items-center justify-between text-xs text-gray-600 mb-1">
-                    <span>Overall progress</span>
+            <div class="md:hidden">
+                <div class="flex items-center justify-between text-sm text-gray-600 mb-2">
+                    <span id="mobileStepText">Step 1 of 5</span>
                     <span id="progressPercent">20%</span>
                 </div>
                 <div class="w-full h-2 rounded-full bg-gray-200 overflow-hidden">
                     <div id="progressBar" class="h-full bg-blue-600 transition-all duration-300" style="width: 20%;"></div>
                 </div>
             </div>
+            <div class="hidden md:flex justify-between items-center gap-3">
+                <button type="button" data-step="1" onclick="goToStep(1, true)" class="step-trigger flex-1 min-w-[120px] text-center" id="step1-trigger">
+                    <div class="w-14 h-14 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-2 font-bold text-lg" id="step1-icon"><i class="fas fa-user"></i></div>
+                    <span class="text-sm font-semibold text-blue-600" id="step1-label">Patient Info</span>
+                </button>
+                <button type="button" data-step="2" onclick="goToStep(2, true)" class="step-trigger flex-1 min-w-[120px] text-center" id="step2-trigger">
+                    <div class="w-14 h-14 bg-gray-300 text-white rounded-full flex items-center justify-center mx-auto mb-2 font-bold text-lg" id="step2-icon"><i class="fas fa-ruler"></i></div>
+                    <span class="text-sm text-gray-500 font-medium" id="step2-label">Measurements</span>
+                </button>
+                <button type="button" data-step="3" onclick="goToStep(3, true)" class="step-trigger flex-1 min-w-[120px] text-center" id="step3-trigger">
+                    <div class="w-14 h-14 bg-gray-300 text-white rounded-full flex items-center justify-center mx-auto mb-2 font-bold text-lg" id="step3-icon"><i class="fas fa-utensils"></i></div>
+                    <span class="text-sm text-gray-500 font-medium" id="step3-label">Meal Plan</span>
+                </button>
+                <button type="button" data-step="4" onclick="goToStep(4, true)" class="step-trigger flex-1 min-w-[120px] text-center" id="step4-trigger">
+                    <div class="w-14 h-14 bg-gray-300 text-white rounded-full flex items-center justify-center mx-auto mb-2 font-bold text-lg" id="step4-icon"><i class="fas fa-clipboard-list"></i></div>
+                    <span class="text-sm text-gray-500 font-medium" id="step4-label">Guidelines</span>
+                </button>
+                <button type="button" data-step="5" onclick="goToStep(5, true)" class="step-trigger flex-1 min-w-[120px] text-center" id="step5-trigger">
+                    <div class="w-14 h-14 bg-gray-300 text-white rounded-full flex items-center justify-center mx-auto mb-2 font-bold text-lg" id="step5-icon"><i class="fas fa-file-pdf"></i></div>
+                    <span class="text-sm text-gray-500 font-medium" id="step5-label">Generate PDF</span>
+                </button>
+            </div>
         </div>
 
         <!-- Form -->
-        <form id="mealPlanForm" novalidate>
+        <div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
+        <form id="mealPlanForm" novalidate class="xl:col-span-8">
 
             <!-- Step 1: Patient Information -->
             <div class="form-step active" id="step1">
@@ -223,6 +221,7 @@
                             <input
                                 type="text"
                                 id="patientName"
+                                autocomplete="name"
                                 class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
                                 placeholder="Enter patient's full name"
                                 required
@@ -258,6 +257,8 @@
                                 <option value="">Select gender</option>
                                 <option value="Male">Male</option>
                                 <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                                <option value="Prefer not to say">Prefer not to say</option>
                             </select>
                             <span class="text-red-500 text-sm hidden" id="genderError">Please select gender</span>
                         </div>
@@ -276,11 +277,24 @@
 
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Next Follow-up Date
+                            </label>
+                            <input
+                                type="date"
+                                id="nextFollowupDate"
+                                class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
+                            >
+                            <span class="text-xs text-gray-500 mt-1 block">Optional. Use YYYY-MM-DD format.</span>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
                                 Phone Number
                             </label>
                             <input
                                 type="tel"
                                 id="patientPhone"
+                                autocomplete="tel"
                                 class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
                                 placeholder="+94 XX XXX XXXX"
                             >
@@ -294,6 +308,7 @@
                             <input
                                 type="email"
                                 id="patientEmail"
+                                autocomplete="email"
                                 class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
                                 placeholder="email@example.com"
                             >
@@ -565,7 +580,7 @@
                         <!-- Early Morning -->
                         <div class="border-2 border-gray-300 rounded-lg overflow-hidden">
                             <button type="button" onclick="toggleSection('earlyMorningSection')" class="w-full px-6 py-4 bg-gradient-to-r from-yellow-50 to-orange-50 hover:from-yellow-100 hover:to-orange-100 text-left font-bold flex justify-between items-center transition" aria-expanded="false" aria-controls="earlyMorningSection">
-                                <span class="meal-time-title text-lg">🌅 Early Morning (7:00 - 7:30 AM)</span>
+                                <span class="meal-time-title text-base">🌅 Early Morning (7:00 - 7:30 AM)</span>
                                 <i class="fas fa-chevron-down transition-transform" id="earlyMorningIcon"></i>
                             </button>
                             <div id="earlyMorningSection" class="p-6 bg-white" style="display: none;">
@@ -581,7 +596,7 @@
                         <!-- Breakfast -->
                         <div class="border-2 border-gray-300 rounded-lg overflow-hidden">
                             <button type="button" onclick="toggleSection('breakfastSection')" class="w-full px-6 py-4 bg-gradient-to-r from-amber-50 to-yellow-50 hover:from-amber-100 hover:to-yellow-100 text-left font-bold flex justify-between items-center transition" aria-expanded="false" aria-controls="breakfastSection">
-                                <span class="meal-time-title text-lg">☕ Breakfast (8:00 - 9:00 AM)</span>
+                                <span class="meal-time-title text-xl">☕ Breakfast (8:00 - 9:00 AM)</span>
                                 <i class="fas fa-chevron-down transition-transform" id="breakfastIcon"></i>
                             </button>
                             <div id="breakfastSection" class="p-6 bg-white" style="display: none;">
@@ -626,8 +641,8 @@
                             <div id="midMorningSection" class="p-6 bg-white" style="display: none;">
                                 <textarea
                                     id="midMorning"
-                                    class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
-                                    rows="3"
+                                    class="auto-grow w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
+                                    rows="2" maxlength="600"
                                     placeholder="e.g., Suitable fruit serving:&#10;Green Apple (1 medium), Strawberries (4-5), Orange (1 medium)&#10;OR Yogurt (sugar-free) + Vegetable salad"
                                 ></textarea>
                             </div>
@@ -636,7 +651,7 @@
                         <!-- Lunch -->
                         <div class="border-2 border-gray-300 rounded-lg overflow-hidden">
                             <button type="button" onclick="toggleSection('lunchSection')" class="w-full px-6 py-4 bg-gradient-to-r from-blue-50 to-cyan-50 hover:from-blue-100 hover:to-cyan-100 text-left font-bold flex justify-between items-center transition" aria-expanded="false" aria-controls="lunchSection">
-                                <span class="meal-time-title text-lg">🍽️ Lunch (1:00 - 2:00 PM)</span>
+                                <span class="meal-time-title text-xl">🍽️ Lunch (1:00 - 2:00 PM)</span>
                                 <i class="fas fa-chevron-down transition-transform" id="lunchIcon"></i>
                             </button>
                             <div id="lunchSection" class="p-6 bg-white" style="display: none;">
@@ -672,8 +687,8 @@
                             <div id="eveningSnackSection" class="p-6 bg-white" style="display: none;">
                                 <textarea
                                     id="eveningSnack"
-                                    class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
-                                    rows="3"
+                                    class="auto-grow w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition"
+                                    rows="2" maxlength="600"
                                     placeholder="e.g., Ginger + lemon peel tea OR Cinnamon tea - 1 cup&#10;Nuts&#10;OR Fruit smoothie with yogurt + chia seeds"
                                 ></textarea>
                             </div>
@@ -698,7 +713,7 @@
                         <!-- Dinner -->
                         <div class="border-2 border-gray-300 rounded-lg overflow-hidden">
                             <button type="button" onclick="toggleSection('dinnerSection')" class="w-full px-6 py-4 bg-gradient-to-r from-indigo-50 to-purple-50 hover:from-indigo-100 hover:to-purple-100 text-left font-bold flex justify-between items-center transition" aria-expanded="false" aria-controls="dinnerSection">
-                                <span class="meal-time-title text-lg">🌙 Dinner (8:30 - 9:30 PM)</span>
+                                <span class="meal-time-title text-xl">🌙 Dinner (8:30 - 9:30 PM)</span>
                                 <i class="fas fa-chevron-down transition-transform" id="dinnerIcon"></i>
                             </button>
                             <div id="dinnerSection" class="p-6 bg-white" style="display: none;">
@@ -1091,6 +1106,7 @@
                             <button
                                 type="button"
                                 onclick="generatePDF()"
+                                id="generatePdfBtn"
                                 class="bg-green-600 hover:bg-green-700 text-white px-10 py-4 rounded-lg font-semibold flex items-center gap-2 transition shadow-xl hover:shadow-2xl text-lg"
                             >
                                 <i class="fas fa-file-pdf"></i> Generate PDF
@@ -1100,6 +1116,21 @@
                 </div>
             </div>
         </form>
+
+        <aside class="hidden xl:block xl:col-span-4">
+            <div class="bg-white rounded-xl shadow-lg p-6 sticky top-6">
+                <h3 class="text-lg font-bold text-gray-800 mb-4">Current Summary</h3>
+                <div id="summaryPanel" class="space-y-2 text-sm text-gray-700">
+                    <p><strong>Name:</strong> <span data-summary="patientName">—</span></p>
+                    <p><strong>Age/Gender:</strong> <span data-summary="ageGender">—</span></p>
+                    <p><strong>Date:</strong> <span data-summary="planDate">—</span></p>
+                    <p><strong>BMI:</strong> <span data-summary="bmi">—</span></p>
+                    <p><strong>Calories:</strong> <span data-summary="calories">—</span></p>
+                    <p><strong>Plan:</strong> <span data-summary="planType">General</span></p>
+                </div>
+            </div>
+        </aside>
+        </div>
 
         <!-- Quick Actions Floating Panel -->
         <div class="bg-white rounded-xl shadow-2xl p-6 mt-8">
@@ -1163,24 +1194,42 @@
         // Current step
         let currentStep = 1;
         let autoSaveTimer;
+        let canShowDraftToast = false;
+
+        function showStepSummary() {
+            const set = (key, value) => {
+                const el = document.querySelector(`[data-summary="${key}"]`);
+                if (el) el.textContent = value || '—';
+            };
+            const name = document.getElementById('patientName')?.value?.trim();
+            const age = document.getElementById('patientAge')?.value;
+            const gender = document.getElementById('patientGender')?.value;
+            set('patientName', name || '—');
+            set('ageGender', age ? `${age}${gender ? ` / ${gender}` : ''}` : '—');
+            set('planDate', document.getElementById('planDate')?.value || '—');
+            set('bmi', document.getElementById('bmiValue')?.textContent === '--' ? '—' : document.getElementById('bmiValue')?.textContent);
+            set('calories', document.getElementById('calorieTarget')?.value ? `${document.getElementById('calorieTarget').value} kcal` : '—');
+            set('planType', document.querySelector('input[name="planType"]:checked')?.value || 'general');
+        }
+
+        function openInitialMealSection() {
+            const breakfastSection = document.getElementById('breakfastSection');
+            if (breakfastSection && breakfastSection.style.display !== 'block') {
+                toggleSection('breakfastSection');
+            }
+        }
 
         // Navigate to step
-        function goToStep(stepNumber) {
-            // Hide all steps
-            document.querySelectorAll('.form-step').forEach(step => {
-                step.classList.remove('active');
-            });
-
-            // Show selected step
+        function goToStep(stepNumber, clicked = false) {
+            if (clicked && stepNumber > currentStep) return;
+            document.querySelectorAll('.form-step').forEach(step => step.classList.remove('active'));
             document.getElementById('step' + stepNumber).classList.add('active');
-
-            // Update progress indicators
             updateProgressIndicators(stepNumber);
-
             currentStep = stepNumber;
-
-            // Scroll to top
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            showStepSummary();
+            if (stepNumber === 3) openInitialMealSection();
+            const activeCard = document.querySelector(`#step${stepNumber} .bg-white`);
+            if (activeCard) activeCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         // Update progress indicators
@@ -1188,7 +1237,6 @@
             for (let i = 1; i <= 5; i++) {
                 const icon = document.getElementById('step' + i + '-icon');
                 const label = document.getElementById('step' + i + '-label');
-
                 if (icon && label) {
                     if (i <= activeStep) {
                         icon.classList.remove('bg-gray-300');
@@ -1203,12 +1251,13 @@
                     }
                 }
             }
-
             const progress = Math.round((activeStep / 5) * 100);
             const progressBar = document.getElementById('progressBar');
             const progressPercent = document.getElementById('progressPercent');
+            const mobileStepText = document.getElementById('mobileStepText');
             if (progressBar) progressBar.style.width = `${progress}%`;
             if (progressPercent) progressPercent.textContent = `${progress}%`;
+            if (mobileStepText) mobileStepText.textContent = `Step ${activeStep} of 5`;
         }
 
         // Validation and next
@@ -1335,19 +1384,17 @@
             if (errorId) {
                 const errorElement = document.getElementById(errorId);
                 if (errorElement) {
+                    errorElement.innerHTML = `<i class="fas fa-exclamation-circle mr-1" aria-hidden="true"></i>${errorElement.textContent.replace(/^⚠️\s*/, '')}`;
                     errorElement.classList.remove('hidden');
                 }
             }
+        }
 
-            setTimeout(() => {
-                input.classList.remove('error-border');
-                if (errorId) {
-                    const errorElement = document.getElementById(errorId);
-                    if (errorElement) {
-                        errorElement.classList.add('hidden');
-                    }
-                }
-            }, 3000);
+        function markFieldValid(input) {
+            input.classList.remove('error-border');
+            input.classList.add('border-green-500');
+            const indicator = input.parentElement.querySelector('.field-success-indicator');
+            if (indicator) indicator.classList.remove('hidden');
         }
 
         // Email validation
@@ -1377,11 +1424,22 @@
             }
         }
 
+        function showDraftSavedToast() {
+            if (!canShowDraftToast) return;
+            const toast = document.createElement('div');
+            toast.className = 'fixed bottom-4 left-4 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg z-50 text-sm';
+            toast.textContent = 'Draft saved ✓';
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 1800);
+        }
+
         function autoSaveDraft() {
             clearTimeout(autoSaveTimer);
             autoSaveTimer = setTimeout(() => {
                 const formData = collectFormData();
                 localStorage.setItem('mealPlanDraft', JSON.stringify(formData));
+                showStepSummary();
+                showDraftSavedToast();
             }, 400);
         }
 
@@ -1582,6 +1640,7 @@
                     age: document.getElementById('patientAge').value,
                     gender: document.getElementById('patientGender').value,
                     date: document.getElementById('planDate').value,
+                    nextFollowupDate: document.getElementById('nextFollowupDate').value,
                     phone: document.getElementById('patientPhone').value,
                     email: document.getElementById('patientEmail').value,
                     address: document.getElementById('patientAddress').value
@@ -1658,6 +1717,7 @@
                 document.getElementById('patientAge').value = data.patient?.age || '';
                 document.getElementById('patientGender').value = data.patient?.gender || '';
                 document.getElementById('planDate').value = data.patient?.date || '';
+                document.getElementById('nextFollowupDate').value = data.patient?.nextFollowupDate || '';
                 document.getElementById('patientPhone').value = data.patient?.phone || '';
                 document.getElementById('patientEmail').value = data.patient?.email || '';
                 document.getElementById('patientAddress').value = data.patient?.address || '';
@@ -1841,6 +1901,40 @@
             window.print();
         }
 
+        function initRealtimeValidation() {
+            const requiredFields = ['patientName', 'patientAge', 'patientGender', 'patientHeight', 'patientWeight', 'targetWeight', 'calorieTarget', 'planDuration', 'waterIntake', 'exerciseRecommendation'];
+            requiredFields.forEach((id) => {
+                const field = document.getElementById(id);
+                if (!field) return;
+                const success = document.createElement('span');
+                success.className = 'field-success-indicator hidden text-green-600 text-xs mt-1 block';
+                success.innerHTML = '<i class="fas fa-check-circle mr-1"></i>Looks good';
+                field.parentElement.appendChild(success);
+                field.addEventListener('blur', () => {
+                    const valid = field.value && String(field.value).trim().length > 0;
+                    if (valid) {
+                        markFieldValid(field);
+                    }
+                });
+            });
+        }
+
+        function initTextareaEnhancements() {
+            document.querySelectorAll('textarea').forEach((textarea) => {
+                if (!textarea.classList.contains('auto-grow')) textarea.classList.add('auto-grow');
+                const counter = document.createElement('div');
+                counter.className = 'text-xs text-gray-500 mt-1 text-right';
+                const updateCounter = () => {
+                    textarea.style.height = 'auto';
+                    textarea.style.height = `${textarea.scrollHeight}px`;
+                    counter.textContent = `${textarea.value.length} chars`;
+                };
+                textarea.insertAdjacentElement('afterend', counter);
+                textarea.addEventListener('input', updateCounter);
+                updateCounter();
+            });
+        }
+
         // Generate PDF - COMPREHENSIVE VERSION WITH FONT SIZE CUSTOMIZATION
         async function generatePDF() {
             if (!window.jspdf || !window.jspdf.jsPDF) {
@@ -1852,13 +1946,17 @@
                 return;
             }
 
+            const generateBtn = document.getElementById('generatePdfBtn');
+            if (generateBtn) {
+                generateBtn.disabled = true;
+                generateBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+            }
+
             Swal.fire({
                 title: 'Generating PDF...',
                 html: 'Creating your personalized meal plan document',
                 allowOutsideClick: false,
-                didOpen: () => {
-                    Swal.showLoading();
-                }
+                didOpen: () => { Swal.showLoading(); }
             });
 
             try {
@@ -2353,7 +2451,7 @@
                 Swal.fire({
                     icon: 'success',
                     title: 'PDF Generated Successfully!',
-                    html: `Your personalized meal plan has been downloaded.<br><br><strong>Font Sizes:</strong><br>Headings: ${headingSize}pt | Content: ${contentSize}pt`,
+                    text: 'Your personalized meal plan has been downloaded.',
                     confirmButtonColor: '#42B72A',
                     confirmButtonText: 'Great!'
                 });
@@ -2366,12 +2464,21 @@
                     text: 'An error occurred while generating the PDF. Please try again.',
                     footer: error.message
                 });
+            } finally {
+                if (generateBtn) {
+                    generateBtn.disabled = false;
+                    generateBtn.innerHTML = '<i class="fas fa-file-pdf"></i> Generate PDF';
+                }
             }
         }
 
         // Initialize
         updateFontSizeDisplay();
         updateProgressIndicators(currentStep);
+        initRealtimeValidation();
+        initTextareaEnhancements();
+        showStepSummary();
+        setTimeout(() => { canShowDraftToast = true; }, 1200);
         document.querySelectorAll('#mealPlanForm input, #mealPlanForm textarea, #mealPlanForm select').forEach((field) => {
             field.addEventListener('input', autoSaveDraft);
             field.addEventListener('change', autoSaveDraft);
